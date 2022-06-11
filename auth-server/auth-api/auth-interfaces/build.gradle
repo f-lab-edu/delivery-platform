@@ -1,0 +1,6 @@
+version '1.0-SNAPSHOT'
+
+dependencies {
+    implementation project(':auth-server:auth-api:auth-application')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+}
