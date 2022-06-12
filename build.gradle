@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.0'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id 'checkstyle'
 }
 
 subprojects {
@@ -11,6 +12,7 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'checkstyle'
 
     repositories {
         mavenCentral()
@@ -22,6 +24,14 @@ subprojects {
         testCompileOnly 'org.projectlombok:lombok'
         testAnnotationProcessor 'org.projectlombok:lombok'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+
+    checkstyle {
+        toolVersion = '10.3'
+        configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+        showViolations = true
+        ignoreFailures = false
+        maxWarnings = 0
     }
 
     test {
