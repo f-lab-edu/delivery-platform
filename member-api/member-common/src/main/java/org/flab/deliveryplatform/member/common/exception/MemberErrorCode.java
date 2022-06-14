@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.member.exception;
+package org.flab.deliveryplatform.member.common.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

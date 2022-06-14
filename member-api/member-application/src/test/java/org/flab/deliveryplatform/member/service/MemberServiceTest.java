@@ -2,8 +2,8 @@ package org.flab.deliveryplatform.member.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.flab.deliveryplatform.member.exception.MemberErrorCode.DUPLICATED_EMAIL;
-import static org.flab.deliveryplatform.member.exception.MemberErrorCode.INVALID_MEMBER_INFO;
+import static org.flab.deliveryplatform.member.common.exception.MemberErrorCode.DUPLICATED_EMAIL;
+import static org.flab.deliveryplatform.member.common.exception.MemberErrorCode.INVALID_MEMBER_INFO;
 import static org.mockito.BDDMockito.given;
 
 import java.util.Optional;
