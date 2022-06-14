@@ -37,6 +37,9 @@
     <property name="eachLine" value="true"/>
   </module>
 
+  <!-- Line Feed -->
+  <module name="NewlineAtEndOfFile"/>
+
   <module name="LineLength">
     <property name="fileExtensions" value="java"/>
     <property name="max" value="100"/>

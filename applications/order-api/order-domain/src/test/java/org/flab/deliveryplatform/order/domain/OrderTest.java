@@ -6,7 +6,5 @@ class OrderTest {
 
     @Test
     void test() {
-        
     }
-
 }
