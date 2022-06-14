@@ -1,7 +1,8 @@
-package org.flab.deliveryplatform.member.persistence;
+package org.flab.deliveryplatform.member.infrastructure.persistence;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.flab.deliveryplatform.member.application.persistence.MemberPersistencePort;
 import org.flab.deliveryplatform.member.domain.Member;
 import org.springframework.stereotype.Component;
 

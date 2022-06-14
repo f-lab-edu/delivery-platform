@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.member.persistence;
+package org.flab.deliveryplatform.member.application.persistence;
 
 import java.util.Optional;
 import org.flab.deliveryplatform.member.domain.Member;

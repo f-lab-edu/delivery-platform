@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.member.service;
+package org.flab.deliveryplatform.member.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -8,10 +8,10 @@ import static org.mockito.BDDMockito.given;
 
 import java.util.Optional;
 import org.flab.deliveryplatform.exception.DeliveryPlatformException;
+import org.flab.deliveryplatform.member.application.persistence.MemberPersistencePort;
+import org.flab.deliveryplatform.member.application.usecase.MemberInfoResult;
+import org.flab.deliveryplatform.member.application.usecase.SignUpMemberCommand;
 import org.flab.deliveryplatform.member.domain.Member;
-import org.flab.deliveryplatform.member.persistence.MemberPersistencePort;
-import org.flab.deliveryplatform.member.usecase.MemberInfoResult;
-import org.flab.deliveryplatform.member.usecase.SignUpMemberCommand;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

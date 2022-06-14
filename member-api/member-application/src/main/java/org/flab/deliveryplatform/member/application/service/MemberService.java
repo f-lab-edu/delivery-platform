@@ -1,14 +1,14 @@
-package org.flab.deliveryplatform.member.service;
+package org.flab.deliveryplatform.member.application.service;
 
 import static org.flab.deliveryplatform.member.common.exception.MemberErrorCode.DUPLICATED_EMAIL;
 import static org.flab.deliveryplatform.member.common.exception.MemberErrorCode.INVALID_MEMBER_INFO;
 
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.exception.DeliveryPlatformException;
+import org.flab.deliveryplatform.member.application.persistence.MemberPersistencePort;
+import org.flab.deliveryplatform.member.application.usecase.MemberInfoResult;
+import org.flab.deliveryplatform.member.application.usecase.SignUpMemberCommand;
 import org.flab.deliveryplatform.member.domain.Member;
-import org.flab.deliveryplatform.member.persistence.MemberPersistencePort;
-import org.flab.deliveryplatform.member.usecase.MemberInfoResult;
-import org.flab.deliveryplatform.member.usecase.SignUpMemberCommand;
 import org.springframework.stereotype.Service;
 
 @Service

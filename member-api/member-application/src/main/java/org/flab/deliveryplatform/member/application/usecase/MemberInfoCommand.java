@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.member.usecase;
+package org.flab.deliveryplatform.member.application.usecase;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

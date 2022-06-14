@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.member.persistence;
+package org.flab.deliveryplatform.member.infrastructure.persistence;
 
 import java.util.Map;
 import java.util.Optional;
