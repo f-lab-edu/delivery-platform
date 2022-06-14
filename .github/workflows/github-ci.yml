@@ -33,10 +33,6 @@ jobs:
       - name: Run Test
         run: ./gradlew test
       - name: Run Build
-        run: |
-          cd server
-          ../gradlew build
-      - name: Check Main Style
-        run: ./gradlew checkstyleMain
-      - name: Check Test Style
-        run: ./gradlew checkstyleTest
+        run: ./gradlew :server:build
+      - name: Check Style
+        run: ./gradlew check
