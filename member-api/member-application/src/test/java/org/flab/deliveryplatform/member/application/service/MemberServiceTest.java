@@ -11,6 +11,7 @@ import org.flab.deliveryplatform.common.exception.DeliveryPlatformException;
 import org.flab.deliveryplatform.member.application.persistence.MemberPersistencePort;
 import org.flab.deliveryplatform.member.application.usecase.MemberInfoResult;
 import org.flab.deliveryplatform.member.application.usecase.SignUpMemberCommand;
+import org.flab.deliveryplatform.member.application.usecase.SignUpMemberResult;
 import org.flab.deliveryplatform.member.domain.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -54,9 +55,9 @@ class MemberServiceTest {
         given(memberPersistencePort.save(BDDMockito.any(Member.class)))
             .willReturn(savedMember);
 
-        Long memberId = memberService.signUp(signUpMemberCommand);
+        SignUpMemberResult signUpMemberResult = memberService.signUp(signUpMemberCommand);
 
-        assertThat(memberId).isEqualTo(savedMember.getId());
+        assertThat(signUpMemberResult.getMemberId()).isEqualTo(savedMember.getId());
 
     }
 

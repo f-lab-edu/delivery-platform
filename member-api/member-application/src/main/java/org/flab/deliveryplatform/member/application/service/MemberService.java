@@ -8,6 +8,7 @@ import org.flab.deliveryplatform.common.exception.DeliveryPlatformException;
 import org.flab.deliveryplatform.member.application.persistence.MemberPersistencePort;
 import org.flab.deliveryplatform.member.application.usecase.MemberInfoResult;
 import org.flab.deliveryplatform.member.application.usecase.SignUpMemberCommand;
+import org.flab.deliveryplatform.member.application.usecase.SignUpMemberResult;
 import org.flab.deliveryplatform.member.domain.Member;
 import org.springframework.stereotype.Service;
 
@@ -17,18 +18,18 @@ public class MemberService {
 
     private final MemberPersistencePort memberPersistencePort;
 
-    public Long signUp(SignUpMemberCommand signUpMemberCommand) {
+    public SignUpMemberResult signUp(SignUpMemberCommand signUpMemberCommand) {
         validateSignUp(signUpMemberCommand);
-
-        Member saveMember = memberPersistencePort.save(
-            Member.builder()
-                .nickname(signUpMemberCommand.getNickname())
-                .email(signUpMemberCommand.getEmail())
-                .password(signUpMemberCommand.getPassword())
-                .phoneNumber(signUpMemberCommand.getPhoneNumber())
-                .build()
+        return SignUpMemberResult.from(
+            memberPersistencePort.save(
+                Member.builder()
+                    .nickname(signUpMemberCommand.getNickname())
+                    .email(signUpMemberCommand.getEmail())
+                    .password(signUpMemberCommand.getPassword())
+                    .phoneNumber(signUpMemberCommand.getPhoneNumber())
+                    .build()
+            )
         );
-        return saveMember.getId();
     }
 
     private void validateSignUp(SignUpMemberCommand signUpMemberCommand) {
