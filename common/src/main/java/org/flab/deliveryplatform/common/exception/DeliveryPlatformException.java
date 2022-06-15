@@ -5,7 +5,7 @@ public class DeliveryPlatformException extends RuntimeException {
     private DeliveryPlatformErrorCode errorCode;
 
     public DeliveryPlatformException() {
-        this(DeliveryPlatformDefaultErrorCode.DELIVERY_PLATFORM_DEFAULT_ERROR_CODE);
+        this(DeliveryPlatformDefaultErrorCode.BAD_REQUEST);
     }
 
     public DeliveryPlatformException(DeliveryPlatformErrorCode errorCode) {

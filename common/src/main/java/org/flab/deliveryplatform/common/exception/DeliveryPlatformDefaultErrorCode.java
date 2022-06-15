@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum DeliveryPlatformDefaultErrorCode implements DeliveryPlatformErrorCode {
-    DELIVERY_PLATFORM_DEFAULT_ERROR_CODE("DELIVERY_PLATFORM_DEFAULT_ERROR_CODE");
+    BAD_REQUEST("잘못된 요청입니다.");
 
     private String message;
 }
