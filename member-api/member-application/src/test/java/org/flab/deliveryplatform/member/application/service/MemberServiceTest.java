@@ -7,7 +7,7 @@ import static org.flab.deliveryplatform.member.common.exception.MemberErrorCode.
 import static org.mockito.BDDMockito.given;
 
 import java.util.Optional;
-import org.flab.deliveryplatform.exception.DeliveryPlatformException;
+import org.flab.deliveryplatform.common.exception.DeliveryPlatformException;
 import org.flab.deliveryplatform.member.application.persistence.MemberPersistencePort;
 import org.flab.deliveryplatform.member.application.usecase.MemberInfoResult;
 import org.flab.deliveryplatform.member.application.usecase.SignUpMemberCommand;

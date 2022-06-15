@@ -2,7 +2,7 @@ package org.flab.deliveryplatform.member.common.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.flab.deliveryplatform.exception.DeliveryPlatformErrorCode;
+import org.flab.deliveryplatform.common.exception.DeliveryPlatformErrorCode;
 
 @Getter
 @AllArgsConstructor

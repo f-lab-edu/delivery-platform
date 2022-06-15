@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.exception;
+package org.flab.deliveryplatform.common.exception;
 
 public class DeliveryPlatformException extends RuntimeException {
 
