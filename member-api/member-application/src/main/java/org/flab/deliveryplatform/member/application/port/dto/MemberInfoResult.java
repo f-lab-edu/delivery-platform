@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.member.application.usecase;
+package org.flab.deliveryplatform.member.application.port.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

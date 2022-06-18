@@ -2,16 +2,13 @@ package org.flab.deliveryplatform.member.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.flab.deliveryplatform.member.common.exception.MemberErrorCode.DUPLICATED_EMAIL;
-import static org.flab.deliveryplatform.member.common.exception.MemberErrorCode.INVALID_MEMBER_INFO;
 import static org.mockito.BDDMockito.given;
 
 import java.util.Optional;
-import org.flab.deliveryplatform.common.exception.DeliveryPlatformException;
-import org.flab.deliveryplatform.member.application.persistence.MemberPersistencePort;
-import org.flab.deliveryplatform.member.application.usecase.MemberInfoResult;
-import org.flab.deliveryplatform.member.application.usecase.SignUpMemberCommand;
-import org.flab.deliveryplatform.member.application.usecase.SignUpMemberResult;
+import org.flab.deliveryplatform.member.application.port.MemberPersistencePort;
+import org.flab.deliveryplatform.member.application.port.dto.MemberInfoResult;
+import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberCommand;
+import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberResult;
 import org.flab.deliveryplatform.member.domain.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,7 +54,7 @@ class MemberServiceTest {
 
         SignUpMemberResult signUpMemberResult = memberService.signUp(signUpMemberCommand);
 
-        assertThat(signUpMemberResult.getMemberId()).isEqualTo(savedMember.getId());
+        assertThat(signUpMemberResult.getId()).isEqualTo(savedMember.getId());
 
     }
 
@@ -67,8 +64,7 @@ class MemberServiceTest {
             .willReturn(true);
 
         assertThatThrownBy(() -> memberService.signUp(signUpMemberCommand))
-            .isInstanceOf(DeliveryPlatformException.class)
-            .hasFieldOrPropertyWithValue("errorCode", DUPLICATED_EMAIL);
+            .isInstanceOf(DuplicatedEmailException.class);
     }
 
     @Test
@@ -107,7 +103,6 @@ class MemberServiceTest {
 
         assertThatThrownBy(() -> memberService.findByEmailAndPassword(
             savedMember.getEmail(), savedMember.getPassword()))
-            .isInstanceOf(DeliveryPlatformException.class)
-            .hasFieldOrPropertyWithValue("errorCode", INVALID_MEMBER_INFO);
+            .isInstanceOf(IllegalArgumentException.class);
     }
 }

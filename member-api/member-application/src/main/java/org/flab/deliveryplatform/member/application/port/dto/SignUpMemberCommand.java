@@ -1,9 +1,12 @@
-package org.flab.deliveryplatform.member.application.usecase;
+package org.flab.deliveryplatform.member.application.port.dto;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter(value = AccessLevel.PRIVATE)
 @NoArgsConstructor
 public class SignUpMemberCommand {
 

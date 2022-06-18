@@ -18,6 +18,4 @@ include ':member-api:member-infrastructure'
 findProject(':member-api:member-infrastructure')?.name = 'member-infrastructure'
 include ':member-api:member-interfaces'
 findProject(':member-api:member-interfaces')?.name = 'member-interfaces'
-include 'member-api:member-common'
-findProject(':member-api:member-common')?.name = 'member-common'
 

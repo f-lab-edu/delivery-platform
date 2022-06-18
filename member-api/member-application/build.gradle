@@ -3,6 +3,5 @@ version '1.0-SNAPSHOT'
 dependencies {
     implementation project(':member-api:member-domain')
     implementation project(':common')
-    implementation project(':member-api:member-common')
     implementation 'org.springframework.boot:spring-boot-starter'
 }

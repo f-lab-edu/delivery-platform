@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.member.application.usecase;
+package org.flab.deliveryplatform.member.application.port.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,10 +8,10 @@ import org.flab.deliveryplatform.member.domain.Member;
 @NoArgsConstructor
 public class SignUpMemberResult {
 
-    private Long memberId;
+    private Long id;
 
-    private SignUpMemberResult(Long memberId) {
-        this.memberId = memberId;
+    private SignUpMemberResult(Long id) {
+        this.id = id;
     }
 
     public static SignUpMemberResult from(Member member) {
