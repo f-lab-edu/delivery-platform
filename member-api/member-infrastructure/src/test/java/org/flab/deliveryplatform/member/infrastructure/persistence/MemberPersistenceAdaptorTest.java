@@ -30,20 +30,21 @@ class MemberPersistenceAdaptorTest {
             .password("a12345678")
             .phoneNumber("010-1234-5678")
             .build();
-
-        member.setId(0L);
     }
 
     @AfterEach
     void release() {
-        memberRepository.delete(member);
+        memberRepository.clear();
     }
 
     @Test
     void save() {
         Member savedMember = memberPersistenceAdaptor.save(member);
 
-        assertThat(savedMember.getId()).isEqualTo(member.getId());
+        assertThat(savedMember.getEmail()).isEqualTo(member.getEmail());
+        assertThat(savedMember.getNickname()).isEqualTo(member.getNickname());
+        assertThat(savedMember.getPassword()).isEqualTo(member.getPassword());
+        assertThat(savedMember.getPhoneNumber()).isEqualTo(member.getPhoneNumber());
     }
 
     @Test
@@ -53,10 +54,13 @@ class MemberPersistenceAdaptorTest {
         Member foundMember = memberPersistenceAdaptor.findById(savedMember.getId())
             .orElseThrow();
 
-        assertThat(foundMember.getId()).isEqualTo(savedMember.getId());
+        assertThat(foundMember.getEmail()).isEqualTo(member.getEmail());
+        assertThat(foundMember.getNickname()).isEqualTo(member.getNickname());
+        assertThat(foundMember.getPassword()).isEqualTo(member.getPassword());
+        assertThat(foundMember.getPhoneNumber()).isEqualTo(member.getPhoneNumber());
 
         assertThatThrownBy(
-            () -> memberPersistenceAdaptor.findById(savedMember.getId() + 100L).orElseThrow())
+            () -> memberPersistenceAdaptor.findById(foundMember.getId() + 100L).orElseThrow())
             .isInstanceOf(NoSuchElementException.class);
     }
 
@@ -68,7 +72,10 @@ class MemberPersistenceAdaptorTest {
                 savedMember.getPassword())
             .orElseThrow();
 
-        assertThat(foundMember.getId()).isEqualTo(savedMember.getId());
+        assertThat(foundMember.getEmail()).isEqualTo(member.getEmail());
+        assertThat(foundMember.getNickname()).isEqualTo(member.getNickname());
+        assertThat(foundMember.getPassword()).isEqualTo(member.getPassword());
+        assertThat(foundMember.getPhoneNumber()).isEqualTo(member.getPhoneNumber());
 
         assertThatThrownBy(
             () -> memberPersistenceAdaptor.findByEmailAndPassword(savedMember.getEmail(),

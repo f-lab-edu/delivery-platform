@@ -38,13 +38,12 @@ class MemberServiceTest {
         );
 
         savedMember = Member.builder()
+            .id(0L)
             .nickname(signUpMemberCommand.getNickname())
             .email(signUpMemberCommand.getEmail())
             .password(signUpMemberCommand.getPassword())
             .phoneNumber(signUpMemberCommand.getPhoneNumber())
             .build();
-
-        savedMember.setId(0L);
     }
 
     @Test

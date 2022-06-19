@@ -14,9 +14,15 @@ public class MemoryMemberRepository {
     private final Map<Long, Member> store = new ConcurrentHashMap<>();
 
     public Member save(Member member) {
-        member.setId(sequence.getAndIncrement());
-        store.put(member.getId(), member);
-        return member;
+        Member saveMember = Member.builder()
+            .id(sequence.getAndIncrement())
+            .nickname(member.getNickname())
+            .email(member.getEmail())
+            .password(member.getPassword())
+            .phoneNumber(member.getPhoneNumber())
+            .build();
+        store.put(saveMember.getId(), saveMember);
+        return saveMember;
     }
 
     public Optional<Member> findById(Long id) {
@@ -35,6 +41,10 @@ public class MemoryMemberRepository {
         return store.values()
             .stream()
             .anyMatch(m -> m.getEmail().equals(email));
+    }
+
+    public void clear() {
+        store.clear();
     }
 
     public void delete(Member member) {

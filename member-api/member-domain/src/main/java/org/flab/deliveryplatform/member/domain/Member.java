@@ -20,14 +20,11 @@ public class Member {
     private String phoneNumber;
 
     @Builder
-    public Member(String nickname, String email, String password, String phoneNumber) {
+    public Member(Long id, String nickname, String email, String password, String phoneNumber) {
+        this.id = id;
         this.nickname = nickname;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }
