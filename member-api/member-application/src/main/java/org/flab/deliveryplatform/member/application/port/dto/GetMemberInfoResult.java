@@ -6,7 +6,7 @@ import org.flab.deliveryplatform.member.domain.Member;
 
 @Getter
 @NoArgsConstructor
-public class MemberInfoResult {
+public class GetMemberInfoResult {
 
     private String nickname;
 
@@ -14,14 +14,14 @@ public class MemberInfoResult {
 
     private String phoneNumber;
 
-    private MemberInfoResult(String nickname, String email, String phoneNumber) {
+    private GetMemberInfoResult(String nickname, String email, String phoneNumber) {
         this.nickname = nickname;
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
 
-    public static MemberInfoResult from(Member member) {
-        return new MemberInfoResult(
+    public static GetMemberInfoResult from(Member member) {
+        return new GetMemberInfoResult(
             member.getNickname(),
             member.getEmail(),
             member.getPhoneNumber()

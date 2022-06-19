@@ -6,7 +6,7 @@ import static org.mockito.BDDMockito.given;
 
 import java.util.Optional;
 import org.flab.deliveryplatform.member.application.port.MemberPersistencePort;
-import org.flab.deliveryplatform.member.application.port.dto.MemberInfoResult;
+import org.flab.deliveryplatform.member.application.port.dto.GetMemberInfoResult;
 import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberCommand;
 import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberResult;
 import org.flab.deliveryplatform.member.domain.Member;
@@ -72,7 +72,7 @@ class MemberServiceTest {
         given(memberPersistencePort.findById(savedMember.getId()))
             .willReturn(Optional.of(savedMember));
 
-        MemberInfoResult memberInfoResult = memberService.info(savedMember.getId());
+        GetMemberInfoResult memberInfoResult = memberService.getMemberInfo(savedMember.getId());
 
         assertThat(memberInfoResult.getEmail()).isEqualTo(savedMember.getEmail());
         assertThat(memberInfoResult.getNickname()).isEqualTo(savedMember.getNickname());
@@ -86,12 +86,12 @@ class MemberServiceTest {
             savedMember.getEmail(), savedMember.getPassword()))
             .willReturn(Optional.of(savedMember));
 
-        MemberInfoResult memberInfoResult = memberService.findByEmailAndPassword(
+        GetMemberInfoResult getMemberInfoResult = memberService.getMemberInfo(
             savedMember.getEmail(), savedMember.getPassword());
 
-        assertThat(memberInfoResult.getEmail()).isEqualTo(savedMember.getEmail());
-        assertThat(memberInfoResult.getNickname()).isEqualTo(savedMember.getNickname());
-        assertThat(memberInfoResult.getPhoneNumber()).isEqualTo(
+        assertThat(getMemberInfoResult.getEmail()).isEqualTo(savedMember.getEmail());
+        assertThat(getMemberInfoResult.getNickname()).isEqualTo(savedMember.getNickname());
+        assertThat(getMemberInfoResult.getPhoneNumber()).isEqualTo(
             savedMember.getPhoneNumber());
     }
 
@@ -101,7 +101,7 @@ class MemberServiceTest {
             savedMember.getEmail(), savedMember.getPassword()))
             .willReturn(Optional.empty());
 
-        assertThatThrownBy(() -> memberService.findByEmailAndPassword(
+        assertThatThrownBy(() -> memberService.getMemberInfo(
             savedMember.getEmail(), savedMember.getPassword()))
             .isInstanceOf(IllegalArgumentException.class);
     }

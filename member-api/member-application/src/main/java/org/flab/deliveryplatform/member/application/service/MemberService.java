@@ -2,7 +2,7 @@ package org.flab.deliveryplatform.member.application.service;
 
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.member.application.port.MemberPersistencePort;
-import org.flab.deliveryplatform.member.application.port.dto.MemberInfoResult;
+import org.flab.deliveryplatform.member.application.port.dto.GetMemberInfoResult;
 import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberCommand;
 import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberResult;
 import org.flab.deliveryplatform.member.domain.Member;
@@ -34,15 +34,15 @@ public class MemberService {
         }
     }
 
-    public MemberInfoResult info(Long memberId) {
-        return MemberInfoResult.from(
+    public GetMemberInfoResult getMemberInfo(Long memberId) {
+        return GetMemberInfoResult.from(
             memberPersistencePort.findById(memberId).orElseThrow(
                 () -> new IllegalArgumentException("잘못된 회원 정보입니다."))
         );
     }
 
-    public MemberInfoResult findByEmailAndPassword(String email, String password) {
-        return MemberInfoResult.from(
+    public GetMemberInfoResult getMemberInfo(String email, String password) {
+        return GetMemberInfoResult.from(
             memberPersistencePort.findByEmailAndPassword(email, password).orElseThrow(
                 () -> new IllegalArgumentException("잘못된 회원 정보입니다."))
         );
