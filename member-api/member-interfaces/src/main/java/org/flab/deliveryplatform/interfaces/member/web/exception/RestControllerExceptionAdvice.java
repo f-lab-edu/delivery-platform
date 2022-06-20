@@ -3,7 +3,7 @@ package org.flab.deliveryplatform.interfaces.member.web.exception;
 import static org.flab.deliveryplatform.interfaces.member.web.exception.MemberErrorCode.M_DUPLICATED_EMAIL;
 import static org.flab.deliveryplatform.interfaces.member.web.exception.MemberErrorCode.M_INVALID_MEMBER_INFO;
 
-import org.flab.deliveryplatform.common.web.DeliveryPlatformErrorResponse;
+import org.flab.deliveryplatform.common.web.dto.DeliveryPlatformErrorResponse;
 import org.flab.deliveryplatform.member.application.port.exception.DuplicatedEmailException;
 import org.flab.deliveryplatform.member.application.port.exception.InvalidMemberInfoException;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,7 @@
 package org.flab.deliveryplatform.interfaces.member.web;
 
 import lombok.RequiredArgsConstructor;
-import org.flab.deliveryplatform.common.web.DeliveryPlatformResponse;
+import org.flab.deliveryplatform.common.web.dto.DeliveryPlatformResponse;
 import org.flab.deliveryplatform.member.application.port.WithdrawMemberUseCase;
 import org.flab.deliveryplatform.member.application.port.dto.WithdrawMemberCommand;
 import org.springframework.http.ResponseEntity;

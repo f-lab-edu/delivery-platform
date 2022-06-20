@@ -1,7 +1,7 @@
 package org.flab.deliveryplatform.interfaces.member.web;
 
 import lombok.RequiredArgsConstructor;
-import org.flab.deliveryplatform.common.web.DeliveryPlatformResponse;
+import org.flab.deliveryplatform.common.web.dto.DeliveryPlatformResponse;
 import org.flab.deliveryplatform.member.application.port.GetMemberInfoUseCase;
 import org.flab.deliveryplatform.member.application.port.dto.GetMemberInfoResult;
 import org.springframework.http.ResponseEntity;

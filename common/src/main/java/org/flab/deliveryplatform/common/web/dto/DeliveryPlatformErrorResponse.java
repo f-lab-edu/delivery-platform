@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.common.web;
+package org.flab.deliveryplatform.common.web.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
