@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.interfaces.member.web;
+package org.flab.deliveryplatform.member.interfaces.web;
 
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.common.web.dto.DeliveryPlatformResponse;

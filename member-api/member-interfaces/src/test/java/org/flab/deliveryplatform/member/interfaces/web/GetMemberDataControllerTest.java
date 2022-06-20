@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.interfaces.member.web;
+package org.flab.deliveryplatform.member.interfaces.web;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -12,14 +12,14 @@ import org.assertj.core.api.Assertions;
 import org.flab.deliveryplatform.common.web.dto.DeliveryPlatformErrorResponse;
 import org.flab.deliveryplatform.common.web.dto.DeliveryPlatformErrorResponse.DeliveryPlatformErrorResult;
 import org.flab.deliveryplatform.common.web.dto.DeliveryPlatformResponse;
-import org.flab.deliveryplatform.interfaces.member.TestConfig;
-import org.flab.deliveryplatform.interfaces.member.web.exception.MemberErrorCode;
 import org.flab.deliveryplatform.member.application.port.SignUpMemberUseCase;
 import org.flab.deliveryplatform.member.application.port.WithdrawMemberUseCase;
 import org.flab.deliveryplatform.member.application.port.dto.MemberData;
 import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberCommand;
 import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberResult;
 import org.flab.deliveryplatform.member.application.port.dto.WithdrawMemberCommand;
+import org.flab.deliveryplatform.member.interfaces.TestContextConfiguration;
+import org.flab.deliveryplatform.member.interfaces.web.exception.MemberErrorCode;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest
 @AutoConfigureMockMvc
-@Import(TestConfig.class)
+@Import(TestContextConfiguration.class)
 class GetMemberDataControllerTest {
 
     @Autowired

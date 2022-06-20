@@ -1,7 +1,7 @@
-package org.flab.deliveryplatform.interfaces.member.web.exception;
+package org.flab.deliveryplatform.member.interfaces.web.exception;
 
-import static org.flab.deliveryplatform.interfaces.member.web.exception.MemberErrorCode.M_DUPLICATED_EMAIL;
-import static org.flab.deliveryplatform.interfaces.member.web.exception.MemberErrorCode.M_INVALID_MEMBER_INFO;
+import static org.flab.deliveryplatform.member.interfaces.web.exception.MemberErrorCode.M_DUPLICATED_EMAIL;
+import static org.flab.deliveryplatform.member.interfaces.web.exception.MemberErrorCode.M_INVALID_MEMBER_INFO;
 
 import org.flab.deliveryplatform.common.web.dto.DeliveryPlatformErrorResponse;
 import org.flab.deliveryplatform.member.application.port.exception.DuplicatedEmailException;
