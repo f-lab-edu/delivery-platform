@@ -7,11 +7,8 @@ import org.flab.deliveryplatform.member.application.port.dto.WithdrawMemberComma
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/members")
+@MemberRestController
 @RequiredArgsConstructor
 public class WithdrawMemberController {
 
