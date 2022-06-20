@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 import org.assertj.core.api.Assertions;
 import org.flab.deliveryplatform.common.web.DeliveryPlatformErrorResponse;
 import org.flab.deliveryplatform.common.web.DeliveryPlatformErrorResponse.DeliveryPlatformErrorResult;
@@ -51,8 +52,9 @@ class GetMemberInfoControllerTest {
 
     @BeforeEach
     void init() {
-        signUpMemberCommand = new SignUpMemberCommand("nicknameInit",
-            "nicknameInit@gmail.com", "a1234567", "010-1234-5678");
+        signUpMemberCommand = new SignUpMemberCommand(UUID.randomUUID().toString().substring(0, 20),
+            UUID.randomUUID().toString().substring(0, 20) + "@gmail.com", "a1234567",
+            "010-1234-5678");
         SignUpMemberResult signUpMemberResult = signUpMemberUseCase.signUp(signUpMemberCommand);
         signUpMemberId = signUpMemberResult.getId();
     }
@@ -60,7 +62,7 @@ class GetMemberInfoControllerTest {
     @AfterEach()
     void afterEach() {
         WithdrawMemberCommand withdrawMemberCommand = new WithdrawMemberCommand(
-            "nicknameInit@gmail.com", "a1234567");
+            signUpMemberCommand.getEmail(), signUpMemberCommand.getPassword());
         withdrawMemberUseCase.withdraw(withdrawMemberCommand);
     }
 

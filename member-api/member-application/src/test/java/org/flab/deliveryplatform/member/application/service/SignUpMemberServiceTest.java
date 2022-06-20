@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
+import java.util.UUID;
 import org.flab.deliveryplatform.member.application.port.MemberPersistencePort;
 import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberCommand;
 import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberResult;
@@ -33,11 +34,13 @@ class SignUpMemberServiceTest {
     @BeforeEach
     void init() {
         signUpMemberCommand = new SignUpMemberCommand(
-            "nickname", "test@gmail.com", "a12345678", "010-1234-5678"
+            UUID.randomUUID().toString().substring(0, 20),
+            UUID.randomUUID().toString().substring(0, 20) + "@gmail.com", "a12345678",
+            "010-1234-5678"
         );
 
         savedMember = Member.builder()
-            .id(0L)
+            .id(Long.MAX_VALUE)
             .nickname(signUpMemberCommand.getNickname())
             .email(signUpMemberCommand.getEmail())
             .password(signUpMemberCommand.getPassword())

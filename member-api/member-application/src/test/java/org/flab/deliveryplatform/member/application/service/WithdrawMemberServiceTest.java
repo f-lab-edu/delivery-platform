@@ -3,9 +3,9 @@ package org.flab.deliveryplatform.member.application.service;
 import static org.mockito.BDDMockito.given;
 
 import java.util.Optional;
+import java.util.UUID;
 import org.assertj.core.api.Assertions;
 import org.flab.deliveryplatform.member.application.port.MemberPersistencePort;
-import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberCommand;
 import org.flab.deliveryplatform.member.application.port.dto.WithdrawMemberCommand;
 import org.flab.deliveryplatform.member.application.port.exception.InvalidMemberInfoException;
 import org.flab.deliveryplatform.member.domain.Member;
@@ -25,22 +25,16 @@ class WithdrawMemberServiceTest {
     @Mock
     private MemberPersistencePort memberPersistencePort;
 
-    private SignUpMemberCommand signUpMemberCommand;
-
     private Member savedMember;
 
     @BeforeEach
     void init() {
-        signUpMemberCommand = new SignUpMemberCommand(
-            "nickname", "test@gmail.com", "a12345678", "010-1234-5678"
-        );
-
         savedMember = Member.builder()
-            .id(0L)
-            .nickname(signUpMemberCommand.getNickname())
-            .email(signUpMemberCommand.getEmail())
-            .password(signUpMemberCommand.getPassword())
-            .phoneNumber(signUpMemberCommand.getPhoneNumber())
+            .id(Long.MAX_VALUE)
+            .nickname(UUID.randomUUID().toString().substring(0, 20))
+            .email(UUID.randomUUID().toString().substring(0, 20) + "@gmail.com")
+            .password("a12345678")
+            .phoneNumber("010-1234-5678")
             .build();
     }
 

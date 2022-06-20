@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.NoSuchElementException;
+import java.util.UUID;
 import org.flab.deliveryplatform.member.domain.Member;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,8 +26,8 @@ class MemberPersistenceAdaptorTest {
     @BeforeEach
     void init() {
         Member member = Member.builder()
-            .nickname("nicknameInit")
-            .email("nicknameInit@gmail.com")
+            .nickname(UUID.randomUUID().toString().substring(0, 20))
+            .email(UUID.randomUUID().toString().substring(0, 20) + "@gmail.com")
             .password("a12345678")
             .phoneNumber("010-1234-5678")
             .build();
@@ -42,8 +43,8 @@ class MemberPersistenceAdaptorTest {
     @Test
     void save() {
         Member member = Member.builder()
-            .nickname("nickname")
-            .email("nickname@gmail.com")
+            .nickname(UUID.randomUUID().toString().substring(0, 20))
+            .email(UUID.randomUUID().toString().substring(0, 20) + "@gmail.com")
             .password("a12345678")
             .phoneNumber("010-1234-5678")
             .build();
@@ -67,7 +68,7 @@ class MemberPersistenceAdaptorTest {
         assertThat(foundMember.getPhoneNumber()).isEqualTo(savedMember.getPhoneNumber());
 
         assertThatThrownBy(
-            () -> memberPersistenceAdaptor.findById(foundMember.getId() + 100L).orElseThrow())
+            () -> memberPersistenceAdaptor.findById(Long.MAX_VALUE).orElseThrow())
             .isInstanceOf(NoSuchElementException.class);
     }
 
@@ -95,5 +96,5 @@ class MemberPersistenceAdaptorTest {
     void delete() {
         memberRepository.delete(savedMember);
     }
-    
+
 }

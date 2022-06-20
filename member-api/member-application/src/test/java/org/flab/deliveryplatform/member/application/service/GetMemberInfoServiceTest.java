@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 
 import java.util.Optional;
+import java.util.UUID;
 import org.flab.deliveryplatform.member.application.port.MemberPersistencePort;
 import org.flab.deliveryplatform.member.application.port.dto.GetMemberInfoResult;
 import org.flab.deliveryplatform.member.application.port.exception.InvalidMemberInfoException;
@@ -30,9 +31,9 @@ class GetMemberInfoServiceTest {
     @BeforeEach
     void init() {
         savedMember = Member.builder()
-            .id(0L)
-            .nickname("nickname")
-            .email("test@gmail.com")
+            .id(Long.MAX_VALUE)
+            .nickname(UUID.randomUUID().toString().substring(0, 20))
+            .email(UUID.randomUUID().toString().substring(0, 20) + "@gmail.com")
             .password("a12345678")
             .phoneNumber("010-1234-5678")
             .build();
