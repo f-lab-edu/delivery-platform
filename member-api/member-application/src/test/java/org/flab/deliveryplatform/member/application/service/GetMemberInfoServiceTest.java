@@ -43,12 +43,13 @@ class GetMemberInfoServiceTest {
         given(memberPersistencePort.findById(savedMember.getId()))
             .willReturn(Optional.of(savedMember));
 
-        GetMemberInfoResult memberInfoResult = getMemberInfoService.getMemberInfo(
+        GetMemberInfoResult getMemberInfoResult = getMemberInfoService.getMemberInfo(
             savedMember.getId());
 
-        assertThat(memberInfoResult.getEmail()).isEqualTo(savedMember.getEmail());
-        assertThat(memberInfoResult.getNickname()).isEqualTo(savedMember.getNickname());
-        assertThat(memberInfoResult.getPhoneNumber()).isEqualTo(
+        assertThat(getMemberInfoResult.getId()).isEqualTo(savedMember.getId());
+        assertThat(getMemberInfoResult.getEmail()).isEqualTo(savedMember.getEmail());
+        assertThat(getMemberInfoResult.getNickname()).isEqualTo(savedMember.getNickname());
+        assertThat(getMemberInfoResult.getPhoneNumber()).isEqualTo(
             savedMember.getPhoneNumber());
     }
 
@@ -70,6 +71,7 @@ class GetMemberInfoServiceTest {
         GetMemberInfoResult getMemberInfoResult = getMemberInfoService.getMemberInfo(
             savedMember.getEmail(), savedMember.getPassword());
 
+        assertThat(getMemberInfoResult.getId()).isEqualTo(savedMember.getId());
         assertThat(getMemberInfoResult.getEmail()).isEqualTo(savedMember.getEmail());
         assertThat(getMemberInfoResult.getNickname()).isEqualTo(savedMember.getNickname());
         assertThat(getMemberInfoResult.getPhoneNumber()).isEqualTo(

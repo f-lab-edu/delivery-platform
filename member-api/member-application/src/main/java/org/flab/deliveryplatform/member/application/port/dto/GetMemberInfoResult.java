@@ -17,6 +17,7 @@ public class GetMemberInfoResult {
     private String phoneNumber;
 
     private GetMemberInfoResult(Long id, String nickname, String email, String phoneNumber) {
+        this.id = id;
         this.nickname = nickname;
         this.email = email;
         this.phoneNumber = phoneNumber;
