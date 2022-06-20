@@ -17,8 +17,8 @@ public class GetMemberInfoService implements GetMemberInfoUseCase {
     @Override
     public GetMemberInfoResult getMemberInfo(Long memberId) throws InvalidMemberInfoException {
         return GetMemberInfoResult.from(
-            memberPersistencePort.findById(memberId).orElseThrow(
-                () -> new InvalidMemberInfoException("잘못된 회원 정보입니다."))
+            memberPersistencePort.findById(memberId)
+                .orElseThrow(InvalidMemberInfoException::new)
         );
     }
 
@@ -26,8 +26,8 @@ public class GetMemberInfoService implements GetMemberInfoUseCase {
     public GetMemberInfoResult getMemberInfo(String email, String password)
         throws InvalidMemberInfoException {
         return GetMemberInfoResult.from(
-            memberPersistencePort.findByEmailAndPassword(email, password).orElseThrow(
-                () -> new InvalidMemberInfoException("잘못된 회원 정보입니다."))
+            memberPersistencePort.findByEmailAndPassword(email, password)
+                .orElseThrow(InvalidMemberInfoException::new)
         );
     }
 }

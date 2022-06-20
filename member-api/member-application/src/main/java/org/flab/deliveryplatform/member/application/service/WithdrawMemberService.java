@@ -17,9 +17,8 @@ public class WithdrawMemberService implements WithdrawMemberUseCase {
     @Override
     public void withdraw(WithdrawMemberCommand withdrawMemberCommand) {
         Member member = memberPersistencePort.findByEmailAndPassword(
-                withdrawMemberCommand.getEmail(),
-                withdrawMemberCommand.getPassword())
-            .orElseThrow(() -> new InvalidMemberInfoException("잘못된 회원 정보입니다."));
+                withdrawMemberCommand.getEmail(), withdrawMemberCommand.getPassword())
+            .orElseThrow(InvalidMemberInfoException::new);
 
         memberPersistencePort.delete(member);
     }

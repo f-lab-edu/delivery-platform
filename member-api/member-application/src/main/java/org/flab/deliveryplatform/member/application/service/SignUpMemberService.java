@@ -33,7 +33,7 @@ public class SignUpMemberService implements SignUpMemberUseCase {
 
     private void validateSignUp(SignUpMemberCommand signUpMemberCommand) {
         if (memberPersistencePort.exists(signUpMemberCommand.getEmail())) {
-            throw new DuplicatedEmailException("중복된 이메일 입니다.");
+            throw new DuplicatedEmailException();
         }
     }
 }
