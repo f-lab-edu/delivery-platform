@@ -20,25 +20,34 @@ class MemberPersistenceAdaptorTest {
     @Autowired
     private MemoryMemberRepository memberRepository;
 
-    private Member member;
+    private Member savedMember;
 
     @BeforeEach
     void init() {
-        member = Member.builder()
-            .nickname("nickname")
-            .email("test@gmail.com")
+        Member member = Member.builder()
+            .nickname("nicknameInit")
+            .email("nicknameInit@gmail.com")
             .password("a12345678")
             .phoneNumber("010-1234-5678")
             .build();
+
+        savedMember = memberPersistenceAdaptor.save(member);
     }
 
     @AfterEach
     void release() {
-        memberRepository.clear();
+        memberRepository.delete(savedMember);
     }
 
     @Test
     void save() {
+        Member member = Member.builder()
+            .nickname("nickname")
+            .email("nickname@gmail.com")
+            .password("a12345678")
+            .phoneNumber("010-1234-5678")
+            .build();
+
         Member savedMember = memberPersistenceAdaptor.save(member);
 
         assertThat(savedMember.getEmail()).isEqualTo(member.getEmail());
@@ -49,15 +58,13 @@ class MemberPersistenceAdaptorTest {
 
     @Test
     void findById() {
-        Member savedMember = memberPersistenceAdaptor.save(member);
-
         Member foundMember = memberPersistenceAdaptor.findById(savedMember.getId())
             .orElseThrow();
 
-        assertThat(foundMember.getEmail()).isEqualTo(member.getEmail());
-        assertThat(foundMember.getNickname()).isEqualTo(member.getNickname());
-        assertThat(foundMember.getPassword()).isEqualTo(member.getPassword());
-        assertThat(foundMember.getPhoneNumber()).isEqualTo(member.getPhoneNumber());
+        assertThat(foundMember.getEmail()).isEqualTo(savedMember.getEmail());
+        assertThat(foundMember.getNickname()).isEqualTo(savedMember.getNickname());
+        assertThat(foundMember.getPassword()).isEqualTo(savedMember.getPassword());
+        assertThat(foundMember.getPhoneNumber()).isEqualTo(savedMember.getPhoneNumber());
 
         assertThatThrownBy(
             () -> memberPersistenceAdaptor.findById(foundMember.getId() + 100L).orElseThrow())
@@ -66,22 +73,27 @@ class MemberPersistenceAdaptorTest {
 
     @Test
     void findByEmailAndPassword() {
-        Member savedMember = memberPersistenceAdaptor.save(member);
-
         Member foundMember = memberPersistenceAdaptor.findByEmailAndPassword(savedMember.getEmail(),
                 savedMember.getPassword())
             .orElseThrow();
 
-        assertThat(foundMember.getEmail()).isEqualTo(member.getEmail());
-        assertThat(foundMember.getNickname()).isEqualTo(member.getNickname());
-        assertThat(foundMember.getPassword()).isEqualTo(member.getPassword());
-        assertThat(foundMember.getPhoneNumber()).isEqualTo(member.getPhoneNumber());
+        assertThat(foundMember.getEmail()).isEqualTo(savedMember.getEmail());
+        assertThat(foundMember.getNickname()).isEqualTo(savedMember.getNickname());
+        assertThat(foundMember.getPassword()).isEqualTo(savedMember.getPassword());
+        assertThat(foundMember.getPhoneNumber()).isEqualTo(savedMember.getPhoneNumber());
+    }
 
+    @Test
+    void findByInvalidEmailAndPassword() {
         assertThatThrownBy(
             () -> memberPersistenceAdaptor.findByEmailAndPassword(savedMember.getEmail(),
                 savedMember.getPassword() + "1").orElseThrow())
             .isInstanceOf(NoSuchElementException.class);
-
-
     }
+
+    @Test
+    void delete() {
+        memberRepository.delete(savedMember);
+    }
+    
 }

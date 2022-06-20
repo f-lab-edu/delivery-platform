@@ -34,5 +34,6 @@ public class MemberPersistenceAdaptor implements MemberPersistencePort {
 
     @Override
     public void delete(Member member) {
+        memberRepository.delete(member);
     }
 }
