@@ -5,6 +5,7 @@ import org.flab.deliveryplatform.member.application.port.MemberPersistencePort;
 import org.flab.deliveryplatform.member.application.port.dto.GetMemberInfoResult;
 import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberCommand;
 import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberResult;
+import org.flab.deliveryplatform.member.application.port.dto.WithdrawMemberCommand;
 import org.flab.deliveryplatform.member.domain.Member;
 import org.springframework.stereotype.Service;
 
@@ -37,15 +38,23 @@ public class MemberService {
     public GetMemberInfoResult getMemberInfo(Long memberId) {
         return GetMemberInfoResult.from(
             memberPersistencePort.findById(memberId).orElseThrow(
-                () -> new IllegalArgumentException("잘못된 회원 정보입니다."))
+                () -> new InvalidMemberInfoException("잘못된 회원 정보입니다."))
         );
     }
 
     public GetMemberInfoResult getMemberInfo(String email, String password) {
         return GetMemberInfoResult.from(
             memberPersistencePort.findByEmailAndPassword(email, password).orElseThrow(
-                () -> new IllegalArgumentException("잘못된 회원 정보입니다."))
+                () -> new InvalidMemberInfoException("잘못된 회원 정보입니다."))
         );
     }
 
+    public void withdraw(WithdrawMemberCommand withdrawMemberCommand) {
+        Member member = memberPersistencePort.findByEmailAndPassword(
+                withdrawMemberCommand.getEmail(),
+                withdrawMemberCommand.getPassword())
+            .orElseThrow(() -> new InvalidMemberInfoException("잘못된 회원 정보입니다."));
+
+        memberPersistencePort.delete(member);
+    }
 }

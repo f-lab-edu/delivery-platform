@@ -31,4 +31,8 @@ public class MemberPersistenceAdaptor implements MemberPersistencePort {
     public boolean exists(String email) {
         return memberRepository.exists(email);
     }
+
+    @Override
+    public void delete(Member member) {
+    }
 }

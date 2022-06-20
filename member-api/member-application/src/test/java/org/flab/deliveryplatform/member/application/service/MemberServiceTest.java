@@ -5,10 +5,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 
 import java.util.Optional;
+import org.assertj.core.api.Assertions;
 import org.flab.deliveryplatform.member.application.port.MemberPersistencePort;
 import org.flab.deliveryplatform.member.application.port.dto.GetMemberInfoResult;
 import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberCommand;
 import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberResult;
+import org.flab.deliveryplatform.member.application.port.dto.WithdrawMemberCommand;
 import org.flab.deliveryplatform.member.domain.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -102,6 +104,31 @@ class MemberServiceTest {
 
         assertThatThrownBy(() -> memberService.getMemberInfo(
             savedMember.getEmail(), savedMember.getPassword()))
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(InvalidMemberInfoException.class);
+    }
+
+    @Test
+    void withdraw() {
+        given(memberPersistencePort.findByEmailAndPassword(
+            savedMember.getEmail(), savedMember.getPassword()))
+            .willReturn(Optional.of(savedMember));
+
+        WithdrawMemberCommand withdrawMemberCommand = new WithdrawMemberCommand(
+            savedMember.getEmail(), savedMember.getPassword());
+
+        memberService.withdraw(withdrawMemberCommand);
+    }
+
+    @Test
+    void withdrawWithInvalidInfo() {
+        given(memberPersistencePort.findByEmailAndPassword(
+            savedMember.getEmail(), savedMember.getPassword()))
+            .willReturn(Optional.empty());
+
+        WithdrawMemberCommand withdrawMemberCommand = new WithdrawMemberCommand(
+            savedMember.getEmail(), savedMember.getPassword());
+
+        Assertions.assertThatThrownBy(() -> memberService.withdraw(withdrawMemberCommand))
+            .isInstanceOf(InvalidMemberInfoException.class);
     }
 }

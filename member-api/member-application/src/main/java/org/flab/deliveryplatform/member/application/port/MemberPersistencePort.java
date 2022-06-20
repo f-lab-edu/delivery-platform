@@ -12,4 +12,6 @@ public interface MemberPersistencePort {
     Optional<Member> findByEmailAndPassword(String email, String password);
 
     boolean exists(String email);
+
+    void delete(Member member);
 }
