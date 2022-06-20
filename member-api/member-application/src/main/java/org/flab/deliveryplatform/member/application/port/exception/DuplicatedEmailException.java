@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.member.application.service;
+package org.flab.deliveryplatform.member.application.port.exception;
 
 public class DuplicatedEmailException extends RuntimeException {
 

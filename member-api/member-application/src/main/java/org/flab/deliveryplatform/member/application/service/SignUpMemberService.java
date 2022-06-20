@@ -2,20 +2,22 @@ package org.flab.deliveryplatform.member.application.service;
 
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.member.application.port.MemberPersistencePort;
-import org.flab.deliveryplatform.member.application.port.dto.GetMemberInfoResult;
+import org.flab.deliveryplatform.member.application.port.SignUpMemberUseCase;
 import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberCommand;
 import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberResult;
-import org.flab.deliveryplatform.member.application.port.dto.WithdrawMemberCommand;
+import org.flab.deliveryplatform.member.application.port.exception.DuplicatedEmailException;
 import org.flab.deliveryplatform.member.domain.Member;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class MemberService {
+public class SignUpMemberService implements SignUpMemberUseCase {
 
     private final MemberPersistencePort memberPersistencePort;
 
-    public SignUpMemberResult signUp(SignUpMemberCommand signUpMemberCommand) {
+    @Override
+    public SignUpMemberResult signUp(SignUpMemberCommand signUpMemberCommand)
+        throws DuplicatedEmailException {
         validateSignUp(signUpMemberCommand);
         return SignUpMemberResult.from(
             memberPersistencePort.save(
@@ -33,28 +35,5 @@ public class MemberService {
         if (memberPersistencePort.exists(signUpMemberCommand.getEmail())) {
             throw new DuplicatedEmailException("중복된 이메일 입니다.");
         }
-    }
-
-    public GetMemberInfoResult getMemberInfo(Long memberId) {
-        return GetMemberInfoResult.from(
-            memberPersistencePort.findById(memberId).orElseThrow(
-                () -> new InvalidMemberInfoException("잘못된 회원 정보입니다."))
-        );
-    }
-
-    public GetMemberInfoResult getMemberInfo(String email, String password) {
-        return GetMemberInfoResult.from(
-            memberPersistencePort.findByEmailAndPassword(email, password).orElseThrow(
-                () -> new InvalidMemberInfoException("잘못된 회원 정보입니다."))
-        );
-    }
-
-    public void withdraw(WithdrawMemberCommand withdrawMemberCommand) {
-        Member member = memberPersistencePort.findByEmailAndPassword(
-                withdrawMemberCommand.getEmail(),
-                withdrawMemberCommand.getPassword())
-            .orElseThrow(() -> new InvalidMemberInfoException("잘못된 회원 정보입니다."));
-
-        memberPersistencePort.delete(member);
     }
 }
