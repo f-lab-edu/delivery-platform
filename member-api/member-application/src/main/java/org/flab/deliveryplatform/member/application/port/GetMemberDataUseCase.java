@@ -7,6 +7,5 @@ public interface GetMemberDataUseCase {
 
     MemberData getMemberData(Long memberId) throws InvalidMemberInfoException;
 
-    MemberData getMemberData(String email, String password)
-        throws InvalidMemberInfoException;
+    MemberData getMemberData(String email, String password) throws InvalidMemberInfoException;
 }

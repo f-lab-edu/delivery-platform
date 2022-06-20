@@ -50,8 +50,7 @@ class GetMemberDataServiceTest {
         assertThat(memberData.getId()).isEqualTo(savedMember.getId());
         assertThat(memberData.getEmail()).isEqualTo(savedMember.getEmail());
         assertThat(memberData.getNickname()).isEqualTo(savedMember.getNickname());
-        assertThat(memberData.getPhoneNumber()).isEqualTo(
-            savedMember.getPhoneNumber());
+        assertThat(memberData.getPhoneNumber()).isEqualTo(savedMember.getPhoneNumber());
     }
 
     @Test
@@ -75,8 +74,7 @@ class GetMemberDataServiceTest {
         assertThat(memberData.getId()).isEqualTo(savedMember.getId());
         assertThat(memberData.getEmail()).isEqualTo(savedMember.getEmail());
         assertThat(memberData.getNickname()).isEqualTo(savedMember.getNickname());
-        assertThat(memberData.getPhoneNumber()).isEqualTo(
-            savedMember.getPhoneNumber());
+        assertThat(memberData.getPhoneNumber()).isEqualTo(savedMember.getPhoneNumber());
     }
 
     @Test
