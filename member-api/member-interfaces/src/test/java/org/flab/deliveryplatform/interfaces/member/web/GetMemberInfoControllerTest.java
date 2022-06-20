@@ -8,8 +8,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.charset.StandardCharsets;
 import org.assertj.core.api.Assertions;
+import org.flab.deliveryplatform.common.web.DeliveryPlatformErrorResponse;
+import org.flab.deliveryplatform.common.web.DeliveryPlatformErrorResponse.DeliveryPlatformErrorResult;
 import org.flab.deliveryplatform.common.web.DeliveryPlatformResponse;
 import org.flab.deliveryplatform.interfaces.member.TestConfig;
+import org.flab.deliveryplatform.interfaces.member.web.exception.MemberErrorCode;
 import org.flab.deliveryplatform.member.application.port.SignUpMemberUseCase;
 import org.flab.deliveryplatform.member.application.port.WithdrawMemberUseCase;
 import org.flab.deliveryplatform.member.application.port.dto.GetMemberInfoResult;
@@ -62,7 +65,7 @@ class GetMemberInfoControllerTest {
     }
 
     @Test
-    void find() throws Exception {
+    void memberInfoTest() throws Exception {
         String getMemberInfoResultString = mockMvc.perform(
                 get("/members/" + signUpMemberId)
                     .contentType(MediaType.APPLICATION_JSON)
@@ -90,6 +93,32 @@ class GetMemberInfoControllerTest {
             getMemberInfoResultString, new TypeReference<>() {
             });
         return response.getData();
+    }
+
+    @Test
+    void invalidMemberInfoTest() throws Exception {
+        String invalidString = mockMvc.perform(
+                get("/members/" + Long.MAX_VALUE)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .characterEncoding(StandardCharsets.UTF_8))
+            .andExpect(status().isBadRequest())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
+
+        DeliveryPlatformErrorResult errorResult = mapToErrorResult(
+            invalidString);
+
+        Assertions.assertThat(errorResult.getErrorCode())
+            .isEqualTo(MemberErrorCode.M_INVALID_MEMBER_INFO.name());
+    }
+
+    private DeliveryPlatformErrorResult mapToErrorResult(String getMemberInfoResultString)
+        throws JsonProcessingException {
+        DeliveryPlatformErrorResponse<Object> response = objectMapper.readValue(
+            getMemberInfoResultString, new TypeReference<>() {
+            });
+        return response.getErrorResult();
     }
 
 }

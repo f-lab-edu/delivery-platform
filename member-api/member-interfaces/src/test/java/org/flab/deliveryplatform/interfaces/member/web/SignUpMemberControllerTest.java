@@ -4,9 +4,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.charset.StandardCharsets;
+import org.assertj.core.api.Assertions;
+import org.flab.deliveryplatform.common.web.DeliveryPlatformErrorResponse;
+import org.flab.deliveryplatform.common.web.DeliveryPlatformErrorResponse.DeliveryPlatformErrorResult;
 import org.flab.deliveryplatform.interfaces.member.TestConfig;
+import org.flab.deliveryplatform.interfaces.member.web.exception.MemberErrorCode;
 import org.flab.deliveryplatform.member.application.port.WithdrawMemberUseCase;
 import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberCommand;
 import org.flab.deliveryplatform.member.application.port.dto.WithdrawMemberCommand;
@@ -27,7 +32,7 @@ class SignUpMemberControllerTest {
 
     @Autowired
     MockMvc mockMvc;
-    
+
     @Autowired
     private WithdrawMemberUseCase withdrawMemberUseCase;
 
@@ -58,8 +63,41 @@ class SignUpMemberControllerTest {
             .andExpect(status().isOk());
     }
 
+    @Test
+    void signUpWithDuplicateEmailTest() throws Exception {
+        mockMvc.perform(
+                post("/members/signUp")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .characterEncoding(StandardCharsets.UTF_8)
+                    .content(mapToString(signUpMemberCommand)))
+            .andExpect(status().isOk());
+
+        String duplicatedEmailString = mockMvc.perform(
+                post("/members/signUp")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .characterEncoding(StandardCharsets.UTF_8)
+                    .content(mapToString(signUpMemberCommand)))
+            .andExpect(status().isBadRequest())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
+
+        DeliveryPlatformErrorResult errorResult = mapToErrorResult(
+            duplicatedEmailString);
+        Assertions.assertThat(errorResult.getErrorCode())
+            .isEqualTo(MemberErrorCode.M_DUPLICATED_EMAIL.name());
+    }
+
     private <T> String mapToString(T data) throws JsonProcessingException {
         return objectMapper.writeValueAsString(data);
+    }
+
+    private DeliveryPlatformErrorResult mapToErrorResult(String getMemberInfoResultString)
+        throws JsonProcessingException {
+        DeliveryPlatformErrorResponse<Object> response = objectMapper.readValue(
+            getMemberInfoResultString, new TypeReference<>() {
+            });
+        return response.getErrorResult();
     }
 
 

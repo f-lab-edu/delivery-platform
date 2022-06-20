@@ -18,7 +18,7 @@ public class GetMemberInfoController {
     private final GetMemberInfoUseCase getMemberInfoUseCase;
 
     @GetMapping("/{memberId}")
-    public ResponseEntity<DeliveryPlatformResponse<GetMemberInfoResult>> find(
+    public ResponseEntity<DeliveryPlatformResponse<GetMemberInfoResult>> memberInfo(
         @PathVariable Long memberId) {
         return ResponseEntity.ok(DeliveryPlatformResponse.ok(
             getMemberInfoUseCase.getMemberInfo(memberId)
