@@ -14,12 +14,14 @@ public class DeliveryPlatformErrorResponse<T> extends DeliveryPlatformResponse<T
         errorResult = new DeliveryPlatformErrorResult(errorCode, message);
     }
 
-    static <T> DeliveryPlatformErrorResponse<T> error(T data, String errorCode, String message) {
+    public static <T> DeliveryPlatformErrorResponse<T> error(T data, String errorCode,
+        String message) {
         return new DeliveryPlatformErrorResponse<>(data, errorCode, message);
     }
 
+    @Getter
     @NoArgsConstructor
-    static class DeliveryPlatformErrorResult {
+    public static class DeliveryPlatformErrorResult {
 
         private String errorCode;
         private String message;
