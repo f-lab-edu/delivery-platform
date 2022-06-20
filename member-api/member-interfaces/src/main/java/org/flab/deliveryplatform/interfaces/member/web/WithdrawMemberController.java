@@ -17,7 +17,7 @@ public class WithdrawMemberController {
 
     private final WithdrawMemberUseCase withdrawMemberUseCase;
 
-    @DeleteMapping("/withdraw")
+    @DeleteMapping
     public ResponseEntity<DeliveryPlatformResponse<Object>> withdraw(
         @RequestBody WithdrawMemberCommand withdrawMemberCommand) {
         withdrawMemberUseCase.withdraw(withdrawMemberCommand);

@@ -56,7 +56,7 @@ class WithdrawMemberControllerTest {
             signUpMemberCommand.getEmail(), signUpMemberCommand.getPassword());
 
         mockMvc.perform(
-                delete("/members/withdraw")
+                delete("/members")
                     .contentType(MediaType.APPLICATION_JSON)
                     .characterEncoding(StandardCharsets.UTF_8)
                     .content(mapToString(withdrawMemberCommand)))
@@ -69,7 +69,7 @@ class WithdrawMemberControllerTest {
             signUpMemberCommand.getEmail() + "a", signUpMemberCommand.getPassword());
 
         String invalidString = mockMvc.perform(
-                delete("/members/withdraw")
+                delete("/members")
                     .contentType(MediaType.APPLICATION_JSON)
                     .characterEncoding(StandardCharsets.UTF_8)
                     .content(mapToString(withdrawMemberCommand)))

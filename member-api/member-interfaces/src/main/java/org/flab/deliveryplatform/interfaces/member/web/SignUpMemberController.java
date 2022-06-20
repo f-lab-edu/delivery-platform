@@ -18,7 +18,7 @@ public class SignUpMemberController {
 
     private final SignUpMemberUseCase signUpMemberUseCase;
 
-    @PostMapping("/signUp")
+    @PostMapping
     public ResponseEntity<DeliveryPlatformResponse<SignUpMemberResult>> signUp(
         @RequestBody SignUpMemberCommand signUpMemberCommand) {
         return ResponseEntity.ok(DeliveryPlatformResponse.ok(
