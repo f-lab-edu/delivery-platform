@@ -1,7 +1,9 @@
 package org.flab.deliveryplatform.common.web;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @NoArgsConstructor
 public class DeliveryPlatformErrorResponse<T> extends DeliveryPlatformResponse<T> {
 

@@ -8,13 +8,15 @@ import org.flab.deliveryplatform.member.domain.Member;
 @NoArgsConstructor
 public class GetMemberInfoResult {
 
+    private Long id;
+
     private String nickname;
 
     private String email;
 
     private String phoneNumber;
 
-    private GetMemberInfoResult(String nickname, String email, String phoneNumber) {
+    private GetMemberInfoResult(Long id, String nickname, String email, String phoneNumber) {
         this.nickname = nickname;
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -22,6 +24,7 @@ public class GetMemberInfoResult {
 
     public static GetMemberInfoResult from(Member member) {
         return new GetMemberInfoResult(
+            member.getId(),
             member.getNickname(),
             member.getEmail(),
             member.getPhoneNumber()
