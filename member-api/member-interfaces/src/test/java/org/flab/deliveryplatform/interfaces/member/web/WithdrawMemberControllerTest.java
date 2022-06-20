@@ -89,10 +89,10 @@ class WithdrawMemberControllerTest {
         return objectMapper.writeValueAsString(data);
     }
 
-    private DeliveryPlatformErrorResult mapToErrorResult(String getMemberInfoResultString)
+    private DeliveryPlatformErrorResult mapToErrorResult(String memberDataString)
         throws JsonProcessingException {
         DeliveryPlatformErrorResponse<Object> response = objectMapper.readValue(
-            getMemberInfoResultString, new TypeReference<>() {
+            memberDataString, new TypeReference<>() {
             });
         return response.getErrorResult();
     }

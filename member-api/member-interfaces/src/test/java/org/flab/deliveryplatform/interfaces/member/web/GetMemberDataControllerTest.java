@@ -16,7 +16,7 @@ import org.flab.deliveryplatform.interfaces.member.TestConfig;
 import org.flab.deliveryplatform.interfaces.member.web.exception.MemberErrorCode;
 import org.flab.deliveryplatform.member.application.port.SignUpMemberUseCase;
 import org.flab.deliveryplatform.member.application.port.WithdrawMemberUseCase;
-import org.flab.deliveryplatform.member.application.port.dto.GetMemberInfoResult;
+import org.flab.deliveryplatform.member.application.port.dto.MemberData;
 import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberCommand;
 import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberResult;
 import org.flab.deliveryplatform.member.application.port.dto.WithdrawMemberCommand;
@@ -33,7 +33,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest
 @AutoConfigureMockMvc
 @Import(TestConfig.class)
-class GetMemberInfoControllerTest {
+class GetMemberDataControllerTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -67,8 +67,8 @@ class GetMemberInfoControllerTest {
     }
 
     @Test
-    void memberInfoTest() throws Exception {
-        String getMemberInfoResultString = mockMvc.perform(
+    void getMemberDataTest() throws Exception {
+        String memberDataString = mockMvc.perform(
                 get("/members/" + signUpMemberId)
                     .contentType(MediaType.APPLICATION_JSON)
                     .characterEncoding(StandardCharsets.UTF_8))
@@ -77,22 +77,22 @@ class GetMemberInfoControllerTest {
             .getResponse()
             .getContentAsString();
 
-        GetMemberInfoResult getMemberInfoResult = mapToGetMemberInfoResult(
-            getMemberInfoResultString);
+        MemberData memberData = mapToMemberData(
+            memberDataString);
 
-        Assertions.assertThat(getMemberInfoResult.getEmail())
+        Assertions.assertThat(memberData.getEmail())
             .isEqualTo(signUpMemberCommand.getEmail());
-        Assertions.assertThat(getMemberInfoResult.getNickname())
+        Assertions.assertThat(memberData.getNickname())
             .isEqualTo(signUpMemberCommand.getNickname());
-        Assertions.assertThat(getMemberInfoResult.getPhoneNumber())
+        Assertions.assertThat(memberData.getPhoneNumber())
             .isEqualTo(signUpMemberCommand.getPhoneNumber());
 
     }
 
-    private GetMemberInfoResult mapToGetMemberInfoResult(String getMemberInfoResultString)
+    private MemberData mapToMemberData(String memberDataString)
         throws JsonProcessingException {
-        DeliveryPlatformResponse<GetMemberInfoResult> response = objectMapper.readValue(
-            getMemberInfoResultString, new TypeReference<>() {
+        DeliveryPlatformResponse<MemberData> response = objectMapper.readValue(
+            memberDataString, new TypeReference<>() {
             });
         return response.getData();
     }
@@ -115,10 +115,10 @@ class GetMemberInfoControllerTest {
             .isEqualTo(MemberErrorCode.M_INVALID_MEMBER_INFO.name());
     }
 
-    private DeliveryPlatformErrorResult mapToErrorResult(String getMemberInfoResultString)
+    private DeliveryPlatformErrorResult mapToErrorResult(String memberDataString)
         throws JsonProcessingException {
         DeliveryPlatformErrorResponse<Object> response = objectMapper.readValue(
-            getMemberInfoResultString, new TypeReference<>() {
+            memberDataString, new TypeReference<>() {
             });
         return response.getErrorResult();
     }

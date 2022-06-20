@@ -7,7 +7,7 @@ import static org.mockito.BDDMockito.given;
 import java.util.Optional;
 import java.util.UUID;
 import org.flab.deliveryplatform.member.application.port.MemberPersistencePort;
-import org.flab.deliveryplatform.member.application.port.dto.GetMemberInfoResult;
+import org.flab.deliveryplatform.member.application.port.dto.MemberData;
 import org.flab.deliveryplatform.member.application.port.exception.InvalidMemberInfoException;
 import org.flab.deliveryplatform.member.domain.Member;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,10 +18,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class GetMemberInfoServiceTest {
+class GetMemberDataServiceTest {
 
     @InjectMocks
-    private GetMemberInfoService getMemberInfoService;
+    private GetMemberDataService getMemberDataService;
 
     @Mock
     private MemberPersistencePort memberPersistencePort;
@@ -40,52 +40,52 @@ class GetMemberInfoServiceTest {
     }
 
     @Test
-    void getMemberInfoByIdTest() {
+    void getMemberDataByIdTest() {
         given(memberPersistencePort.findById(savedMember.getId()))
             .willReturn(Optional.of(savedMember));
 
-        GetMemberInfoResult getMemberInfoResult = getMemberInfoService.getMemberInfo(
+        MemberData memberData = getMemberDataService.getMemberData(
             savedMember.getId());
 
-        assertThat(getMemberInfoResult.getId()).isEqualTo(savedMember.getId());
-        assertThat(getMemberInfoResult.getEmail()).isEqualTo(savedMember.getEmail());
-        assertThat(getMemberInfoResult.getNickname()).isEqualTo(savedMember.getNickname());
-        assertThat(getMemberInfoResult.getPhoneNumber()).isEqualTo(
+        assertThat(memberData.getId()).isEqualTo(savedMember.getId());
+        assertThat(memberData.getEmail()).isEqualTo(savedMember.getEmail());
+        assertThat(memberData.getNickname()).isEqualTo(savedMember.getNickname());
+        assertThat(memberData.getPhoneNumber()).isEqualTo(
             savedMember.getPhoneNumber());
     }
 
     @Test
-    void getMemberInfoByInvalidIdTest() {
+    void getMemberDataByInvalidIdTest() {
         given(memberPersistencePort.findById(savedMember.getId()))
             .willReturn(Optional.empty());
 
-        assertThatThrownBy(() -> getMemberInfoService.getMemberInfo(savedMember.getId()))
+        assertThatThrownBy(() -> getMemberDataService.getMemberData(savedMember.getId()))
             .isInstanceOf(InvalidMemberInfoException.class);
     }
 
     @Test
-    void getMemberInfoByEmailAndPasswordTest() {
+    void getMemberDataByEmailAndPasswordTest() {
         given(memberPersistencePort.findByEmailAndPassword(
             savedMember.getEmail(), savedMember.getPassword()))
             .willReturn(Optional.of(savedMember));
 
-        GetMemberInfoResult getMemberInfoResult = getMemberInfoService.getMemberInfo(
+        MemberData memberData = getMemberDataService.getMemberData(
             savedMember.getEmail(), savedMember.getPassword());
 
-        assertThat(getMemberInfoResult.getId()).isEqualTo(savedMember.getId());
-        assertThat(getMemberInfoResult.getEmail()).isEqualTo(savedMember.getEmail());
-        assertThat(getMemberInfoResult.getNickname()).isEqualTo(savedMember.getNickname());
-        assertThat(getMemberInfoResult.getPhoneNumber()).isEqualTo(
+        assertThat(memberData.getId()).isEqualTo(savedMember.getId());
+        assertThat(memberData.getEmail()).isEqualTo(savedMember.getEmail());
+        assertThat(memberData.getNickname()).isEqualTo(savedMember.getNickname());
+        assertThat(memberData.getPhoneNumber()).isEqualTo(
             savedMember.getPhoneNumber());
     }
 
     @Test
-    void getMemberInfoByInvalidEmailAndPasswordTest() {
+    void getMemberDataByInvalidEmailAndPasswordTest() {
         given(memberPersistencePort.findByEmailAndPassword(
             savedMember.getEmail(), savedMember.getPassword()))
             .willReturn(Optional.empty());
 
-        assertThatThrownBy(() -> getMemberInfoService.getMemberInfo(
+        assertThatThrownBy(() -> getMemberDataService.getMemberData(
             savedMember.getEmail(), savedMember.getPassword()))
             .isInstanceOf(InvalidMemberInfoException.class);
     }
