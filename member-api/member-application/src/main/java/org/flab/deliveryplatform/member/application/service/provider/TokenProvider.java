@@ -6,4 +6,6 @@ import org.flab.deliveryplatform.member.application.port.dto.TokenData;
 public interface TokenProvider {
 
     TokenData generateToken(CreateTokenCommand command);
+
+    Long parseToken(String accessToken);
 }

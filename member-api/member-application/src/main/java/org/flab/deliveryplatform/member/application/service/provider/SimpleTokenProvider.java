@@ -5,6 +5,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.flab.deliveryplatform.member.application.port.dto.CreateTokenCommand;
 import org.flab.deliveryplatform.member.application.port.dto.TokenData;
+import org.flab.deliveryplatform.member.application.port.exception.InvalidTokenException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,5 +18,15 @@ public class SimpleTokenProvider implements TokenProvider {
         String uuidToken = UUID.randomUUID().toString();
         TOKEN_STORE.put(uuidToken, command.getMemberId());
         return new TokenData(uuidToken);
+    }
+
+    @Override
+    public Long parseToken(String accessToken) {
+        Long memberId = TOKEN_STORE.get(accessToken);
+        if (memberId == null) {
+            throw new InvalidTokenException();
+        }
+
+        return memberId;
     }
 }
