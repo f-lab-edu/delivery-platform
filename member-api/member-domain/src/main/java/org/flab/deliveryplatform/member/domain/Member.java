@@ -27,4 +27,8 @@ public class Member {
         this.password = password;
         this.phoneNumber = phoneNumber;
     }
+
+    public boolean authenticate(String password) {
+        return this.password.equals(password);
+    }
 }

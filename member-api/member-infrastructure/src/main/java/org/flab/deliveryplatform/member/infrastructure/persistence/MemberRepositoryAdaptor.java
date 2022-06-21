@@ -28,6 +28,11 @@ public class MemberRepositoryAdaptor implements MemberRepository {
     }
 
     @Override
+    public Optional<Member> findByEmail(String email) {
+        return memberRepository.findByEmail(email);
+    }
+
+    @Override
     public boolean exists(String email) {
         return memberRepository.exists(email);
     }
