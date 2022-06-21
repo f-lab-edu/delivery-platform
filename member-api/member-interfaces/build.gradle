@@ -4,6 +4,5 @@ dependencies {
     implementation project(':common')
     implementation project(':member-api:member-infrastructure')
     implementation project(':member-api:member-application')
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 }
