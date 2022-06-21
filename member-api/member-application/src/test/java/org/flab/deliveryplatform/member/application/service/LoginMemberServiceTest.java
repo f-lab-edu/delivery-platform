@@ -2,11 +2,13 @@ package org.flab.deliveryplatform.member.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 import java.util.Optional;
 import java.util.UUID;
 import org.flab.deliveryplatform.member.application.port.MemberPersistencePort;
+import org.flab.deliveryplatform.member.application.port.dto.CreateTokenCommand;
 import org.flab.deliveryplatform.member.application.port.dto.LoginMemberCommand;
 import org.flab.deliveryplatform.member.application.port.dto.TokenData;
 import org.flab.deliveryplatform.member.application.port.exception.InvalidMemberInfoException;
@@ -59,7 +61,7 @@ class LoginMemberServiceTest {
         given(memberPersistencePort.findByEmail(existingEmail))
             .willReturn(Optional.ofNullable(member));
 
-        given(tokenProvider.generateToken(member))
+        given(tokenProvider.generateToken(any(CreateTokenCommand.class)))
             .willReturn(new TokenData(accessToken));
 
         TokenData tokenData = loginMemberService.login(validCommand);
