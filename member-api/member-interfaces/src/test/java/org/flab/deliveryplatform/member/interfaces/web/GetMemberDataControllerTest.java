@@ -22,6 +22,7 @@ import org.flab.deliveryplatform.member.interfaces.TestContextConfiguration;
 import org.flab.deliveryplatform.member.interfaces.web.exception.MemberErrorCode;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -43,7 +44,7 @@ class GetMemberDataControllerTest {
     @Autowired
     private WithdrawMemberUseCase withdrawMemberUseCase;
 
-    //    private ObjectMapper objectMapper = new ObjectMapper();
+    @Autowired
     private ObjectMapper objectMapper;
 
     private SignUpMemberCommand signUpMemberCommand;
@@ -66,7 +67,7 @@ class GetMemberDataControllerTest {
         withdrawMemberUseCase.withdraw(withdrawMemberCommand);
     }
 
-    //    @Test
+    @Test
     void getMemberDataTest() throws Exception {
         String memberDataString = mockMvc.perform(
                 get("/members/" + signUpMemberId)
@@ -97,7 +98,7 @@ class GetMemberDataControllerTest {
         return response.getData();
     }
 
-    //    @Test
+    @Test
     void invalidMemberInfoTest() throws Exception {
         String invalidString = mockMvc.perform(
                 get("/members/" + Long.MAX_VALUE)
