@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.member.interfaces.web;
+package org.flab.deliveryplatform.member.interfaces.common;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -6,7 +6,7 @@ import static org.flab.deliveryplatform.member.interfaces.web.exception.MemberEr
 import org.flab.deliveryplatform.common.web.dto.DeliveryPlatformErrorResponse;
 import org.flab.deliveryplatform.member.application.port.exception.DuplicatedEmailException;
 import org.flab.deliveryplatform.member.application.port.exception.InvalidMemberInfoException;
-import org.flab.deliveryplatform.member.interfaces.web.MemberComponentScan;
+import org.flab.deliveryplatform.member.interfaces.common.MemberComponentScan;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
