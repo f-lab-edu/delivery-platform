@@ -1,15 +1,13 @@
 package org.flab.deliveryplatform.common.web.dto;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 public class DeliveryPlatformErrorResponse<T> extends DeliveryPlatformResponse<T> {
 
     private DeliveryPlatformErrorResult errorResult;
 
-    private DeliveryPlatformErrorResponse(T data, String errorCode, String message) {
+    public DeliveryPlatformErrorResponse(T data, String errorCode, String message) {
         super(false, data);
         errorResult = new DeliveryPlatformErrorResult(errorCode, message);
     }
@@ -20,13 +18,12 @@ public class DeliveryPlatformErrorResponse<T> extends DeliveryPlatformResponse<T
     }
 
     @Getter
-    @NoArgsConstructor
     public static class DeliveryPlatformErrorResult {
 
         private String errorCode;
         private String message;
 
-        private DeliveryPlatformErrorResult(String errorCode, String message) {
+        public DeliveryPlatformErrorResult(String errorCode, String message) {
             this.errorCode = errorCode;
             this.message = message;
         }

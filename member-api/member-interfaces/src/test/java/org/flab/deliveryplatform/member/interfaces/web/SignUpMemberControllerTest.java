@@ -18,7 +18,6 @@ import org.flab.deliveryplatform.member.interfaces.TestContextConfiguration;
 import org.flab.deliveryplatform.member.interfaces.web.exception.MemberErrorCode;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -55,7 +54,7 @@ class SignUpMemberControllerTest {
         withdrawMemberUseCase.withdraw(withdrawMemberCommand);
     }
 
-    @Test
+    //    @Test
     void signUp() throws Exception {
         mockMvc.perform(
                 post("/members")
@@ -65,7 +64,7 @@ class SignUpMemberControllerTest {
             .andExpect(status().isOk());
     }
 
-    @Test
+    //    @Test
     void signUpWithDuplicateEmailTest() throws Exception {
         mockMvc.perform(
                 post("/members")
