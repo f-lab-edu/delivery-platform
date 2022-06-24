@@ -1,7 +1,7 @@
 package org.flab.deliveryplatform.member.application.service;
 
 import lombok.RequiredArgsConstructor;
-import org.flab.deliveryplatform.member.application.port.MemberPersistencePort;
+import org.flab.deliveryplatform.member.application.port.MemberRepository;
 import org.flab.deliveryplatform.member.application.port.SignUpMemberUseCase;
 import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberCommand;
 import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberResult;
@@ -13,14 +13,14 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SignUpMemberService implements SignUpMemberUseCase {
 
-    private final MemberPersistencePort memberPersistencePort;
+    private final MemberRepository memberRepository;
 
     @Override
     public SignUpMemberResult signUp(SignUpMemberCommand signUpMemberCommand)
         throws DuplicatedEmailException {
         validateSignUp(signUpMemberCommand);
         return SignUpMemberResult.from(
-            memberPersistencePort.save(
+            memberRepository.save(
                 Member.builder()
                     .nickname(signUpMemberCommand.getNickname())
                     .email(signUpMemberCommand.getEmail())
@@ -32,7 +32,7 @@ public class SignUpMemberService implements SignUpMemberUseCase {
     }
 
     private void validateSignUp(SignUpMemberCommand signUpMemberCommand) {
-        if (memberPersistencePort.exists(signUpMemberCommand.getEmail())) {
+        if (memberRepository.exists(signUpMemberCommand.getEmail())) {
             throw new DuplicatedEmailException();
         }
     }

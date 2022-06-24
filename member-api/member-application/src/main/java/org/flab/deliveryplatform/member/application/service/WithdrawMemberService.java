@@ -1,7 +1,7 @@
 package org.flab.deliveryplatform.member.application.service;
 
 import lombok.RequiredArgsConstructor;
-import org.flab.deliveryplatform.member.application.port.MemberPersistencePort;
+import org.flab.deliveryplatform.member.application.port.MemberRepository;
 import org.flab.deliveryplatform.member.application.port.WithdrawMemberUseCase;
 import org.flab.deliveryplatform.member.application.port.dto.WithdrawMemberCommand;
 import org.flab.deliveryplatform.member.application.port.exception.InvalidMemberInfoException;
@@ -12,14 +12,14 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class WithdrawMemberService implements WithdrawMemberUseCase {
 
-    private final MemberPersistencePort memberPersistencePort;
+    private final MemberRepository memberRepository;
 
     @Override
     public void withdraw(WithdrawMemberCommand withdrawMemberCommand) {
-        Member member = memberPersistencePort.findByEmailAndPassword(
+        Member member = memberRepository.findByEmailAndPassword(
                 withdrawMemberCommand.getEmail(), withdrawMemberCommand.getPassword())
             .orElseThrow(InvalidMemberInfoException::new);
 
-        memberPersistencePort.delete(member);
+        memberRepository.delete(member);
     }
 }

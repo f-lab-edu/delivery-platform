@@ -5,7 +5,7 @@ import static org.mockito.BDDMockito.given;
 import java.util.Optional;
 import java.util.UUID;
 import org.assertj.core.api.Assertions;
-import org.flab.deliveryplatform.member.application.port.MemberPersistencePort;
+import org.flab.deliveryplatform.member.application.port.MemberRepository;
 import org.flab.deliveryplatform.member.application.port.dto.WithdrawMemberCommand;
 import org.flab.deliveryplatform.member.application.port.exception.InvalidMemberInfoException;
 import org.flab.deliveryplatform.member.domain.Member;
@@ -23,7 +23,7 @@ class WithdrawMemberServiceTest {
     private WithdrawMemberService withdrawMemberService;
 
     @Mock
-    private MemberPersistencePort memberPersistencePort;
+    private MemberRepository memberRepository;
 
     private Member savedMember;
 
@@ -40,7 +40,7 @@ class WithdrawMemberServiceTest {
 
     @Test
     void withdrawTest() {
-        given(memberPersistencePort.findByEmailAndPassword(
+        given(memberRepository.findByEmailAndPassword(
             savedMember.getEmail(), savedMember.getPassword()))
             .willReturn(Optional.of(savedMember));
 
@@ -52,7 +52,7 @@ class WithdrawMemberServiceTest {
 
     @Test
     void withdrawWithInvalidInfoTest() {
-        given(memberPersistencePort.findByEmailAndPassword(
+        given(memberRepository.findByEmailAndPassword(
             savedMember.getEmail(), savedMember.getPassword()))
             .willReturn(Optional.empty());
 

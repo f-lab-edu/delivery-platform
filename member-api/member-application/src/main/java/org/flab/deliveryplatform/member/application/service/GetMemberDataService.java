@@ -2,7 +2,7 @@ package org.flab.deliveryplatform.member.application.service;
 
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.member.application.port.GetMemberDataUseCase;
-import org.flab.deliveryplatform.member.application.port.MemberPersistencePort;
+import org.flab.deliveryplatform.member.application.port.MemberRepository;
 import org.flab.deliveryplatform.member.application.port.dto.MemberData;
 import org.flab.deliveryplatform.member.application.port.exception.InvalidMemberInfoException;
 import org.springframework.stereotype.Service;
@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GetMemberDataService implements GetMemberDataUseCase {
 
-    private final MemberPersistencePort memberPersistencePort;
+    private final MemberRepository memberRepository;
 
     @Override
     public MemberData getMemberData(Long memberId) throws InvalidMemberInfoException {
         return MemberData.from(
-            memberPersistencePort.findById(memberId)
+            memberRepository.findById(memberId)
                 .orElseThrow(InvalidMemberInfoException::new)
         );
     }
@@ -26,7 +26,7 @@ public class GetMemberDataService implements GetMemberDataUseCase {
     public MemberData getMemberData(String email, String password)
         throws InvalidMemberInfoException {
         return MemberData.from(
-            memberPersistencePort.findByEmailAndPassword(email, password)
+            memberRepository.findByEmailAndPassword(email, password)
                 .orElseThrow(InvalidMemberInfoException::new)
         );
     }

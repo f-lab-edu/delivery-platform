@@ -12,11 +12,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(classes = {MemberPersistenceAdaptor.class, MemoryMemberRepository.class})
+@SpringBootTest(classes = {MemberRepositoryAdaptor.class, MemoryMemberRepository.class})
 class MemberPersistenceAdaptorTest {
 
     @Autowired
-    private MemberPersistenceAdaptor memberPersistenceAdaptor;
+    private MemberRepositoryAdaptor memberRepositoryAdaptor;
 
     @Autowired
     private MemoryMemberRepository memberRepository;
@@ -32,7 +32,7 @@ class MemberPersistenceAdaptorTest {
             .phoneNumber("010-1234-5678")
             .build();
 
-        savedMember = memberPersistenceAdaptor.save(member);
+        savedMember = memberRepositoryAdaptor.save(member);
     }
 
     @AfterEach
@@ -49,7 +49,7 @@ class MemberPersistenceAdaptorTest {
             .phoneNumber("010-1234-5678")
             .build();
 
-        Member savedMember = memberPersistenceAdaptor.save(member);
+        Member savedMember = memberRepositoryAdaptor.save(member);
 
         assertThat(savedMember.getEmail()).isEqualTo(member.getEmail());
         assertThat(savedMember.getNickname()).isEqualTo(member.getNickname());
@@ -59,7 +59,7 @@ class MemberPersistenceAdaptorTest {
 
     @Test
     void findById() {
-        Member foundMember = memberPersistenceAdaptor.findById(savedMember.getId())
+        Member foundMember = memberRepositoryAdaptor.findById(savedMember.getId())
             .orElseThrow();
 
         assertThat(foundMember.getEmail()).isEqualTo(savedMember.getEmail());
@@ -68,13 +68,13 @@ class MemberPersistenceAdaptorTest {
         assertThat(foundMember.getPhoneNumber()).isEqualTo(savedMember.getPhoneNumber());
 
         assertThatThrownBy(
-            () -> memberPersistenceAdaptor.findById(Long.MAX_VALUE).orElseThrow())
+            () -> memberRepositoryAdaptor.findById(Long.MAX_VALUE).orElseThrow())
             .isInstanceOf(NoSuchElementException.class);
     }
 
     @Test
     void findByEmailAndPassword() {
-        Member foundMember = memberPersistenceAdaptor.findByEmailAndPassword(savedMember.getEmail(),
+        Member foundMember = memberRepositoryAdaptor.findByEmailAndPassword(savedMember.getEmail(),
                 savedMember.getPassword())
             .orElseThrow();
 
@@ -87,7 +87,7 @@ class MemberPersistenceAdaptorTest {
     @Test
     void findByInvalidEmailAndPassword() {
         assertThatThrownBy(
-            () -> memberPersistenceAdaptor.findByEmailAndPassword(savedMember.getEmail(),
+            () -> memberRepositoryAdaptor.findByEmailAndPassword(savedMember.getEmail(),
                 savedMember.getPassword() + "1").orElseThrow())
             .isInstanceOf(NoSuchElementException.class);
     }

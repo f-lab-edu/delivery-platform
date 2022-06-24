@@ -6,7 +6,7 @@ import static org.mockito.BDDMockito.given;
 
 import java.util.Optional;
 import java.util.UUID;
-import org.flab.deliveryplatform.member.application.port.MemberPersistencePort;
+import org.flab.deliveryplatform.member.application.port.MemberRepository;
 import org.flab.deliveryplatform.member.application.port.dto.MemberData;
 import org.flab.deliveryplatform.member.application.port.exception.InvalidMemberInfoException;
 import org.flab.deliveryplatform.member.domain.Member;
@@ -24,7 +24,7 @@ class GetMemberDataServiceTest {
     private GetMemberDataService getMemberDataService;
 
     @Mock
-    private MemberPersistencePort memberPersistencePort;
+    private MemberRepository memberRepository;
 
     private Member savedMember;
 
@@ -41,7 +41,7 @@ class GetMemberDataServiceTest {
 
     @Test
     void getMemberDataByIdTest() {
-        given(memberPersistencePort.findById(savedMember.getId()))
+        given(memberRepository.findById(savedMember.getId()))
             .willReturn(Optional.of(savedMember));
 
         MemberData memberData = getMemberDataService.getMemberData(
@@ -55,7 +55,7 @@ class GetMemberDataServiceTest {
 
     @Test
     void getMemberDataByInvalidIdTest() {
-        given(memberPersistencePort.findById(savedMember.getId()))
+        given(memberRepository.findById(savedMember.getId()))
             .willReturn(Optional.empty());
 
         assertThatThrownBy(() -> getMemberDataService.getMemberData(savedMember.getId()))
@@ -64,7 +64,7 @@ class GetMemberDataServiceTest {
 
     @Test
     void getMemberDataByEmailAndPasswordTest() {
-        given(memberPersistencePort.findByEmailAndPassword(
+        given(memberRepository.findByEmailAndPassword(
             savedMember.getEmail(), savedMember.getPassword()))
             .willReturn(Optional.of(savedMember));
 
@@ -79,7 +79,7 @@ class GetMemberDataServiceTest {
 
     @Test
     void getMemberDataByInvalidEmailAndPasswordTest() {
-        given(memberPersistencePort.findByEmailAndPassword(
+        given(memberRepository.findByEmailAndPassword(
             savedMember.getEmail(), savedMember.getPassword()))
             .willReturn(Optional.empty());
 
