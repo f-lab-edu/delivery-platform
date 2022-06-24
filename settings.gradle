@@ -1,4 +1,5 @@
 rootProject.name = 'delivery-platform'
+include 'common'
 include 'server'
 include 'order-api'
 include 'order-api:order-domain'

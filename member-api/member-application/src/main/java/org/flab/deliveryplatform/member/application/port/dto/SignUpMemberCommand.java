@@ -1,15 +1,9 @@
-package org.flab.deliveryplatform.member.domain;
+package org.flab.deliveryplatform.member.application.port.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 
-/**
- * @author SeunghyunYoo
- */
 @Getter
-public class Member {
-
-    private Long id;
+public class SignUpMemberCommand {
 
     private String nickname;
 
@@ -19,9 +13,7 @@ public class Member {
 
     private String phoneNumber;
 
-    @Builder
-    public Member(Long id, String nickname, String email, String password, String phoneNumber) {
-        this.id = id;
+    public SignUpMemberCommand(String nickname, String email, String password, String phoneNumber) {
         this.nickname = nickname;
         this.email = email;
         this.password = password;
