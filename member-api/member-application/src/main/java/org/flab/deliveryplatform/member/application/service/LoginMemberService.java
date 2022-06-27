@@ -2,7 +2,7 @@ package org.flab.deliveryplatform.member.application.service;
 
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.member.application.port.LoginMemberUseCase;
-import org.flab.deliveryplatform.member.application.port.MemberPersistencePort;
+import org.flab.deliveryplatform.member.application.port.MemberRepository;
 import org.flab.deliveryplatform.member.application.port.dto.CreateTokenCommand;
 import org.flab.deliveryplatform.member.application.port.dto.LoginMemberCommand;
 import org.flab.deliveryplatform.member.application.port.dto.TokenData;
@@ -15,13 +15,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class LoginMemberService implements LoginMemberUseCase {
 
-    private final MemberPersistencePort memberPersistencePort;
+    private final MemberRepository memberRepository;
 
     private final TokenProvider tokenProvider;
 
     @Override
     public TokenData login(LoginMemberCommand command) {
-        Member member = memberPersistencePort.findByEmail(command.getEmail())
+        Member member = memberRepository.findByEmail(command.getEmail())
             .orElseThrow(InvalidMemberInfoException::new);
 
         if (!member.authenticate(command.getPassword())) {

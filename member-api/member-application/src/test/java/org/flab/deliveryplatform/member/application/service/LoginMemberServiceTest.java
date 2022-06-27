@@ -7,7 +7,7 @@ import static org.mockito.BDDMockito.given;
 
 import java.util.Optional;
 import java.util.UUID;
-import org.flab.deliveryplatform.member.application.port.MemberPersistencePort;
+import org.flab.deliveryplatform.member.application.port.MemberRepository;
 import org.flab.deliveryplatform.member.application.port.dto.CreateTokenCommand;
 import org.flab.deliveryplatform.member.application.port.dto.LoginMemberCommand;
 import org.flab.deliveryplatform.member.application.port.dto.TokenData;
@@ -25,7 +25,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class LoginMemberServiceTest {
 
     @Mock
-    private MemberPersistencePort memberPersistencePort;
+    private MemberRepository memberRepository;
 
     @Mock
     private TokenProvider tokenProvider;
@@ -58,7 +58,7 @@ class LoginMemberServiceTest {
 
     @Test
     void login() {
-        given(memberPersistencePort.findByEmail(existingEmail))
+        given(memberRepository.findByEmail(existingEmail))
             .willReturn(Optional.ofNullable(member));
 
         given(tokenProvider.generateToken(any(CreateTokenCommand.class)))
@@ -70,7 +70,7 @@ class LoginMemberServiceTest {
 
     @Test
     void loginWithNotExistingEmail() {
-        given(memberPersistencePort.findByEmail(notExistingEmail))
+        given(memberRepository.findByEmail(notExistingEmail))
             .willThrow(new InvalidMemberInfoException());
 
         assertThatThrownBy(() -> loginMemberService.login(commandWithNotExistingEmail))
@@ -79,7 +79,7 @@ class LoginMemberServiceTest {
 
     @Test
     void loginWithInvalidPassword() {
-        given(memberPersistencePort.findByEmail(existingEmail))
+        given(memberRepository.findByEmail(existingEmail))
             .willReturn(Optional.ofNullable(member));
 
         assertThatThrownBy(() -> loginMemberService.login(commandWithInvalidPassword))
