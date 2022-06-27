@@ -3,9 +3,6 @@ package org.flab.deliveryplatform.member.domain;
 import lombok.Builder;
 import lombok.Getter;
 
-/**
- * @author SeunghyunYoo
- */
 @Getter
 public class Member {
 
@@ -26,9 +23,5 @@ public class Member {
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
-    }
-
-    public boolean authenticate(String password) {
-        return this.password.equals(password);
     }
 }

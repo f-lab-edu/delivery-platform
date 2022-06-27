@@ -8,6 +8,7 @@ import org.assertj.core.api.Assertions;
 import org.flab.deliveryplatform.member.application.port.MemberRepository;
 import org.flab.deliveryplatform.member.application.port.dto.WithdrawMemberCommand;
 import org.flab.deliveryplatform.member.application.port.exception.InvalidMemberInfoException;
+import org.flab.deliveryplatform.member.application.service.utils.EncryptUtils;
 import org.flab.deliveryplatform.member.domain.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,12 @@ class WithdrawMemberServiceTest {
     @Mock
     private MemberRepository memberRepository;
 
+    @Mock
+    private EncryptUtils encryptUtils;
+
     private Member savedMember;
+
+    private final String password = "a12345678";
 
     @BeforeEach
     void init() {
@@ -33,16 +39,18 @@ class WithdrawMemberServiceTest {
             .id(Long.MAX_VALUE)
             .nickname(UUID.randomUUID().toString().substring(0, 20))
             .email(UUID.randomUUID().toString().substring(0, 20) + "@gmail.com")
-            .password("a12345678")
+            .password(password)
             .phoneNumber("010-1234-5678")
             .build();
     }
 
     @Test
     void withdrawTest() {
-        given(memberRepository.findByEmailAndPassword(
-            savedMember.getEmail(), savedMember.getPassword()))
+        given(memberRepository.findByEmail(savedMember.getEmail()))
             .willReturn(Optional.of(savedMember));
+
+        given(encryptUtils.isMatch(password, savedMember.getPassword()))
+            .willReturn(true);
 
         WithdrawMemberCommand withdrawMemberCommand = new WithdrawMemberCommand(
             savedMember.getEmail(), savedMember.getPassword());
@@ -52,8 +60,7 @@ class WithdrawMemberServiceTest {
 
     @Test
     void withdrawWithInvalidInfoTest() {
-        given(memberRepository.findByEmailAndPassword(
-            savedMember.getEmail(), savedMember.getPassword()))
+        given(memberRepository.findByEmail(savedMember.getEmail()))
             .willReturn(Optional.empty());
 
         WithdrawMemberCommand withdrawMemberCommand = new WithdrawMemberCommand(

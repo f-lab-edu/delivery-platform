@@ -14,6 +14,7 @@ import org.flab.deliveryplatform.member.application.port.dto.LoginMemberCommand;
 import org.flab.deliveryplatform.member.application.port.dto.TokenData;
 import org.flab.deliveryplatform.member.application.port.exception.InvalidMemberInfoException;
 import org.flab.deliveryplatform.member.application.service.provider.TokenProvider;
+import org.flab.deliveryplatform.member.application.service.utils.EncryptUtils;
 import org.flab.deliveryplatform.member.domain.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,8 @@ class LoginMemberServiceTest {
     private MemberRepository memberRepository = mock(MemberRepository.class);
 
     private TokenProvider tokenProvider = mock(TokenProvider.class);
+
+    private EncryptUtils encryptUtils = mock(EncryptUtils.class);
 
     private LoginMemberService loginMemberService;
 
@@ -42,7 +45,7 @@ class LoginMemberServiceTest {
 
     @BeforeEach
     void setUp() {
-        loginMemberService = new LoginMemberService(memberRepository, tokenProvider);
+        loginMemberService = new LoginMemberService(memberRepository, tokenProvider, encryptUtils);
 
         member = new Member(1L, "nickname", existingEmail, validPassword, "010-1111-2222");
 
@@ -58,6 +61,9 @@ class LoginMemberServiceTest {
 
         given(tokenProvider.generateToken(any(CreateTokenCommand.class)))
             .willReturn(new TokenData(accessToken));
+
+        given(encryptUtils.isMatch(validCommand.getPassword(), member.getPassword()))
+            .willReturn(true);
 
         TokenData tokenData = loginMemberService.login(validCommand);
         assertThat(tokenData.getAccessToken()).isEqualTo(accessToken);
