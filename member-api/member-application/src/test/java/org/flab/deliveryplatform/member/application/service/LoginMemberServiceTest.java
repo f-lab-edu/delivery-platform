@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -16,21 +17,13 @@ import org.flab.deliveryplatform.member.application.service.provider.TokenProvid
 import org.flab.deliveryplatform.member.domain.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(MockitoExtension.class)
 class LoginMemberServiceTest {
 
-    @Mock
-    private MemberRepository memberRepository;
+    private MemberRepository memberRepository = mock(MemberRepository.class);
 
-    @Mock
-    private TokenProvider tokenProvider;
+    private TokenProvider tokenProvider = mock(TokenProvider.class);
 
-    @InjectMocks
     private LoginMemberService loginMemberService;
 
     private String existingEmail = "test@test.com";
@@ -49,6 +42,8 @@ class LoginMemberServiceTest {
 
     @BeforeEach
     void setUp() {
+        loginMemberService = new LoginMemberService(memberRepository, tokenProvider);
+
         member = new Member(1L, "nickname", existingEmail, validPassword, "010-1111-2222");
 
         validCommand = new LoginMemberCommand(existingEmail, validPassword);
