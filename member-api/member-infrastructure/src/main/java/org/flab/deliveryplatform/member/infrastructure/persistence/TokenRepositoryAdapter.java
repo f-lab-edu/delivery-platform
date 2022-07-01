@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
-public class TokenAdapter implements TokenRepository {
+public class TokenRepositoryAdapter implements TokenRepository {
 
     private final MemoryTokenRepository memoryTokenRepository;
 
