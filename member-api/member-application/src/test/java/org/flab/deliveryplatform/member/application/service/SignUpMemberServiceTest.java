@@ -6,11 +6,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 import java.util.UUID;
+import org.flab.deliveryplatform.member.application.port.EncryptManager;
 import org.flab.deliveryplatform.member.application.port.MemberRepository;
 import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberCommand;
 import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberResult;
 import org.flab.deliveryplatform.member.application.port.exception.DuplicatedEmailException;
-import org.flab.deliveryplatform.member.application.service.utils.EncryptUtils;
 import org.flab.deliveryplatform.member.domain.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ class SignUpMemberServiceTest {
     private MemberRepository memberRepository;
 
     @Mock
-    private EncryptUtils encryptUtils;
+    private EncryptManager encryptManager;
 
     private SignUpMemberCommand signUpMemberCommand;
 

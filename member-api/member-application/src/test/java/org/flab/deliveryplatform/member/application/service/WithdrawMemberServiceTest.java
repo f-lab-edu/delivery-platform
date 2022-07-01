@@ -5,10 +5,10 @@ import static org.mockito.BDDMockito.given;
 import java.util.Optional;
 import java.util.UUID;
 import org.assertj.core.api.Assertions;
+import org.flab.deliveryplatform.member.application.port.EncryptManager;
 import org.flab.deliveryplatform.member.application.port.MemberRepository;
 import org.flab.deliveryplatform.member.application.port.dto.WithdrawMemberCommand;
 import org.flab.deliveryplatform.member.application.port.exception.InvalidMemberInfoException;
-import org.flab.deliveryplatform.member.application.service.utils.EncryptUtils;
 import org.flab.deliveryplatform.member.domain.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ class WithdrawMemberServiceTest {
     private MemberRepository memberRepository;
 
     @Mock
-    private EncryptUtils encryptUtils;
+    private EncryptManager encryptManager;
 
     private Member savedMember;
 
@@ -49,7 +49,7 @@ class WithdrawMemberServiceTest {
         given(memberRepository.findByEmail(savedMember.getEmail()))
             .willReturn(Optional.of(savedMember));
 
-        given(encryptUtils.isMatch(password, savedMember.getPassword()))
+        given(encryptManager.isMatch(password, savedMember.getPassword()))
             .willReturn(true);
 
         WithdrawMemberCommand withdrawMemberCommand = new WithdrawMemberCommand(

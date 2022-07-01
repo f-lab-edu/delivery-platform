@@ -4,5 +4,4 @@ dependencies {
     implementation project(':common')
     implementation project(':member-api:member-domain')
     implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.springframework.security:spring-security-core'
 }

@@ -8,13 +8,13 @@ import static org.mockito.Mockito.mock;
 
 import java.util.Optional;
 import java.util.UUID;
+import org.flab.deliveryplatform.member.application.port.EncryptManager;
 import org.flab.deliveryplatform.member.application.port.MemberRepository;
 import org.flab.deliveryplatform.member.application.port.dto.CreateTokenCommand;
 import org.flab.deliveryplatform.member.application.port.dto.LoginMemberCommand;
 import org.flab.deliveryplatform.member.application.port.dto.TokenData;
 import org.flab.deliveryplatform.member.application.port.exception.InvalidMemberInfoException;
 import org.flab.deliveryplatform.member.application.service.provider.TokenProvider;
-import org.flab.deliveryplatform.member.application.service.utils.EncryptUtils;
 import org.flab.deliveryplatform.member.domain.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ class LoginMemberServiceTest {
 
     private TokenProvider tokenProvider = mock(TokenProvider.class);
 
-    private EncryptUtils encryptUtils = mock(EncryptUtils.class);
+    private EncryptManager encryptManager = mock(EncryptManager.class);
 
     private LoginMemberService loginMemberService;
 
@@ -45,7 +45,8 @@ class LoginMemberServiceTest {
 
     @BeforeEach
     void setUp() {
-        loginMemberService = new LoginMemberService(memberRepository, tokenProvider, encryptUtils);
+        loginMemberService = new LoginMemberService(memberRepository, tokenProvider,
+            encryptManager);
 
         member = new Member(1L, "nickname", existingEmail, validPassword, "010-1111-2222");
 
@@ -62,7 +63,7 @@ class LoginMemberServiceTest {
         given(tokenProvider.generateToken(any(CreateTokenCommand.class)))
             .willReturn(new TokenData(accessToken));
 
-        given(encryptUtils.isMatch(validCommand.getPassword(), member.getPassword()))
+        given(encryptManager.isMatch(validCommand.getPassword(), member.getPassword()))
             .willReturn(true);
 
         TokenData tokenData = loginMemberService.login(validCommand);

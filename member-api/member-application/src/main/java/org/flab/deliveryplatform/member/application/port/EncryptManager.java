@@ -1,6 +1,6 @@
-package org.flab.deliveryplatform.member.application.service.utils;
+package org.flab.deliveryplatform.member.application.port;
 
-public interface EncryptUtils {
+public interface EncryptManager {
 
     String encrypt(String password);
 
