@@ -3,9 +3,6 @@ package org.flab.deliveryplatform.member.domain;
 import lombok.Builder;
 import lombok.Getter;
 
-/**
- * @author SeunghyunYoo
- */
 @Getter
 public class Member {
 

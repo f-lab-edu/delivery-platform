@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 import java.util.UUID;
+import org.flab.deliveryplatform.member.application.port.EncryptManager;
 import org.flab.deliveryplatform.member.application.port.MemberRepository;
 import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberCommand;
 import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberResult;
@@ -26,6 +27,9 @@ class SignUpMemberServiceTest {
 
     @Mock
     private MemberRepository memberRepository;
+
+    @Mock
+    private EncryptManager encryptManager;
 
     private SignUpMemberCommand signUpMemberCommand;
 

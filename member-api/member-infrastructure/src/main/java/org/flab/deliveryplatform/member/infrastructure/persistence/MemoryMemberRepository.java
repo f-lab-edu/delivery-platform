@@ -37,6 +37,13 @@ public class MemoryMemberRepository {
             .findAny();
     }
 
+    public Optional<Member> findByEmail(String email) {
+        return store.values()
+            .stream()
+            .filter(m -> m.getEmail().equals(email))
+            .findAny();
+    }
+
     public boolean exists(String email) {
         return store.values()
             .stream()
