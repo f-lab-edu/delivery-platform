@@ -17,6 +17,7 @@ spring:
   jpa:
     database: mysql
     show-sql: true
+    open-in-view: false
 
 server:
   port: 18080
