@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS member;
 CREATE TABLE member
 (
     member_id    BIGINT NOT NUll,
@@ -9,7 +8,6 @@ CREATE TABLE member
     PRIMARY KEY (member_id)
 ) CHARACTER SET utf8mb4;
 
-DROP TABLE IF EXISTS owner;
 CREATE TABLE owner
 (
     owner_id     BIGINT NOT NUll,
