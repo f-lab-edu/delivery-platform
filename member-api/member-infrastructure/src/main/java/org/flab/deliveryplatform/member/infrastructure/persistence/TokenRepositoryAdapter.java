@@ -2,23 +2,23 @@ package org.flab.deliveryplatform.member.infrastructure.persistence;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.flab.deliveryplatform.member.application.port.TokenRepository;
-import org.flab.deliveryplatform.member.domain.token.Token;
-import org.flab.deliveryplatform.member.domain.token.TokenKey;
-import org.flab.deliveryplatform.member.domain.token.TokenValue;
+import org.flab.deliveryplatform.member.application.port.AuthorizationRepository;
+import org.flab.deliveryplatform.member.domain.token.Authorization;
+import org.flab.deliveryplatform.member.domain.token.AuthorizationKey;
+import org.flab.deliveryplatform.member.domain.token.AuthorizationValue;
 import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
-public class TokenRepositoryAdapter implements TokenRepository {
+public class TokenRepositoryAdapter implements AuthorizationRepository {
 
-    private final MemoryTokenRepository memoryTokenRepository;
+    private final MemoryAuthorizationRepository memoryAuthorizationRepository;
 
-    public Token save(Token token) {
-        return memoryTokenRepository.save(token);
+    public Authorization save(Authorization authorization) {
+        return memoryAuthorizationRepository.save(authorization);
     }
 
-    public Optional<TokenValue> findValueByKey(TokenKey key) {
-        return memoryTokenRepository.findByKey(key);
+    public Optional<AuthorizationValue> findValueByKey(AuthorizationKey key) {
+        return memoryAuthorizationRepository.findByKey(key);
     }
 }

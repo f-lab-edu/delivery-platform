@@ -3,11 +3,11 @@ package org.flab.deliveryplatform.member.application.port.dto;
 import lombok.Getter;
 
 @Getter
-public class TokenData {
+public class AuthorizationData {
 
     private String accessToken;
 
-    public TokenData(String accessToken) {
+    public AuthorizationData(String accessToken) {
         this.accessToken = accessToken;
     }
 }
