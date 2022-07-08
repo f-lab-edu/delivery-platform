@@ -11,9 +11,8 @@ import org.flab.deliveryplatform.member.application.port.dto.LoginMemberCommand;
 import org.flab.deliveryplatform.member.application.port.exception.InvalidMemberInfoException;
 import org.flab.deliveryplatform.member.application.service.provider.TokenProvider;
 import org.flab.deliveryplatform.member.domain.Member;
-import org.flab.deliveryplatform.member.domain.token.Authorization;
-import org.flab.deliveryplatform.member.domain.token.AuthorizationKey;
-import org.flab.deliveryplatform.member.domain.token.AuthorizationValue;
+import org.flab.deliveryplatform.member.domain.authorization.Authorization;
+import org.flab.deliveryplatform.member.domain.authorization.AuthorizationId;
 import org.springframework.stereotype.Service;
 
 
@@ -28,7 +27,7 @@ public class LoginMemberService implements LoginMemberUseCase {
     private final TokenProvider tokenProvider;
 
     private final EncryptManager encryptManager;
-    
+
     @Override
     public AuthorizationData login(LoginMemberCommand command) {
         Member member = memberRepository.findByEmail(command.getEmail())
@@ -39,11 +38,13 @@ public class LoginMemberService implements LoginMemberUseCase {
         }
 
         String token = tokenProvider.generateToken(new CreateTokenCommand(member.getId()));
+        Authorization authorization = Authorization.builder()
+            .authorizationId(new AuthorizationId(token))
+            .memberId(member.getId())
+            .build();
 
-        AuthorizationKey key = new AuthorizationKey(token);
-        AuthorizationValue value = new AuthorizationValue(member.getId());
-        Authorization authorization = authorizationRepository.save(new Authorization(key, value));
+        Authorization savedAuthorization = authorizationRepository.save(authorization);
 
-        return new AuthorizationData(authorization.getAuthorizationKey().getKey());
+        return new AuthorizationData(savedAuthorization.getAuthorizationId().getId());
     }
 }

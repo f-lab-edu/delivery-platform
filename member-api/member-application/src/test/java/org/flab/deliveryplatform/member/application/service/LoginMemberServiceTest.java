@@ -16,9 +16,8 @@ import org.flab.deliveryplatform.member.application.port.dto.LoginMemberCommand;
 import org.flab.deliveryplatform.member.application.port.exception.InvalidMemberInfoException;
 import org.flab.deliveryplatform.member.application.service.provider.TokenProvider;
 import org.flab.deliveryplatform.member.domain.Member;
-import org.flab.deliveryplatform.member.domain.token.Authorization;
-import org.flab.deliveryplatform.member.domain.token.AuthorizationKey;
-import org.flab.deliveryplatform.member.domain.token.AuthorizationValue;
+import org.flab.deliveryplatform.member.domain.authorization.Authorization;
+import org.flab.deliveryplatform.member.domain.authorization.AuthorizationId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -48,6 +47,8 @@ class LoginMemberServiceTest {
     private LoginMemberCommand commandWithNotExistingEmail;
     private LoginMemberCommand commandWithInvalidPassword;
 
+    private Authorization authorization;
+
     @BeforeEach
     void setUp() {
         loginMemberService = new LoginMemberService(
@@ -59,6 +60,11 @@ class LoginMemberServiceTest {
         validCommand = new LoginMemberCommand(existingEmail, validPassword);
         commandWithNotExistingEmail = new LoginMemberCommand(notExistingEmail, validPassword);
         commandWithInvalidPassword = new LoginMemberCommand(existingEmail, invalidPassword);
+
+        authorization = Authorization.builder()
+            .authorizationId(new AuthorizationId(accessToken))
+            .memberId(member.getId())
+            .build();
     }
 
     @Test
@@ -70,7 +76,7 @@ class LoginMemberServiceTest {
             .willReturn(true);
 
         given(authorizationRepository.save(any(Authorization.class)))
-            .willReturn(new Authorization(new AuthorizationKey(accessToken), new AuthorizationValue(member.getId())));
+            .willReturn(authorization);
 
         AuthorizationData authorizationData = loginMemberService.login(validCommand);
         assertThat(authorizationData.getAccessToken()).isEqualTo(accessToken);
