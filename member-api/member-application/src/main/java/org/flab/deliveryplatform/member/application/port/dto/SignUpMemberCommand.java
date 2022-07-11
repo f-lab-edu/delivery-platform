@@ -1,10 +1,8 @@
 package org.flab.deliveryplatform.member.application.port.dto;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 public class SignUpMemberCommand {
 
     private String nickname;

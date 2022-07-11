@@ -44,7 +44,8 @@ class GetMemberDataControllerTest {
     @Autowired
     private WithdrawMemberUseCase withdrawMemberUseCase;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private SignUpMemberCommand signUpMemberCommand;
 

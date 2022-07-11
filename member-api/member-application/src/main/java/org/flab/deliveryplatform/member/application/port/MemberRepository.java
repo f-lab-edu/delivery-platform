@@ -3,7 +3,7 @@ package org.flab.deliveryplatform.member.application.port;
 import java.util.Optional;
 import org.flab.deliveryplatform.member.domain.Member;
 
-public interface MemberPersistencePort {
+public interface MemberRepository {
 
     Member save(Member member);
 

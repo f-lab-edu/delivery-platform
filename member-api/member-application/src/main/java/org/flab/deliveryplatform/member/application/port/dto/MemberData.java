@@ -1,11 +1,9 @@
 package org.flab.deliveryplatform.member.application.port.dto;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.flab.deliveryplatform.member.domain.Member;
 
 @Getter
-@NoArgsConstructor
 public class MemberData {
 
     private Long id;
@@ -16,7 +14,7 @@ public class MemberData {
 
     private String phoneNumber;
 
-    private MemberData(Long id, String nickname, String email, String phoneNumber) {
+    public MemberData(Long id, String nickname, String email, String phoneNumber) {
         this.id = id;
         this.nickname = nickname;
         this.email = email;

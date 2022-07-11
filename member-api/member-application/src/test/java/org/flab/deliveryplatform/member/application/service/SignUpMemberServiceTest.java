@@ -6,7 +6,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 import java.util.UUID;
-import org.flab.deliveryplatform.member.application.port.MemberPersistencePort;
+import org.flab.deliveryplatform.member.application.port.EncryptManager;
+import org.flab.deliveryplatform.member.application.port.MemberRepository;
 import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberCommand;
 import org.flab.deliveryplatform.member.application.port.dto.SignUpMemberResult;
 import org.flab.deliveryplatform.member.application.port.exception.DuplicatedEmailException;
@@ -25,7 +26,10 @@ class SignUpMemberServiceTest {
     private SignUpMemberService signUpMemberService;
 
     @Mock
-    private MemberPersistencePort memberPersistencePort;
+    private MemberRepository memberRepository;
+
+    @Mock
+    private EncryptManager encryptManager;
 
     private SignUpMemberCommand signUpMemberCommand;
 
@@ -50,7 +54,7 @@ class SignUpMemberServiceTest {
 
     @Test
     void signUpTest() {
-        given(memberPersistencePort.save(any(Member.class)))
+        given(memberRepository.save(any(Member.class)))
             .willReturn(savedMember);
 
         SignUpMemberResult signUpMemberResult = signUpMemberService.signUp(signUpMemberCommand);
@@ -61,7 +65,7 @@ class SignUpMemberServiceTest {
 
     @Test
     void signUpWithDuplicatedEmailTest() {
-        given(memberPersistencePort.exists(savedMember.getEmail()))
+        given(memberRepository.exists(savedMember.getEmail()))
             .willReturn(true);
 
         assertThatThrownBy(() -> signUpMemberService.signUp(signUpMemberCommand))

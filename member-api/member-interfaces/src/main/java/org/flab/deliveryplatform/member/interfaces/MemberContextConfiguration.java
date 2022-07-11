@@ -1,8 +1,8 @@
 package org.flab.deliveryplatform.member.interfaces;
 
-import org.springframework.context.annotation.ComponentScan;
+import org.flab.deliveryplatform.member.interfaces.common.MemberComponentScan;
 
-@ComponentScan(basePackages = {"org.flab.deliveryplatform.member"})
+@MemberComponentScan
 public class MemberContextConfiguration {
 
 }

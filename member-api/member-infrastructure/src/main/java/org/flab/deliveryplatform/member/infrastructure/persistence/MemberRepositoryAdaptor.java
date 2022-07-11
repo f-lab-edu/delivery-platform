@@ -2,13 +2,13 @@ package org.flab.deliveryplatform.member.infrastructure.persistence;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.flab.deliveryplatform.member.application.port.MemberPersistencePort;
+import org.flab.deliveryplatform.member.application.port.MemberRepository;
 import org.flab.deliveryplatform.member.domain.Member;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class MemberPersistenceAdaptor implements MemberPersistencePort {
+public class MemberRepositoryAdaptor implements MemberRepository {
 
     private final MemoryMemberRepository memberRepository;
 

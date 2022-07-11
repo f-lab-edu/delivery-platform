@@ -36,8 +36,8 @@ class WithdrawMemberControllerTest {
     @Autowired
     private SignUpMemberUseCase signUpMemberUseCase;
 
-
-    private ObjectMapper objectMapper = new ObjectMapper();
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private SignUpMemberCommand signUpMemberCommand;
 
