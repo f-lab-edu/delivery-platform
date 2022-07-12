@@ -31,6 +31,16 @@ services:
     networks:
       - elastic
 
+  apm-server:
+    image: docker.elastic.co/apm/apm-server:7.15.0
+    container_name: apm-server
+    ports:
+      - 8200:8200
+    environment:
+      output.elasticsearch.hosts: '["elasticsearch:9200"]'
+    networks:
+      - elastic
+
 networks:
   elastic:
     driver: bridge
