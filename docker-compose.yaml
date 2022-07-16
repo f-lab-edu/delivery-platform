@@ -13,14 +13,9 @@ services:
     env_file:
       - ./server/db/.env.local
     volumes:
-      - deliveryplatform-server-db-data:/var/lib/mysql
       - ./server/db/my.local.cnf:/etc/conf.d/my.cnf
     networks:
       - deliveryplatform-server-bridge
-
-volumes:
-  deliveryplatform-server-db-data:
-    name: deliveryplatform-server-db-data
 
 networks:
   deliveryplatform-server-bridge:

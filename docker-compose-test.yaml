@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  deliveryplatform-server-db:
+    container_name: deliveryplatform-test-server-db
+    build:
+      context: ./server/db
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    ports:
+      - target: 3306
+        published: 13307
+    networks:
+      - deliveryplatform-test-server-bridge
+
+networks:
+  deliveryplatform-test-server-bridge:
+    name: deliveryplatform-test-server-bridge
