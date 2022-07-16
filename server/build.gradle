@@ -5,6 +5,10 @@ dependencies {
     implementation project(':member-api:member-infrastructure')
     implementation project(':member-api:member-application')
     implementation project(':member-api:member-domain')
+    implementation project(':shop-api:shop-interfaces')
+    implementation project(':shop-api:shop-infrastructure')
+    implementation project(':shop-api:shop-application')
+    implementation project(':shop-api:shop-domain')
     implementation project(':common')
     implementation 'org.springframework.boot:spring-boot-starter-web'
 }

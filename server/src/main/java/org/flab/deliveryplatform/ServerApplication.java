@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.server;
+package org.flab.deliveryplatform;
 
 import org.flab.deliveryplatform.member.interfaces.MemberContextConfiguration;
 import org.springframework.boot.SpringApplication;
