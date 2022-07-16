@@ -31,7 +31,9 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
       - name: Run Test
-        run: ./gradlew test
+        run: |
+          docker compose up -f docker-compose.yaml -f docker-compose-test.yaml up -d
+          ./gradlew test
       - name: Run Build
         run: ./gradlew :server:build
       - name: Check Style
