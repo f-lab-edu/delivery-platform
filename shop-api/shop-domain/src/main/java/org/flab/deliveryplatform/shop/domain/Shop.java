@@ -45,4 +45,8 @@ public class Shop {
         this.phoneNumber = source.phoneNumber;
         this.address = source.address;
     }
+
+    public void close() {
+        this.status = ShopStatus.CLOSED;
+    }
 }
