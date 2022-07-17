@@ -22,4 +22,9 @@ public class ShopPersistenceAdapter implements ShopRepository {
     public Optional<Shop> findById(Long shopId) {
         return jpaShopRepository.findById(shopId);
     }
+
+    @Override
+    public Shop save(Shop shop) {
+        return jpaShopRepository.save(shop);
+    }
 }

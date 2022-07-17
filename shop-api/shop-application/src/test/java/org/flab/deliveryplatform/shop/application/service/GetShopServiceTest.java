@@ -9,10 +9,7 @@ import java.util.Optional;
 import org.flab.deliveryplatform.shop.application.port.ShopRepository;
 import org.flab.deliveryplatform.shop.application.port.dto.ShopData;
 import org.flab.deliveryplatform.shop.application.port.exception.ShopNotFoundException;
-import org.flab.deliveryplatform.shop.domain.Address;
-import org.flab.deliveryplatform.shop.domain.PhoneNumber;
 import org.flab.deliveryplatform.shop.domain.Shop;
-import org.flab.deliveryplatform.shop.domain.ShopStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,13 +28,7 @@ class GetShopServiceTest {
     void setUp() {
         getShopService = new GetShopService(shopRepository);
 
-        shop = Shop.builder()
-            .id(existingShopId)
-            .name("shop")
-            .address(new Address("zipCode", "country", "state", "city", "street"))
-            .phoneNumber(new PhoneNumber("01011112222"))
-            .status(ShopStatus.READY)
-            .build();
+        shop = FakeShop.createShop(existingShopId);
     }
 
     @Test

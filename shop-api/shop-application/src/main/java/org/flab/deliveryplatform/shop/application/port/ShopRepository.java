@@ -9,4 +9,6 @@ public interface ShopRepository {
     List<Shop> findAll();
 
     Optional<Shop> findById(Long shopId);
+
+    Shop save(Shop shop);
 }
