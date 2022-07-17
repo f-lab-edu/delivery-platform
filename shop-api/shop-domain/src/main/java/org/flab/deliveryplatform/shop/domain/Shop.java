@@ -39,4 +39,10 @@ public class Shop {
         this.address = address;
         this.status = status;
     }
+
+    public void changeWith(Shop source) {
+        this.name = source.name;
+        this.phoneNumber = source.phoneNumber;
+        this.address = source.address;
+    }
 }
