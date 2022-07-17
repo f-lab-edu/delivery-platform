@@ -1,17 +1,11 @@
 package org.flab.deliveryplatform.shop.infrastructure.persistence;
 
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.shop.application.port.ShopRepository;
-import org.flab.deliveryplatform.shop.domain.Address;
-import org.flab.deliveryplatform.shop.domain.PhoneNumber;
 import org.flab.deliveryplatform.shop.domain.Shop;
-import org.flab.deliveryplatform.shop.domain.ShopStatus;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Repository
@@ -22,5 +16,10 @@ public class ShopPersistenceAdapter implements ShopRepository {
     @Override
     public List<Shop> findAll() {
         return jpaShopRepository.findAll();
+    }
+
+    @Override
+    public Optional<Shop> findById(Long shopId) {
+        return jpaShopRepository.findById(shopId);
     }
 }
