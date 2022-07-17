@@ -32,7 +32,7 @@ jobs:
         uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
       - name: Run Test
         run: |
-          docker compose -f docker-compose.yaml -f docker-compose-test.yaml up -d
+          docker compose -f docker-compose-test.yaml up -d
           ./gradlew test
       - name: Run Build
         run: ./gradlew :server:build

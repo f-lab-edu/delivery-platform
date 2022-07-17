@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  deliveryplatform-server-db:
+  deliveryplatform-test-server-db:
     container_name: deliveryplatform-test-server-db
     build:
       context: ./server/db
@@ -10,6 +10,10 @@ services:
     ports:
       - target: 3306
         published: 13307
+    env_file:
+      - ./server/db/.env.local
+    volumes:
+      - ./server/db/my.local.cnf:/etc/conf.d/my.cnf
     networks:
       - deliveryplatform-test-server-bridge
 
