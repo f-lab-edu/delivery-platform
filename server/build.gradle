@@ -9,6 +9,10 @@ dependencies {
     implementation project(':shop-api:shop-infrastructure')
     implementation project(':shop-api:shop-application')
     implementation project(':shop-api:shop-domain')
+    implementation project(':menu-api:menu-interfaces')
+    implementation project(':menu-api:menu-infrastructure')
+    implementation project(':menu-api:menu-application')
+    implementation project(':menu-api:menu-domain')
     implementation project(':common')
     implementation 'org.springframework.boot:spring-boot-starter-web'
 }
