@@ -7,11 +7,11 @@ public class UpdateShopCommand {
 
     private String name;
 
-    private AddressDTO address;
+    private AddressDto address;
 
     private String phoneNumber;
 
-    public UpdateShopCommand(String name, AddressDTO address, String phoneNumber) {
+    public UpdateShopCommand(String name, AddressDto address, String phoneNumber) {
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;

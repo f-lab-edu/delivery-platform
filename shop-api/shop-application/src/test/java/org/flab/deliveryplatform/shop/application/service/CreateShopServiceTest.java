@@ -6,7 +6,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import org.flab.deliveryplatform.shop.application.port.ShopRepository;
-import org.flab.deliveryplatform.shop.application.port.dto.AddressDTO;
+import org.flab.deliveryplatform.shop.application.port.dto.AddressDto;
 import org.flab.deliveryplatform.shop.application.port.dto.CreateShopCommand;
 import org.flab.deliveryplatform.shop.domain.Shop;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +29,7 @@ class CreateShopServiceTest {
 
         createShopCommand = new CreateShopCommand(
             "name",
-            new AddressDTO("zipCode", "country", "state", "city", "street"),
+            new AddressDto("zipCode", "country", "state", "city", "street"),
             "01011112222"
         );
     }

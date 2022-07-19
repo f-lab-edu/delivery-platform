@@ -8,7 +8,7 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Optional;
 import org.flab.deliveryplatform.shop.application.port.ShopRepository;
-import org.flab.deliveryplatform.shop.application.port.dto.AddressDTO;
+import org.flab.deliveryplatform.shop.application.port.dto.AddressDto;
 import org.flab.deliveryplatform.shop.application.port.dto.UpdateShopCommand;
 import org.flab.deliveryplatform.shop.application.port.exception.ShopNotFoundException;
 import org.flab.deliveryplatform.shop.domain.Shop;
@@ -36,7 +36,7 @@ class UpdateShopServiceTest {
 
         updateShopCommand = new UpdateShopCommand(
             "name",
-            new AddressDTO("zipCode", "country", "state", "city", "street"),
+            new AddressDto("zipCode", "country", "state", "city", "street"),
             "01011112222"
         );
     }

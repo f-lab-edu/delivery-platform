@@ -4,7 +4,7 @@ import lombok.Getter;
 import org.flab.deliveryplatform.shop.domain.Address;
 
 @Getter
-public class AddressDTO {
+public class AddressDto {
 
     private String zipCode;
     private String country;
@@ -12,7 +12,7 @@ public class AddressDTO {
     private String city;
     private String street;
 
-    public AddressDTO(String zipCode, String country, String state, String city, String street) {
+    public AddressDto(String zipCode, String country, String state, String city, String street) {
         this.zipCode = zipCode;
         this.country = country;
         this.state = state;

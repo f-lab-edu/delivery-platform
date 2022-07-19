@@ -16,7 +16,6 @@ public class ShopRestControllerExceptionAdvice {
 
     @ExceptionHandler(ShopNotFoundException.class)
     public ResponseEntity<DeliveryPlatformErrorResponse<Object>> handleShopNotFoundException(ShopNotFoundException e) {
-        System.out.println(111);
         return ResponseEntity.badRequest().body(
             DeliveryPlatformErrorResponse.error(null, SHOP_NOT_FOUND.name(), e.getMessage()));
     }

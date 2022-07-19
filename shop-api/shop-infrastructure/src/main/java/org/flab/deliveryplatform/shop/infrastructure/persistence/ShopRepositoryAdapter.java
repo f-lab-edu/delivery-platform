@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
-public class ShopPersistenceAdapter implements ShopRepository {
+public class ShopRepositoryAdapter implements ShopRepository {
 
     private final JpaShopRepository jpaShopRepository;
 
