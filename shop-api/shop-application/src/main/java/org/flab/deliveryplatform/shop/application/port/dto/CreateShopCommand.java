@@ -20,10 +20,10 @@ public class CreateShopCommand {
         this.phoneNumber = phoneNumber;
     }
 
-    public Shop toDomain() {
+    public Shop toShop() {
         return Shop.builder()
             .name(name)
-            .address(address.toDomain())
+            .address(address.toAddress())
             .phoneNumber(new PhoneNumber(phoneNumber))
             .status(ShopStatus.READY)
             .build();

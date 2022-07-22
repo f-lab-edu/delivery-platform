@@ -15,7 +15,7 @@ public class CreateShopService implements CreateShopUseCase {
 
     @Override
     public void createShop(CreateShopCommand command) {
-        Shop shop = command.toDomain();
+        Shop shop = command.toShop();
         shopRepository.save(shop);
     }
 }

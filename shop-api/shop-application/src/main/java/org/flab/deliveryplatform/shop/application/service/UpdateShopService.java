@@ -19,7 +19,7 @@ public class UpdateShopService implements UpdateShopUseCase {
         Shop shop = shopRepository.findById(shopId)
             .orElseThrow(() -> new ShopNotFoundException(shopId));
 
-        shop.changeWith(command.toDomain());
+        shop.changeWith(command.toShop());
         shopRepository.save(shop);
     }
 }

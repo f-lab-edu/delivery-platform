@@ -20,7 +20,7 @@ public class AddressDto {
         this.street = street;
     }
 
-    public Address toDomain() {
+    public Address toAddress() {
         return new Address(zipCode, country, state, city, street);
     }
 }

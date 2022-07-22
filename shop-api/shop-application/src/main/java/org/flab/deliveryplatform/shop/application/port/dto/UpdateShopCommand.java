@@ -1,8 +1,10 @@
 package org.flab.deliveryplatform.shop.application.port.dto;
 
+import lombok.Getter;
 import org.flab.deliveryplatform.shop.domain.PhoneNumber;
 import org.flab.deliveryplatform.shop.domain.Shop;
 
+@Getter
 public class UpdateShopCommand {
 
     private String name;
@@ -17,10 +19,10 @@ public class UpdateShopCommand {
         this.phoneNumber = phoneNumber;
     }
 
-    public Shop toDomain() {
+    public Shop toShop() {
         return Shop.builder()
             .name(name)
-            .address(address.toDomain())
+            .address(address.toAddress())
             .phoneNumber(new PhoneNumber(phoneNumber))
             .build();
     }
