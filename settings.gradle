@@ -27,4 +27,3 @@ include 'shop-api:shop-application'
 findProject(':shop-api:shop-application')?.name = 'shop-application'
 include 'shop-api:shop-infrastructure'
 findProject(':shop-api:shop-infrastructure')?.name = 'shop-infrastructure'
-
