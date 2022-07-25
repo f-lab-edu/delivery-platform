@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.flab.deliveryplatform.shop.domain.exception.DuplicateOptionGroupNameException;
 import org.flab.deliveryplatform.shop.domain.exception.MenuNotFoundException;
+import org.flab.deliveryplatform.shop.domain.exception.OptionGroupNotFoundException;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -68,10 +69,7 @@ public class Shop {
     }
 
     public void addOptionGroup(Long menuId, OptionGroup optionGroup) {
-        Menu menu = this.menus.stream()
-            .filter(m -> m.getId() == menuId)
-            .findAny()
-            .orElseThrow(() -> new MenuNotFoundException(menuId));
+        Menu menu = findMenu(menuId);
 
         menu.getOptionGroups().stream()
             .filter(og -> og.getName().equals(optionGroup.getName()))
@@ -81,5 +79,25 @@ public class Shop {
             });
 
         menu.addOptionGroup(optionGroup);
+    }
+
+    private Menu findMenu(Long menuId) {
+        Menu menu = this.menus.stream()
+            .filter(m -> m.getId() == menuId)
+            .findAny()
+            .orElseThrow(() -> new MenuNotFoundException(menuId));
+
+        return menu;
+    }
+
+    public void addOption(Long menuId, Long optionGroupId, Option option) {
+        Menu menu = findMenu(menuId);
+
+        OptionGroup optionGroup = menu.getOptionGroups().stream()
+            .filter(og -> og.getId() == optionGroupId)
+            .findAny()
+            .orElseThrow(() -> new OptionGroupNotFoundException(optionGroupId));
+
+        optionGroup.addOption(option);
     }
 }
