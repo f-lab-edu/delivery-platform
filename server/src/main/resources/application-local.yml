@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:13306/deliveryplatform
+    username: root
+    password: root
+
+  flyway:
+    url: jdbc:mysql://localhost:13306/deliveryplatform
+    user: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    enabled: true
+    baseline-on-migrate: true
+    locations: db/migration
+
+  jpa:
+    database: mysql
+    show-sql: true
+    open-in-view: false
+
+server:
+  port: 18080
