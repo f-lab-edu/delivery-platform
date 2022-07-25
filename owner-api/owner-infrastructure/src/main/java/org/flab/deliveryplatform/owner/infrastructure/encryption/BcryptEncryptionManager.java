@@ -5,7 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BCryptEncryptionManager implements EncryptionManager {
+public class BcryptEncryptionManager implements EncryptionManager {
 
     @Override
     public String encrypt(String password) {
