@@ -1,6 +1,10 @@
 version '1.0-SNAPSHOT'
 
 dependencies {
+    implementation project(':owner-api:owner-application')
     implementation project(':owner-api:owner-domain')
+    implementation 'mysql:mysql-connector-java:8.0.29'
+    implementation 'org.springframework.security:spring-security-crypto'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter'
 }
