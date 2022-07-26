@@ -19,21 +19,24 @@ public class SignUpOwnerService implements SignUpOwnerUseCase {
 
     public SignUpOwnerResult signUp(SignUpOwnerCommand signUpOwnerCommand) {
         validateSignUp(signUpOwnerCommand);
-        return new SignUpOwnerResult(ownerRepository.save(
-                Owner.builder()
-                    .id(0L)
-                    .nickname(signUpOwnerCommand.getNickname())
-                    .email(signUpOwnerCommand.getEmail())
-                    .password(encryptionManager.encrypt(signUpOwnerCommand.getPassword()))
-                    .phoneNumber(signUpOwnerCommand.getPhoneNumber())
-                    .build())
-            .getId()
-        );
+        Owner savedOwner = save(signUpOwnerCommand);
+        return new SignUpOwnerResult(savedOwner.getId());
     }
 
     private void validateSignUp(SignUpOwnerCommand signUpOwnerCommand) {
         if (ownerRepository.existsByEmail(signUpOwnerCommand.getEmail())) {
             throw new DuplicatedEmailException();
         }
+    }
+
+    private Owner save(SignUpOwnerCommand signUpOwnerCommand) {
+        Owner owner = Owner.builder()
+            .id(0L)
+            .nickname(signUpOwnerCommand.getNickname())
+            .email(signUpOwnerCommand.getEmail())
+            .password(encryptionManager.encrypt(signUpOwnerCommand.getPassword()))
+            .phoneNumber(signUpOwnerCommand.getPhoneNumber())
+            .build();
+        return ownerRepository.save(owner);
     }
 }
