@@ -15,7 +15,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.flab.deliveryplatform.shop.domain.exception.DuplicateOptionGroupNameException;
+import org.flab.deliveryplatform.shop.domain.exception.DuplicatedOptionGroupNameException;
 import org.flab.deliveryplatform.shop.domain.exception.MenuNotFoundException;
 import org.flab.deliveryplatform.shop.domain.exception.OptionGroupNotFoundException;
 
@@ -75,7 +75,7 @@ public class Shop {
             .filter(og -> og.getName().equals(optionGroup.getName()))
             .findAny()
             .ifPresent(og -> {
-                throw new DuplicateOptionGroupNameException(optionGroup.getName());
+                throw new DuplicatedOptionGroupNameException(optionGroup.getName());
             });
 
         menu.addOptionGroup(optionGroup);

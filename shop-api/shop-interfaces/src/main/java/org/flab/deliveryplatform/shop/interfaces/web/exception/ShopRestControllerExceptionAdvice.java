@@ -7,7 +7,7 @@ import static org.flab.deliveryplatform.shop.interfaces.web.exception.ShopErrorC
 
 import org.flab.deliveryplatform.common.web.dto.DeliveryPlatformErrorResponse;
 import org.flab.deliveryplatform.shop.application.port.exception.ShopNotFoundException;
-import org.flab.deliveryplatform.shop.domain.exception.DuplicateOptionGroupNameException;
+import org.flab.deliveryplatform.shop.domain.exception.DuplicatedOptionGroupNameException;
 import org.flab.deliveryplatform.shop.domain.exception.MenuNotFoundException;
 import org.flab.deliveryplatform.shop.domain.exception.OptionGroupNotFoundException;
 import org.springframework.core.Ordered;
@@ -39,9 +39,9 @@ public class ShopRestControllerExceptionAdvice {
             DeliveryPlatformErrorResponse.error(null, OPTION_GROUP_NOT_FOUND.name(), e.getMessage()));
     }
 
-    @ExceptionHandler(DuplicateOptionGroupNameException.class)
+    @ExceptionHandler(DuplicatedOptionGroupNameException.class)
     public ResponseEntity<DeliveryPlatformErrorResponse<Object>> handleDuplicateOptionGroupNameException(
-        DuplicateOptionGroupNameException e) {
+        DuplicatedOptionGroupNameException e) {
         return ResponseEntity.badRequest().body(
             DeliveryPlatformErrorResponse.error(null, DUPLICATE_OPTION_GROUP_NAME.name(), e.getMessage()));
     }
