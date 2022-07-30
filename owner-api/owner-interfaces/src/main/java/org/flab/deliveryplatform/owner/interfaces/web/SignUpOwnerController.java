@@ -16,7 +16,7 @@ public class SignUpOwnerController {
 
     private final SignUpOwnerUseCase signUpOwnerUseCase;
 
-    @PostMapping
+    @PostMapping("/signUp")
     @ResponseStatus(code = HttpStatus.OK)
     public DeliveryPlatformResponse<SignUpOwnerResult> signUp(@RequestBody SignUpOwnerCommand signUpOwnerCommand) {
         return DeliveryPlatformResponse.ok(signUpOwnerUseCase.signUp(signUpOwnerCommand));
