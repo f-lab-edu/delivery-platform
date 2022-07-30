@@ -7,14 +7,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@EqualsAndHashCode(of = "number")
+@EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
 public class PhoneNumber {
 
-    private String number;
+    private String phoneNumber;
 
-    public PhoneNumber(String number) {
-        this.number = number;
+    public PhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

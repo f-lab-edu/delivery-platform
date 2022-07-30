@@ -41,7 +41,7 @@ class GetShopServiceTest {
         assertThat(shopData.getShopId()).isEqualTo(shop.getId());
         assertThat(shopData.getName()).isEqualTo(shop.getName());
         assertThat(shopData.getAddress()).isEqualTo(shop.getAddress().toString());
-        assertThat(shopData.getPhoneNumber()).isEqualTo(shop.getPhoneNumber().getNumber());
+        assertThat(shopData.getPhoneNumber()).isEqualTo(shop.getPhoneNumber().getPhoneNumber());
         assertThat(shopData.getStatus()).isEqualTo(shop.getStatus());
     }
 

@@ -41,7 +41,8 @@ public class ShopRestControllerExceptionAdvice {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(DuplicatedOptionGroupNameException.class)
-    public DeliveryPlatformErrorResponse<Object> handleDuplicateOptionGroupNameException(DuplicatedOptionGroupNameException e) {
+    public DeliveryPlatformErrorResponse<Object> handleDuplicateOptionGroupNameException(
+        DuplicatedOptionGroupNameException e) {
         return DeliveryPlatformErrorResponse.error(null, DUPLICATE_OPTION_GROUP_NAME.name(), e.getMessage());
     }
 }

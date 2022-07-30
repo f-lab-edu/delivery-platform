@@ -7,6 +7,7 @@ import org.flab.deliveryplatform.shop.application.port.dto.CreateOptionGroupComm
 import org.flab.deliveryplatform.shop.application.port.exception.ShopNotFoundException;
 import org.flab.deliveryplatform.shop.domain.Shop;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -14,13 +15,12 @@ public class CreateOptionGroupService implements CreateOptionGroupUseCase {
 
     private final ShopRepository shopRepository;
 
+    @Transactional
     @Override
     public void createOptionGroup(Long shopId, Long menuId, CreateOptionGroupCommand command) {
         Shop shop = shopRepository.findById(shopId)
             .orElseThrow(() -> new ShopNotFoundException(shopId));
 
         shop.addOptionGroup(menuId, command.toOptionGroup());
-
-        shopRepository.save(shop);
     }
 }

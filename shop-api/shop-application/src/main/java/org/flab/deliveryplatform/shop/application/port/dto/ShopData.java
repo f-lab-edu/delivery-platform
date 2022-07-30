@@ -27,6 +27,6 @@ public class ShopData {
 
     public static ShopData from(Shop shop) {
         return new ShopData(shop.getId(), shop.getName(), shop.getAddress().toString(),
-            shop.getPhoneNumber().getNumber(), shop.getStatus());
+            shop.getPhoneNumber().getPhoneNumber(), shop.getStatus());
     }
 }
