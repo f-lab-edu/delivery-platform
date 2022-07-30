@@ -5,8 +5,6 @@ dependencies {
     implementation project(':owner-api:owner-domain')
     implementation project(':common')
     implementation 'mysql:mysql-connector-java:8.0.29'
-    implementation 'com.fasterxml.jackson.module:jackson-module-parameter-names:2.13.3'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
     implementation 'org.springframework.security:spring-security-crypto'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter'
