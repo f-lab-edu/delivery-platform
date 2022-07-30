@@ -1,11 +1,8 @@
 package org.flab.deliveryplatform.shop.application.port.dto;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.flab.deliveryplatform.shop.domain.Menu;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class CreateMenuCommand {
 
