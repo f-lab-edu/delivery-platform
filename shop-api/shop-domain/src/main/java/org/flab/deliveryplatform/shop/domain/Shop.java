@@ -86,13 +86,9 @@ public class Shop {
         menu.addOptionGroup(optionGroup);
     }
 
-    private Menu findMenu(Long menuId) {
-        Menu menu = this.menus.stream()
-            .filter(m -> m.getId() == menuId)
-            .findAny()
-            .orElseThrow(() -> new MenuNotFoundException(menuId));
-
-        return menu;
+    public void deleteOptionGroup(Long menuId, Long optionGroupId) {
+        Menu menu = findMenu(menuId);
+        menu.deleteOptionGroup(optionGroupId);
     }
 
     public void addOption(Long menuId, Long optionGroupId, Option option) {
@@ -104,5 +100,14 @@ public class Shop {
             .orElseThrow(() -> new OptionGroupNotFoundException(optionGroupId));
 
         optionGroup.addOption(option);
+    }
+
+    private Menu findMenu(Long menuId) {
+        Menu menu = this.menus.stream()
+            .filter(m -> m.getId() == menuId)
+            .findAny()
+            .orElseThrow(() -> new MenuNotFoundException(menuId));
+
+        return menu;
     }
 }
