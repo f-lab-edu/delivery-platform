@@ -1,18 +1,18 @@
 package org.flab.deliveryplatform.member.application.service;
 
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
+import org.flab.deliveryplatform.common.auth.AuthorizationData;
 import org.flab.deliveryplatform.member.application.port.AuthorizationRepository;
 import org.flab.deliveryplatform.member.application.port.EncryptManager;
 import org.flab.deliveryplatform.member.application.port.LoginMemberUseCase;
 import org.flab.deliveryplatform.member.application.port.MemberRepository;
-import org.flab.deliveryplatform.member.application.port.dto.AuthorizationData;
+import org.flab.deliveryplatform.member.application.port.TokenProvider;
 import org.flab.deliveryplatform.member.application.port.dto.CreateTokenCommand;
 import org.flab.deliveryplatform.member.application.port.dto.LoginMemberCommand;
 import org.flab.deliveryplatform.member.application.port.exception.InvalidMemberInfoException;
-import org.flab.deliveryplatform.member.application.service.provider.TokenProvider;
 import org.flab.deliveryplatform.member.domain.Member;
 import org.flab.deliveryplatform.member.domain.authorization.Authorization;
-import org.flab.deliveryplatform.member.domain.authorization.AuthorizationId;
 import org.springframework.stereotype.Service;
 
 
@@ -38,13 +38,19 @@ public class LoginMemberService implements LoginMemberUseCase {
         }
 
         String token = tokenProvider.generateToken(new CreateTokenCommand(member.getId()));
-        Authorization authorization = Authorization.builder()
-            .authorizationId(new AuthorizationId(token))
-            .memberId(member.getId())
-            .build();
 
-        Authorization savedAuthorization = authorizationRepository.save(authorization);
+        Authorization authorization = authorizationRepository.save(
+            Authorization.builder()
+                .accessToken(token)
+                .memberId(member.getId())
+                .issueDate(LocalDateTime.now())
+                .build()
+        );
 
-        return new AuthorizationData(savedAuthorization.getAuthorizationId().getId());
+        return new AuthorizationData(
+            authorization.getAccessToken(),
+            authorization.getMemberId(),
+            authorization.getIssueDate()
+        );
     }
 }
