@@ -12,37 +12,36 @@ import org.flab.deliveryplatform.shop.domain.exception.MenuNotFoundException;
 import org.flab.deliveryplatform.shop.domain.exception.OptionGroupNotFoundException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Order(value = Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
 public class ShopRestControllerExceptionAdvice {
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ShopNotFoundException.class)
-    public ResponseEntity<DeliveryPlatformErrorResponse<Object>> handleShopNotFoundException(ShopNotFoundException e) {
-        return ResponseEntity.badRequest().body(
-            DeliveryPlatformErrorResponse.error(null, SHOP_NOT_FOUND.name(), e.getMessage()));
+    public DeliveryPlatformErrorResponse<Object> handleShopNotFoundException(ShopNotFoundException e) {
+        return DeliveryPlatformErrorResponse.error(null, SHOP_NOT_FOUND.name(), e.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MenuNotFoundException.class)
-    public ResponseEntity<DeliveryPlatformErrorResponse<Object>> handleMenuNotFoundException(MenuNotFoundException e) {
-        return ResponseEntity.badRequest().body(
-            DeliveryPlatformErrorResponse.error(null, MENU_NOT_FOUND.name(), e.getMessage()));
+    public DeliveryPlatformErrorResponse<Object> handleMenuNotFoundException(MenuNotFoundException e) {
+        return DeliveryPlatformErrorResponse.error(null, MENU_NOT_FOUND.name(), e.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(OptionGroupNotFoundException.class)
-    public ResponseEntity<DeliveryPlatformErrorResponse<Object>> handleOptionGroupNotFoundException(
-        OptionGroupNotFoundException e) {
-        return ResponseEntity.badRequest().body(
-            DeliveryPlatformErrorResponse.error(null, OPTION_GROUP_NOT_FOUND.name(), e.getMessage()));
+    public DeliveryPlatformErrorResponse<Object> handleOptionGroupNotFoundException(OptionGroupNotFoundException e) {
+        return DeliveryPlatformErrorResponse.error(null, OPTION_GROUP_NOT_FOUND.name(), e.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(DuplicatedOptionGroupNameException.class)
-    public ResponseEntity<DeliveryPlatformErrorResponse<Object>> handleDuplicateOptionGroupNameException(
-        DuplicatedOptionGroupNameException e) {
-        return ResponseEntity.badRequest().body(
-            DeliveryPlatformErrorResponse.error(null, DUPLICATE_OPTION_GROUP_NAME.name(), e.getMessage()));
+    public DeliveryPlatformErrorResponse<Object> handleDuplicateOptionGroupNameException(DuplicatedOptionGroupNameException e) {
+        return DeliveryPlatformErrorResponse.error(null, DUPLICATE_OPTION_GROUP_NAME.name(), e.getMessage());
     }
 }
