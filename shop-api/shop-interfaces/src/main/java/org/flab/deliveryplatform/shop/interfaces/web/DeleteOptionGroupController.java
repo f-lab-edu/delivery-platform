@@ -14,7 +14,8 @@ public class DeleteOptionGroupController {
     private final DeleteOptionGroupUseCase deleteOptionGroupUseCase;
 
     @DeleteMapping("/{shopId}/menus/{menuId}/optionGroups/{optionGroupId}")
-    public DeliveryPlatformResponse<Void> deleteOptionGroup(@PathVariable Long shopId, @PathVariable Long menuId, @PathVariable Long optionGroupId) {
+    public DeliveryPlatformResponse<Void> deleteOptionGroup(
+        @PathVariable Long shopId, @PathVariable Long menuId, @PathVariable Long optionGroupId) {
         deleteOptionGroupUseCase.deleteOptionGroup(shopId, menuId, optionGroupId);
         return DeliveryPlatformResponse.ok(null);
     }

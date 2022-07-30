@@ -102,6 +102,11 @@ public class Shop {
         optionGroup.addOption(option);
     }
 
+    public void deleteOption(Long menuId, Long optionGroupId, Long optionId) {
+        Menu menu = findMenu(menuId);
+        menu.deleteOption(optionGroupId, optionId);
+    }
+
     private Menu findMenu(Long menuId) {
         Menu menu = this.menus.stream()
             .filter(m -> m.getId() == menuId)

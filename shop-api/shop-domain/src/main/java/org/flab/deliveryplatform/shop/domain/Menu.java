@@ -61,6 +61,11 @@ public class Menu {
         this.optionGroups.remove(optionGroup);
     }
 
+    public void deleteOption(Long optionGroupId, Long optionId) {
+        OptionGroup optionGroup = findOptionGroup(optionGroupId);
+        optionGroup.deleteOption(optionId);
+    }
+
     public OptionGroup findOptionGroup(Long optionGroupId) {
         return this.getOptionGroups().stream()
             .filter(og -> og.getId() == optionGroupId)
