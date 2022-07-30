@@ -1,7 +1,7 @@
 package org.flab.deliveryplatform.shop.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,10 +14,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.flab.deliveryplatform.shop.domain.exception.OptionNotFoundException;
 
+@EqualsAndHashCode(of = {"id"})
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -35,10 +37,10 @@ public class OptionGroup {
     private Menu menu;
 
     @OneToMany(mappedBy = "optionGroup", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Option> options = new ArrayList<>();
+    private Set<Option> options = new HashSet<>();
 
     @Builder
-    private OptionGroup(Long id, String name, Menu menu, List<Option> options) {
+    private OptionGroup(Long id, String name, Menu menu, Set<Option> options) {
         this.id = id;
         this.name = name;
         this.menu = menu;
