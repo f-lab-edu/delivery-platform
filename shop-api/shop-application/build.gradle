@@ -4,4 +4,5 @@ dependencies {
     implementation project(':common')
     implementation project(':shop-api:shop-domain')
     implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework:spring-tx:5.3.20'
 }
