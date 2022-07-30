@@ -40,7 +40,7 @@ public class Shop {
     @Enumerated(value = EnumType.STRING)
     private ShopStatus status;
 
-    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Menu> menus = new ArrayList<>();
 
     @Builder
@@ -66,6 +66,11 @@ public class Shop {
     public void addMenu(Menu menu) {
         this.menus.add(menu);
         menu.setShop(this);
+    }
+
+    public void deleteMenu(Long menuId) {
+        Menu menu = findMenu(menuId);
+        this.menus.remove(menu);
     }
 
     public void addOptionGroup(Long menuId, OptionGroup optionGroup) {
