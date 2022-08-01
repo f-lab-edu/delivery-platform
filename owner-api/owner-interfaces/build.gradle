@@ -5,5 +5,5 @@ dependencies {
     implementation project(':owner-api:owner-infrastructure')
     implementation project(':owner-api:owner-application')
     implementation project(':owner-api:owner-domain')
-    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 }
