@@ -16,6 +16,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.flab.deliveryplatform.shop.domain.exception.OptionNotFoundException;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -33,7 +34,7 @@ public class OptionGroup {
     @ManyToOne(fetch = FetchType.LAZY)
     private Menu menu;
 
-    @OneToMany(mappedBy = "optionGroup", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "optionGroup", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Option> options = new ArrayList<>();
 
     @Builder
@@ -51,5 +52,17 @@ public class OptionGroup {
     public void addOption(Option option) {
         this.options.add(option);
         option.setOptionGroup(this);
+    }
+
+    public void deleteOption(Long optionId) {
+        Option option = findOption(optionId);
+        this.options.remove(option);
+    }
+
+    private Option findOption(Long optionId) {
+        return this.options.stream()
+            .filter(o -> o.getId() == optionId)
+            .findAny()
+            .orElseThrow(() -> new OptionNotFoundException(optionId));
     }
 }
