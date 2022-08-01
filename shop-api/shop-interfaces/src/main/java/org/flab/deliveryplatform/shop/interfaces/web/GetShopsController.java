@@ -5,13 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.common.web.dto.DeliveryPlatformResponse;
 import org.flab.deliveryplatform.shop.application.port.GetShopsUseCase;
 import org.flab.deliveryplatform.shop.application.port.dto.ShopData;
+import org.flab.deliveryplatform.shop.interfaces.web.common.ShopRestController;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@RequestMapping("/shops")
-@RestController
+@ShopRestController
 public class GetShopsController {
 
     private final GetShopsUseCase getShopsUseCase;
