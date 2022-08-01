@@ -1,6 +1,7 @@
 package org.flab.deliveryplatform.shop.domain;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,9 +14,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.flab.deliveryplatform.shop.domain.exception.OptionGroupNotFoundException;
 
+@EqualsAndHashCode(of = {"id"})
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -30,15 +34,15 @@ public class Menu {
 
     private int price;
 
-    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL)
-    private List<OptionGroup> optionGroups;
+    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<OptionGroup> optionGroups = new HashSet<>();
 
     @JoinColumn(name = "shop_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Shop shop;
 
     @Builder
-    private Menu(Long id, String name, int price, List<OptionGroup> optionGroups, Shop shop) {
+    private Menu(Long id, String name, int price, Set<OptionGroup> optionGroups, Shop shop) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -53,5 +57,22 @@ public class Menu {
     public void addOptionGroup(OptionGroup optionGroup) {
         this.optionGroups.add(optionGroup);
         optionGroup.setMenu(this);
+    }
+
+    public void deleteOptionGroup(Long optionGroupId) {
+        OptionGroup optionGroup = findOptionGroup(optionGroupId);
+        this.optionGroups.remove(optionGroup);
+    }
+
+    public void deleteOption(Long optionGroupId, Long optionId) {
+        OptionGroup optionGroup = findOptionGroup(optionGroupId);
+        optionGroup.deleteOption(optionId);
+    }
+
+    public OptionGroup findOptionGroup(Long optionGroupId) {
+        return this.getOptionGroups().stream()
+            .filter(og -> og.getId() == optionGroupId)
+            .findAny()
+            .orElseThrow(() -> new OptionGroupNotFoundException(optionGroupId));
     }
 }
