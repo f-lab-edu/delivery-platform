@@ -5,14 +5,11 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,32 +17,30 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "orders")
 @Entity
-public class Order {
+public class OrderLineItem {
 
-    @Column(name = "order_id")
+    @Column(name = "order_line_item_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
-    private Long shopId;
+    private Long menuId;
 
-    private Long memberId;
+    private String name;
 
-    @JoinColumn(name = "order_id")
+    private int count;
+
+    @JoinColumn(name = "order_line_item_id")
     @OneToMany(cascade = CascadeType.ALL)
-    private List<OrderLineItem> orderLineItems = new ArrayList<>();
-
-    @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private List<OrderOptionGroup> orderOptionGroups = new ArrayList<>();
 
     @Builder
-    private Order(Long id, Long shopId, Long memberId, List<OrderLineItem> orderLineItems, OrderStatus status) {
+    private OrderLineItem(Long id, Long menuId, String name, int count, List<OrderOptionGroup> orderOptionGroups) {
         this.id = id;
-        this.shopId = shopId;
-        this.memberId = memberId;
-        this.orderLineItems = orderLineItems;
-        this.status = status;
+        this.menuId = menuId;
+        this.name = name;
+        this.count = count;
+        this.orderOptionGroups = orderOptionGroups;
     }
 }
