@@ -11,14 +11,14 @@ public class MenuData {
 
     private Long id;
 
-    private int price;
+    private String name;
 
     private List<OptionGroupData> optionGroups;
 
     @Builder
-    private MenuData(Long id, int price, List<OptionGroupData> optionGroups) {
+    private MenuData(Long id, String name, List<OptionGroupData> optionGroups) {
         this.id = id;
-        this.price = price;
+        this.name = name;
         this.optionGroups = optionGroups;
     }
 
@@ -29,7 +29,7 @@ public class MenuData {
 
         return MenuData.builder()
             .id(menu.getId())
-            .price(menu.getPrice())
+            .name(menu.getName())
             .optionGroups(optionGroupDataList)
             .build();
     }

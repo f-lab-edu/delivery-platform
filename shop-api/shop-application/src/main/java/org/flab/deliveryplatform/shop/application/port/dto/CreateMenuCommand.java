@@ -8,17 +8,17 @@ public class CreateMenuCommand {
 
     private String name;
 
-    private int price;
+    private int displayOrder;
 
-    public CreateMenuCommand(String name, int price) {
+    public CreateMenuCommand(String name, int displayOrder) {
         this.name = name;
-        this.price = price;
+        this.displayOrder = displayOrder;
     }
 
     public Menu toMenu() {
         return Menu.builder()
             .name(name)
-            .price(price)
+            .displayOrder(displayOrder)
             .build();
     }
 }

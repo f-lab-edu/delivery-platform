@@ -13,10 +13,13 @@ public class UpdateShopCommand {
 
     private String phoneNumber;
 
-    public UpdateShopCommand(String name, AddressDto address, String phoneNumber) {
+    private int minOrderPrice;
+
+    public UpdateShopCommand(String name, AddressDto address, String phoneNumber, int minOrderPrice) {
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
+        this.minOrderPrice = minOrderPrice;
     }
 
     public Shop toShop() {
@@ -24,6 +27,7 @@ public class UpdateShopCommand {
             .name(name)
             .address(address.toAddress())
             .phoneNumber(new PhoneNumber(phoneNumber))
+            .minOrderPrice(minOrderPrice)
             .build();
     }
 }

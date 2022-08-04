@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "options")
 @Entity
-public class Option {
+public class Option implements Comparable {
 
     @Column(name = "option_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,21 +27,30 @@ public class Option {
 
     private String name;
 
-    private int additionalPrice;
+    private int price;
+
+    private int displayOrder;
 
     @JoinColumn(name = "option_group_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private OptionGroup optionGroup;
 
     @Builder
-    private Option(Long id, String name, int additionalPrice, OptionGroup optionGroup) {
+    public Option(Long id, String name, int price, int displayOrder, OptionGroup optionGroup) {
         this.id = id;
         this.name = name;
-        this.additionalPrice = additionalPrice;
+        this.price = price;
+        this.displayOrder = displayOrder;
         this.optionGroup = optionGroup;
     }
 
     public void setOptionGroup(OptionGroup optionGroup) {
         this.optionGroup = optionGroup;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Option option = (Option) o;
+        return Integer.compare(this.displayOrder, option.getDisplayOrder());
     }
 }
