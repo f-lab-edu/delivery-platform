@@ -36,4 +36,10 @@ public class OrderOptionGroup {
         this.name = name;
         this.orderOptions = orderOptions;
     }
+
+    public int calculatePrice() {
+        return orderOptions.stream()
+            .mapToInt(OrderOption::getPrice)
+            .sum();
+    }
 }

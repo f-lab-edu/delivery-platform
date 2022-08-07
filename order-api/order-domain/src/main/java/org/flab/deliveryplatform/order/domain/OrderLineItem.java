@@ -43,4 +43,11 @@ public class OrderLineItem {
         this.count = count;
         this.orderOptionGroups = orderOptionGroups;
     }
+
+    public int calculatePrice() {
+        return orderOptionGroups.stream()
+            .mapToInt(OrderOptionGroup::calculatePrice)
+            .map(item -> item * count)
+            .sum();
+    }
 }

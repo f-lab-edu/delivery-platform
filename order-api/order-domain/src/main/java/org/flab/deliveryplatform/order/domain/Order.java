@@ -48,4 +48,18 @@ public class Order {
         this.orderLineItems = orderLineItems;
         this.status = status;
     }
+
+    public void place() {
+        ordered();
+    }
+
+    private void ordered() {
+        this.status = OrderStatus.ORDERED;
+    }
+
+    public int calculateTotalPrice() {
+        return orderLineItems.stream()
+            .mapToInt(OrderLineItem::calculatePrice)
+            .sum();
+    }
 }
