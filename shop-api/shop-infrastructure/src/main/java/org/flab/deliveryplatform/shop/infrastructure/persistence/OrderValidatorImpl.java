@@ -71,7 +71,9 @@ public class OrderValidatorImpl implements OrderValidator {
 
     private void validateOrderOption(OrderOption orderOption, SortedSet<Option> options) {
         options.stream()
-            .filter(option -> orderOption.getName().equals(option.getName()) && orderOption.getPrice() == option.getPrice())
+            .filter(option ->
+                orderOption.getName().equals(option.getName()) && orderOption.getPrice() == option.getPrice()
+            )
             .findAny()
             .orElseThrow(() -> new IllegalStateException("옵션이 변경됐습니다."));
     }
