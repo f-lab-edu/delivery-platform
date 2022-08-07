@@ -3,7 +3,7 @@ package org.flab.deliveryplatform.shop.application.service;
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.shop.application.port.GetShopUseCase;
 import org.flab.deliveryplatform.shop.application.port.ShopRepository;
-import org.flab.deliveryplatform.shop.application.port.dto.ShopData;
+import org.flab.deliveryplatform.shop.application.port.dto.ShopDetailData;
 import org.flab.deliveryplatform.shop.application.port.exception.ShopNotFoundException;
 import org.flab.deliveryplatform.shop.domain.Shop;
 import org.springframework.stereotype.Service;
@@ -17,9 +17,9 @@ public class GetShopService implements GetShopUseCase {
 
     @Transactional(readOnly = true)
     @Override
-    public ShopData getShop(Long shopId) {
+    public ShopDetailData getShop(Long shopId) {
         Shop shop = shopRepository.findById(shopId)
             .orElseThrow(() -> new ShopNotFoundException(shopId));
-        return ShopData.from(shop);
+        return ShopDetailData.from(shop);
     }
 }

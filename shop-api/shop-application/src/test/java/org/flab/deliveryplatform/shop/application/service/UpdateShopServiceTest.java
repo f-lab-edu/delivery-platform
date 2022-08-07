@@ -37,7 +37,8 @@ class UpdateShopServiceTest {
         updateShopCommand = new UpdateShopCommand(
             "name",
             new AddressDto("zipCode", "country", "state", "city", "street"),
-            "01011112222"
+            "01011112222",
+            10000
         );
     }
 

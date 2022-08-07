@@ -1,7 +1,7 @@
 package org.flab.deliveryplatform.shop.domain;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,12 +18,14 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.flab.deliveryplatform.shop.domain.exception.OptionNotFoundException;
+import org.hibernate.annotations.SortNatural;
 
 @EqualsAndHashCode(of = {"id"})
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class OptionGroup {
+@Builder
+public class OptionGroup implements Comparable {
 
     @Column(name = "option_group_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,17 +34,20 @@ public class OptionGroup {
 
     private String name;
 
+    private int displayOrder;
+
     @JoinColumn(name = "menu_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Menu menu;
 
+    @SortNatural
     @OneToMany(mappedBy = "optionGroup", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Option> options = new HashSet<>();
+    private SortedSet<Option> options = new TreeSet<>();
 
-    @Builder
-    private OptionGroup(Long id, String name, Menu menu, Set<Option> options) {
+    private OptionGroup(Long id, String name, int displayOrder, Menu menu, SortedSet<Option> options) {
         this.id = id;
         this.name = name;
+        this.displayOrder = displayOrder;
         this.menu = menu;
         this.options = options;
     }
@@ -66,5 +71,11 @@ public class OptionGroup {
             .filter(o -> o.getId() == optionId)
             .findAny()
             .orElseThrow(() -> new OptionNotFoundException(optionId));
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        OptionGroup optionGroup = (OptionGroup) o;
+        return Integer.compare(this.displayOrder, optionGroup.getDisplayOrder());
     }
 }

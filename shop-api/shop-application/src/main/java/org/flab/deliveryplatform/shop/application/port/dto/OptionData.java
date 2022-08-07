@@ -10,15 +10,15 @@ public class OptionData {
 
     private String name;
 
-    private int additionalPrice;
+    private int price;
 
-    public OptionData(Long id, String name, int additionalPrice) {
+    public OptionData(Long id, String name, int price) {
         this.id = id;
         this.name = name;
-        this.additionalPrice = additionalPrice;
+        this.price = price;
     }
 
     public static OptionData from(Option option) {
-        return new OptionData(option.getId(), option.getName(), option.getAdditionalPrice());
+        return new OptionData(option.getId(), option.getName(), option.getPrice());
     }
 }

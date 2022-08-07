@@ -14,10 +14,13 @@ public class CreateShopCommand {
 
     private String phoneNumber;
 
-    public CreateShopCommand(String name, AddressDto address, String phoneNumber) {
+    private int minOrderPrice;
+
+    public CreateShopCommand(String name, AddressDto address, String phoneNumber, int minOrderPrice) {
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
+        this.minOrderPrice = minOrderPrice;
     }
 
     public Shop toShop() {
@@ -26,6 +29,7 @@ public class CreateShopCommand {
             .address(address.toAddress())
             .phoneNumber(new PhoneNumber(phoneNumber))
             .status(ShopStatus.READY)
+            .minOrderPrice(minOrderPrice)
             .build();
     }
 }
