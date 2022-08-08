@@ -3,6 +3,7 @@ package org.flab.deliveryplatform.owner.application.service;
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.common.auth.AuthorizationData;
 import org.flab.deliveryplatform.common.auth.AuthorizationUseCase;
+import org.flab.deliveryplatform.common.auth.UserType;
 import org.flab.deliveryplatform.common.auth.exception.InvalidAuthorizationException;
 import org.flab.deliveryplatform.owner.application.port.AuthorizationRepository;
 import org.flab.deliveryplatform.owner.domain.auth.Authorization;
@@ -11,6 +12,11 @@ import org.flab.deliveryplatform.owner.domain.auth.Authorization;
 public class AuthorizationService implements AuthorizationUseCase {
 
     private final AuthorizationRepository authorizationRepository;
+
+    @Override
+    public UserType getUserType() {
+        return UserType.MEMBER;
+    }
 
     public AuthorizationData getAuthorizationData(String token) {
 
