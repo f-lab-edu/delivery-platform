@@ -23,6 +23,8 @@ public class RouteFilter extends OncePerRequestFilter {
 
     private final ObjectMapper objectMapper;
 
+    private final AntPathMatcher antPathMatcher = new AntPathMatcher();
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
         throws ServletException, IOException {
@@ -43,7 +45,6 @@ public class RouteFilter extends OncePerRequestFilter {
 
 
     private boolean isExcludedPath(HttpServletRequest request) {
-        AntPathMatcher antPathMatcher = new AntPathMatcher();
         return Arrays.stream(excludedPathPatterns)
             .anyMatch(pattern -> antPathMatcher.match(pattern, request.getRequestURI()));
     }

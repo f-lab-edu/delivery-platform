@@ -29,6 +29,8 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 
     private final ObjectMapper objectMapper;
 
+    private final AntPathMatcher antPathMatcher = new AntPathMatcher();
+
     private final String[] excludedPathPatterns = {"/**/login", "/**/signUp"};
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
@@ -83,7 +85,6 @@ public class AuthorizationFilter extends OncePerRequestFilter {
     }
 
     private boolean isExcludedPath(HttpServletRequest request) {
-        AntPathMatcher antPathMatcher = new AntPathMatcher();
         return Arrays.stream(excludedPathPatterns)
             .anyMatch(pattern -> antPathMatcher.match(pattern, request.getRequestURI()));
     }
