@@ -25,7 +25,7 @@ import org.hibernate.annotations.SortNatural;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Builder
-public class OptionGroup implements Comparable {
+public class OptionGroup implements Comparable<OptionGroup> {
 
     @Column(name = "option_group_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,8 +74,7 @@ public class OptionGroup implements Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        OptionGroup optionGroup = (OptionGroup) o;
+    public int compareTo(OptionGroup optionGroup) {
         return Integer.compare(this.displayOrder, optionGroup.getDisplayOrder());
     }
 }
