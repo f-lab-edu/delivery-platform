@@ -8,13 +8,13 @@ import org.flab.deliveryplatform.member.domain.authorization.Authorization;
 @RequiredArgsConstructor
 public class AuthorizationRepositoryAdapter implements AuthorizationRepository {
 
-    private final MemoryMemberAuthorizationRepository memoryAuthorizationRepository;
+    private final MemoryMemberAuthorizationRepository authorizationRepository;
 
     public Authorization save(Authorization authorization) {
-        return memoryAuthorizationRepository.save(authorization);
+        return authorizationRepository.save(authorization);
     }
 
     public Optional<Authorization> findById(String id) {
-        return memoryAuthorizationRepository.findById(id);
+        return authorizationRepository.findById(id);
     }
 }

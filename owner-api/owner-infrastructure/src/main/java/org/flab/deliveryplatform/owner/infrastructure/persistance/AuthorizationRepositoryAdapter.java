@@ -8,7 +8,7 @@ import org.flab.deliveryplatform.owner.domain.auth.Authorization;
 @RequiredArgsConstructor
 public class AuthorizationRepositoryAdapter implements AuthorizationRepository {
 
-    private final OwnerMemoryAuthorizationRepository authorizationRepository;
+    private final MemoryOwnerAuthorizationRepository authorizationRepository;
 
     @Override
     public Authorization save(Authorization authorization) {

@@ -7,9 +7,7 @@ import org.flab.deliveryplatform.common.auth.UserType;
 import org.flab.deliveryplatform.member.application.port.AuthorizationRepository;
 import org.flab.deliveryplatform.member.application.port.exception.InvalidTokenException;
 import org.flab.deliveryplatform.member.domain.authorization.Authorization;
-import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
 public class AuthorizationService implements AuthorizationUseCase {
 
@@ -20,6 +18,7 @@ public class AuthorizationService implements AuthorizationUseCase {
         return UserType.MEMBER;
     }
 
+    @Override
     public AuthorizationData getAuthorizationData(String token) {
         Authorization authorization = authorizationRepository.findById(token)
             .orElseThrow(InvalidTokenException::new);

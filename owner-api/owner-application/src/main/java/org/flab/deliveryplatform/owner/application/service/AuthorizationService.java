@@ -18,6 +18,7 @@ public class AuthorizationService implements AuthorizationUseCase {
         return UserType.MEMBER;
     }
 
+    @Override
     public AuthorizationData getAuthorizationData(String token) {
 
         Authorization authorization = authorizationRepository.findById(token)
