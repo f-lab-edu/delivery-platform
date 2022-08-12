@@ -7,7 +7,7 @@ import static org.mockito.Mockito.mock;
 
 import java.util.Optional;
 import org.flab.deliveryplatform.shop.application.port.ShopRepository;
-import org.flab.deliveryplatform.shop.application.port.dto.ShopData;
+import org.flab.deliveryplatform.shop.application.port.dto.ShopDetailData;
 import org.flab.deliveryplatform.shop.application.port.exception.ShopNotFoundException;
 import org.flab.deliveryplatform.shop.domain.Shop;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,9 +36,9 @@ class GetShopServiceTest {
         given(shopRepository.findById(existingShopId))
             .willReturn(Optional.of(shop));
 
-        ShopData shopData = getShopService.getShop(existingShopId);
+        ShopDetailData shopData = getShopService.getShop(existingShopId);
         assertThat(shopData).isNotNull();
-        assertThat(shopData.getShopId()).isEqualTo(shop.getId());
+        assertThat(shopData.getId()).isEqualTo(shop.getId());
         assertThat(shopData.getName()).isEqualTo(shop.getName());
         assertThat(shopData.getAddress()).isEqualTo(shop.getAddress().toString());
         assertThat(shopData.getPhoneNumber()).isEqualTo(shop.getPhoneNumber().getPhoneNumber());

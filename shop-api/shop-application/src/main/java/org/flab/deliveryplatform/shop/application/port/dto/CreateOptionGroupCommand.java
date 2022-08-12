@@ -11,13 +11,17 @@ public class CreateOptionGroupCommand {
 
     private String name;
 
-    public CreateOptionGroupCommand(String name) {
+    private int displayOrder;
+
+    public CreateOptionGroupCommand(String name, int displayOrder) {
         this.name = name;
+        this.displayOrder = displayOrder;
     }
 
     public OptionGroup toOptionGroup() {
         return OptionGroup.builder()
             .name(name)
+            .displayOrder(displayOrder)
             .build();
     }
 }

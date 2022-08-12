@@ -8,17 +8,21 @@ public class OptionCommand {
 
     private String name;
 
-    private int additionalPrice;
+    private int price;
 
-    public OptionCommand(String name, int additionalPrice) {
+    private int displayOrder;
+
+    public OptionCommand(String name, int price, int displayOrder) {
         this.name = name;
-        this.additionalPrice = additionalPrice;
+        this.price = price;
+        this.displayOrder = displayOrder;
     }
 
     public Option toOption() {
         return Option.builder()
             .name(name)
-            .additionalPrice(additionalPrice)
+            .price(price)
+            .displayOrder(displayOrder)
             .build();
     }
 }
