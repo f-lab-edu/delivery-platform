@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.member.application.service.provider;
+package org.flab.deliveryplatform.member.application.port;
 
 import org.flab.deliveryplatform.member.application.port.dto.CreateTokenCommand;
 

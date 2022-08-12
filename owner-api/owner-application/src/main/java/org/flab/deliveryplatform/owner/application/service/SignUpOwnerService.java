@@ -31,7 +31,6 @@ public class SignUpOwnerService implements SignUpOwnerUseCase {
 
     private Owner save(SignUpOwnerCommand signUpOwnerCommand) {
         Owner owner = Owner.builder()
-            .id(0L)
             .nickname(signUpOwnerCommand.getNickname())
             .email(signUpOwnerCommand.getEmail())
             .password(encryptionManager.encrypt(signUpOwnerCommand.getPassword()))

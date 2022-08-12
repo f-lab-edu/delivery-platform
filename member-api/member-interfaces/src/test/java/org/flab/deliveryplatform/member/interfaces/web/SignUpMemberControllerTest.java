@@ -59,7 +59,7 @@ class SignUpMemberControllerTest {
     @Test
     void signUp() throws Exception {
         mockMvc.perform(
-                post("/members")
+                post("/members/signUp")
                     .contentType(MediaType.APPLICATION_JSON)
                     .characterEncoding(StandardCharsets.UTF_8)
                     .content(mapToString(signUpMemberCommand)))
@@ -69,14 +69,14 @@ class SignUpMemberControllerTest {
     @Test
     void signUpWithDuplicateEmailTest() throws Exception {
         mockMvc.perform(
-                post("/members")
+                post("/members/signUp")
                     .contentType(MediaType.APPLICATION_JSON)
                     .characterEncoding(StandardCharsets.UTF_8)
                     .content(mapToString(signUpMemberCommand)))
             .andExpect(status().isOk());
 
         String duplicatedEmailString = mockMvc.perform(
-                post("/members")
+                post("/members/signUp")
                     .contentType(MediaType.APPLICATION_JSON)
                     .characterEncoding(StandardCharsets.UTF_8)
                     .content(mapToString(signUpMemberCommand)))

@@ -8,16 +8,15 @@ import static org.mockito.Mockito.mock;
 
 import java.util.Optional;
 import java.util.UUID;
+import org.flab.deliveryplatform.common.auth.AuthorizationData;
 import org.flab.deliveryplatform.member.application.port.AuthorizationRepository;
 import org.flab.deliveryplatform.member.application.port.EncryptManager;
 import org.flab.deliveryplatform.member.application.port.MemberRepository;
-import org.flab.deliveryplatform.member.application.port.dto.AuthorizationData;
+import org.flab.deliveryplatform.member.application.port.TokenProvider;
 import org.flab.deliveryplatform.member.application.port.dto.LoginMemberCommand;
 import org.flab.deliveryplatform.member.application.port.exception.InvalidMemberInfoException;
-import org.flab.deliveryplatform.member.application.service.provider.TokenProvider;
 import org.flab.deliveryplatform.member.domain.Member;
 import org.flab.deliveryplatform.member.domain.authorization.Authorization;
-import org.flab.deliveryplatform.member.domain.authorization.AuthorizationId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -62,7 +61,7 @@ class LoginMemberServiceTest {
         commandWithInvalidPassword = new LoginMemberCommand(existingEmail, invalidPassword);
 
         authorization = Authorization.builder()
-            .authorizationId(new AuthorizationId(accessToken))
+            .accessToken(accessToken)
             .memberId(member.getId())
             .build();
     }
