@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.member.infrastructure.persistence;
+package org.flab.deliveryplatform.member.infrastructure.encryption;
 
 import org.flab.deliveryplatform.member.application.port.EncryptManager;
 import org.springframework.security.crypto.bcrypt.BCrypt;

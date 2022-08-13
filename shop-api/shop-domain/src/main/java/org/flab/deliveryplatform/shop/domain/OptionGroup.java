@@ -24,8 +24,7 @@ import org.hibernate.annotations.SortNatural;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Builder
-public class OptionGroup implements Comparable {
+public class OptionGroup implements Comparable<OptionGroup> {
 
     @Column(name = "option_group_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +35,10 @@ public class OptionGroup implements Comparable {
 
     private int displayOrder;
 
+    private boolean basic;
+
+    private boolean exclusive;
+
     @JoinColumn(name = "menu_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Menu menu;
@@ -44,6 +47,7 @@ public class OptionGroup implements Comparable {
     @OneToMany(mappedBy = "optionGroup", cascade = CascadeType.ALL, orphanRemoval = true)
     private SortedSet<Option> options = new TreeSet<>();
 
+    @Builder
     private OptionGroup(Long id, String name, int displayOrder, Menu menu, SortedSet<Option> options) {
         this.id = id;
         this.name = name;
@@ -74,8 +78,7 @@ public class OptionGroup implements Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        OptionGroup optionGroup = (OptionGroup) o;
+    public int compareTo(OptionGroup optionGroup) {
         return Integer.compare(this.displayOrder, optionGroup.getDisplayOrder());
     }
 }

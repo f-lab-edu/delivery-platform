@@ -24,7 +24,7 @@ import org.hibernate.annotations.SortNatural;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Menu implements Comparable {
+public class Menu implements Comparable<Menu> {
 
     @Column(name = "menu_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -83,8 +83,7 @@ public class Menu implements Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        Menu menu = (Menu) o;
+    public int compareTo(Menu menu) {
         return Integer.compare(this.displayOrder, menu.getDisplayOrder());
     }
 }

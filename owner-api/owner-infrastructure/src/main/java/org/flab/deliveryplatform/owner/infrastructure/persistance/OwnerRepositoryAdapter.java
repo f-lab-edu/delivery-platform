@@ -1,5 +1,6 @@
 package org.flab.deliveryplatform.owner.infrastructure.persistance;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.owner.application.port.OwnerRepository;
 import org.flab.deliveryplatform.owner.domain.Owner;
@@ -14,6 +15,11 @@ public class OwnerRepositoryAdapter implements OwnerRepository {
     @Override
     public Owner save(Owner owner) {
         return ownerJpaRepository.save(owner);
+    }
+
+    @Override
+    public Optional<Owner> findByEmail(String email) {
+        return ownerJpaRepository.findByEmail(email);
     }
 
     @Override

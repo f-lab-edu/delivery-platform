@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "options")
 @Entity
-public class Option implements Comparable {
+public class Option implements Comparable<Option> {
 
     @Column(name = "option_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,8 +49,7 @@ public class Option implements Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        Option option = (Option) o;
+    public int compareTo(Option option) {
         return Integer.compare(this.displayOrder, option.getDisplayOrder());
     }
 }
