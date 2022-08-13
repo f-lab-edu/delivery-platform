@@ -31,23 +31,29 @@ public class OrderLineItem {
 
     private int count;
 
+    private int totalPrice;
+
     @JoinColumn(name = "order_line_item_id")
     @OneToMany(cascade = CascadeType.ALL)
     private List<OrderOptionGroup> orderOptionGroups = new ArrayList<>();
 
     @Builder
-    private OrderLineItem(Long id, Long menuId, String name, int count, List<OrderOptionGroup> orderOptionGroups) {
+    private OrderLineItem(Long id, Long menuId, String name, int count, int totalPrice,
+        List<OrderOptionGroup> orderOptionGroups) {
         this.id = id;
         this.menuId = menuId;
         this.name = name;
         this.count = count;
+        this.totalPrice = totalPrice;
         this.orderOptionGroups = orderOptionGroups;
     }
 
-    public int calculatePrice() {
-        return orderOptionGroups.stream()
+    public int calculateTotalPrice() {
+        this.totalPrice = orderOptionGroups.stream()
             .mapToInt(OrderOptionGroup::calculatePrice)
             .map(item -> item * count)
             .sum();
+
+        return this.totalPrice;
     }
 }

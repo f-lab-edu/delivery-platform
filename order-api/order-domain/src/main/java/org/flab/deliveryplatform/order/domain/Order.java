@@ -40,26 +40,28 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
+    private int totalPrice;
+
     @Builder
-    private Order(Long id, Long shopId, Long memberId, List<OrderLineItem> orderLineItems, OrderStatus status) {
+    private Order(Long id, Long shopId, Long memberId, List<OrderLineItem> orderLineItems,
+        OrderStatus status, int totalPrice) {
         this.id = id;
         this.shopId = shopId;
         this.memberId = memberId;
         this.orderLineItems = orderLineItems;
         this.status = status;
+        this.totalPrice = totalPrice;
     }
 
     public void place() {
-        ordered();
-    }
-
-    private void ordered() {
         this.status = OrderStatus.ORDERED;
     }
 
     public int calculateTotalPrice() {
-        return orderLineItems.stream()
-            .mapToInt(OrderLineItem::calculatePrice)
+        this.totalPrice = orderLineItems.stream()
+            .mapToInt(OrderLineItem::calculateTotalPrice)
             .sum();
+
+        return totalPrice;
     }
 }
