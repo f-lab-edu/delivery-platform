@@ -17,12 +17,14 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.flab.deliveryplatform.order.domain.exception.InvalidOrderStatusException;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "orders")
 @Entity
-public class Order {
+public class Order extends AbstractAggregateRoot<Order> {
 
     @Column(name = "order_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,6 +57,15 @@ public class Order {
 
     public void place() {
         this.status = OrderStatus.ORDERED;
+    }
+
+    public void payed() {
+        if (this.status != OrderStatus.ORDERED) {
+            throw new InvalidOrderStatusException("주문 상태가 올바르지 않아 결제 할 수 앖습니다.");
+        }
+
+        this.status = OrderStatus.PAYED;
+        registerEvent(new OrderPayedEvent(this));
     }
 
     public int calculateTotalPrice() {
