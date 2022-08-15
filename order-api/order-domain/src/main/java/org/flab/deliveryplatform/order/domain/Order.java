@@ -68,6 +68,14 @@ public class Order extends AbstractAggregateRoot<Order> {
         registerEvent(new OrderPayedEvent(this));
     }
 
+    public void delivered() {
+        if (this.status != OrderStatus.PAYED) {
+            throw new InvalidOrderStatusException("주문 상태가 올바르지 않아 배송 완료 할 수 앖습니다.");
+        }
+
+        this.status = OrderStatus.DELIVERED;
+    }
+
     public int calculateTotalPrice() {
         this.totalPrice = orderLineItems.stream()
             .mapToInt(OrderLineItem::calculateTotalPrice)

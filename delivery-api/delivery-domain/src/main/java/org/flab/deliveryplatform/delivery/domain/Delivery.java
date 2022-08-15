@@ -11,11 +11,12 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Delivery {
+public class Delivery extends AbstractAggregateRoot<Delivery> {
 
     @Column(name = "delivery_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,5 +33,10 @@ public class Delivery {
         this.id = id;
         this.orderId = orderId;
         this.status = status;
+    }
+
+    public void complete() {
+        this.status = DeliveryStatus.DELIVERED;
+        registerEvent(new DeliveryCompletedEvent(this));
     }
 }
