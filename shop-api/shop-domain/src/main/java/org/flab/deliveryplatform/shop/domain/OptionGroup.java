@@ -48,10 +48,13 @@ public class OptionGroup implements Comparable<OptionGroup> {
     private SortedSet<Option> options = new TreeSet<>();
 
     @Builder
-    private OptionGroup(Long id, String name, int displayOrder, Menu menu, SortedSet<Option> options) {
+    private OptionGroup(Long id, String name, int displayOrder, boolean basic, boolean exclusive,
+        Menu menu, SortedSet<Option> options) {
         this.id = id;
         this.name = name;
         this.displayOrder = displayOrder;
+        this.basic = basic;
+        this.exclusive = exclusive;
         this.menu = menu;
         this.options = options;
     }

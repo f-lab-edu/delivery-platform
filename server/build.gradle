@@ -13,6 +13,10 @@ dependencies {
     implementation project(':shop-api:shop-infrastructure')
     implementation project(':shop-api:shop-application')
     implementation project(':shop-api:shop-domain')
+    implementation project(':order-api:order-interfaces')
+    implementation project(':order-api:order-infrastructure')
+    implementation project(':order-api:order-application')
+    implementation project(':order-api:order-domain')
     implementation project(':common')
     implementation 'org.flywaydb:flyway-mysql:8.5.12'
     implementation 'mysql:mysql-connector-java:8.0.29'
