@@ -2,6 +2,8 @@ package org.flab.deliveryplatform.owner.infrastructure.token;
 
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.flab.deliveryplatform.common.auth.Token;
+import org.flab.deliveryplatform.common.auth.TokenType;
 import org.flab.deliveryplatform.owner.application.port.TokenProvider;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class RandomTokenProvider implements TokenProvider {
 
     @Override
-    public String generateToken() {
-        return UUID.randomUUID().toString();
+    public Token generateToken() {
+        return new Token(TokenType.BEARER, UUID.randomUUID().toString());
     }
 }
