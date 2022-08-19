@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +20,9 @@ import org.flab.deliveryplatform.common.auth.exception.ExpiredAuthorizationExcep
 import org.flab.deliveryplatform.common.auth.exception.InvalidAuthorizationException;
 import org.flab.deliveryplatform.common.web.dto.DeliveryPlatformErrorResponse;
 import org.flab.deliveryplatform.server.auth.AuthorizationServiceFactory;
-import org.springframework.core.annotation.Order;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-@Order(2)
-@WebFilter
 @RequiredArgsConstructor
 public class AuthorizationFilter extends OncePerRequestFilter {
 
