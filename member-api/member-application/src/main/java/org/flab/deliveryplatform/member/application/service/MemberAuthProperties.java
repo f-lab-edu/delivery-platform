@@ -17,6 +17,6 @@ public class MemberAuthProperties {
     @RequiredArgsConstructor
     public static class Token {
 
-        private final Long accessTokenExpiredTimeMillis;
+        private final long accessTokenExpiredTimeMillis;
     }
 }
