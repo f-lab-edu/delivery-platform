@@ -1,14 +1,13 @@
 package org.flab.deliveryplatform.order.domain;
 
+import lombok.Getter;
+
+@Getter
 public class OrderPayedEvent {
 
-    private Order order;
+    private Long orderId;
 
-    public OrderPayedEvent(Order order) {
-        this.order = order;
-    }
-
-    public Long getOrderId() {
-        return order.getId();
+    public OrderPayedEvent(Long orderId) {
+        this.orderId = orderId;
     }
 }

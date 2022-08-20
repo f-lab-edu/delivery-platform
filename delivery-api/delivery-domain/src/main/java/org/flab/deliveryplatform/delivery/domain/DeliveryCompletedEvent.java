@@ -2,13 +2,13 @@ package org.flab.deliveryplatform.delivery.domain;
 
 public class DeliveryCompletedEvent {
 
-    private Delivery delivery;
+    private Long orderId;
 
-    public DeliveryCompletedEvent(Delivery delivery) {
-        this.delivery = delivery;
+    public DeliveryCompletedEvent(Long orderId) {
+        this.orderId = orderId;
     }
 
     public Long getOrderId() {
-        return delivery.getOrderId();
+        return orderId;
     }
 }

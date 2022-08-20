@@ -3,6 +3,5 @@ version '1.0-SNAPSHOT'
 dependencies {
     implementation project(':order-api:order-domain')
     implementation project(':order-api:order-application')
-    implementation project(':delivery-api:delivery-domain')
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 }
