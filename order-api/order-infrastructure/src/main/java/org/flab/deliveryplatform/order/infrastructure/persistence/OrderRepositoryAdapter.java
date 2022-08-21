@@ -1,5 +1,6 @@
 package org.flab.deliveryplatform.order.infrastructure.persistence;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.order.application.port.OrderRepository;
 import org.flab.deliveryplatform.order.domain.Order;
@@ -14,5 +15,10 @@ public class OrderRepositoryAdapter implements OrderRepository {
     @Override
     public Order save(Order order) {
         return jpaOrderRepository.save(order);
+    }
+
+    @Override
+    public Optional<Order> findById(Long id) {
+        return jpaOrderRepository.findById(id);
     }
 }
