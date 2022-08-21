@@ -17,7 +17,6 @@ import org.flab.deliveryplatform.member.application.port.dto.WithdrawMemberComma
 import org.flab.deliveryplatform.member.interfaces.TestContextConfiguration;
 import org.flab.deliveryplatform.member.interfaces.web.exception.MemberErrorCode;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -50,7 +49,7 @@ class WithdrawMemberControllerTest {
         signUpMemberUseCase.signUp(signUpMemberCommand);
     }
 
-    @Test
+
     void withdrawTest() throws Exception {
         WithdrawMemberCommand withdrawMemberCommand = new WithdrawMemberCommand(
             signUpMemberCommand.getEmail(), signUpMemberCommand.getPassword());
@@ -63,7 +62,7 @@ class WithdrawMemberControllerTest {
             .andExpect(status().isOk());
     }
 
-    @Test
+    
     void withdrawWithInvalidInfoTest() throws Exception {
         WithdrawMemberCommand withdrawMemberCommand = new WithdrawMemberCommand(
             signUpMemberCommand.getEmail() + "a", signUpMemberCommand.getPassword());

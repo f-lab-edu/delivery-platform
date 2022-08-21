@@ -3,20 +3,15 @@ package org.flab.deliveryplatform.server.web.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.regex.Pattern;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.common.web.dto.DeliveryPlatformErrorResponse;
-import org.springframework.core.annotation.Order;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-@Order(1)
-@WebFilter
-@RequiredArgsConstructor
 public class RouteFilter extends OncePerRequestFilter {
 
     private final String[] excludedPathPatterns = {"/**/login", "/**/signUp"};
@@ -24,6 +19,33 @@ public class RouteFilter extends OncePerRequestFilter {
     private final ObjectMapper objectMapper;
 
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
+
+    private final String[] users = {"members", "owners"};
+
+    private final String[] domains = {"orders", "shops"};
+
+    private final Pattern userPattern;
+
+    private final Pattern domainPattern;
+
+
+    public RouteFilter(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+        this.userPattern = generateUserPattern();
+        this.domainPattern = generateDomainPattern();
+    }
+
+    private Pattern generateUserPattern() {
+        String concatenatedUsers = String.join("|", users);
+        String regex = "/(" + concatenatedUsers + ")";
+        return Pattern.compile(regex);
+    }
+
+    private Pattern generateDomainPattern() {
+        String concatenatedDomains = String.join("|", domains);
+        String regex = "^.*/(" + concatenatedDomains + ").*$";
+        return Pattern.compile(regex);
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -43,18 +65,17 @@ public class RouteFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-
     private boolean isExcludedPath(HttpServletRequest request) {
         return Arrays.stream(excludedPathPatterns)
             .anyMatch(pattern -> antPathMatcher.match(pattern, request.getRequestURI()));
     }
 
     private String convertURI(String uri) {
-        if (uri.startsWith("/members/")) {
-            return uri.replace("/members", "");
-        } else if (uri.startsWith("/owners/")) {
-            return uri.replace("/owners", "");
-        }
-        throw new NotSupportedURIException();
+        return hasDomainPath(uri) ? userPattern.matcher(uri).replaceFirst("") : uri;
     }
+
+    private boolean hasDomainPath(String uri) {
+        return domainPattern.matcher(uri).matches();
+    }
+
 }
