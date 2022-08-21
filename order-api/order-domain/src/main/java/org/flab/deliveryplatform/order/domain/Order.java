@@ -1,8 +1,86 @@
 package org.flab.deliveryplatform.order.domain;
 
-public class Order {
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.flab.deliveryplatform.order.domain.exception.InvalidOrderStatusException;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "orders")
+@Entity
+public class Order extends AbstractAggregateRoot<Order> {
+
+    @Column(name = "order_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
 
+    private Long shopId;
+
+    private Long memberId;
+
+    @JoinColumn(name = "order_id")
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<OrderLineItem> orderLineItems = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
     private int totalPrice;
+
+    @Builder
+    private Order(Long id, Long shopId, Long memberId, List<OrderLineItem> orderLineItems,
+        OrderStatus status, int totalPrice) {
+        this.id = id;
+        this.shopId = shopId;
+        this.memberId = memberId;
+        this.orderLineItems = orderLineItems;
+        this.status = status;
+        this.totalPrice = totalPrice;
+    }
+
+    public void place() {
+        this.status = OrderStatus.ORDERED;
+    }
+
+    public void payed() {
+        if (this.status != OrderStatus.ORDERED) {
+            throw new InvalidOrderStatusException("주문 상태가 올바르지 않아 결제 할 수 앖습니다.");
+        }
+
+        this.status = OrderStatus.PAYED;
+        registerEvent(new OrderPayedEvent(id));
+    }
+
+    public void delivered() {
+        if (this.status != OrderStatus.PAYED) {
+            throw new InvalidOrderStatusException("주문 상태가 올바르지 않아 배송 완료 할 수 앖습니다.");
+        }
+
+        this.status = OrderStatus.DELIVERED;
+    }
+
+    public int calculateTotalPrice() {
+        this.totalPrice = orderLineItems.stream()
+            .mapToInt(OrderLineItem::calculateTotalPrice)
+            .sum();
+
+        return totalPrice;
+    }
 }

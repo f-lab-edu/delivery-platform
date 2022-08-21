@@ -72,6 +72,10 @@ public class Shop {
         this.status = ShopStatus.CLOSED;
     }
 
+    public boolean isValidOrderPrice(int orderPrice) {
+        return orderPrice >= minOrderPrice;
+    }
+
     public void addMenu(Menu menu) {
         this.menus.add(menu);
         menu.setShop(this);

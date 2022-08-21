@@ -25,3 +25,9 @@ server:
 auth:
   token:
     access-token-expired-time-millis: 1800000
+
+async-thread-pool:
+  core-pool-size: 3
+  max-pool-size: 20
+  queue_capacity: 15
+  thread_name_prefix: ASYNC_THREAD-

@@ -4,5 +4,7 @@ dependencies {
     implementation project(':common')
     implementation project(':shop-api:shop-application')
     implementation project(':shop-api:shop-domain')
+    implementation project(':order-api:order-application')
+    implementation project(':order-api:order-domain')
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 }

@@ -1,0 +1,10 @@
+version '1.0-SNAPSHOT'
+
+dependencies {
+    implementation project(':delivery-api:delivery-domain')
+    implementation project(':delivery-api:delivery-application')
+    implementation project(':order-api:order-domain')
+    implementation project(':common')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework:spring-tx:5.3.20'
+}
