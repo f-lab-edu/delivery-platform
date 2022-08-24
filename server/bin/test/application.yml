@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:13307/deliveryplatform
+    username: root
+    password: root
+
+  flyway:
+    url: jdbc:mysql://localhost:13307/deliveryplatform
+    user: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    enabled: true
+    baseline-on-migrate: true
+    locations: db/migration
+
+  jpa:
+    database: mysql
+    show-sql: true
+    open-in-view: false
+
+server:
+  port: 18081
+
+auth:
+  token:
+    access-token-expired-time-millis: 1800000
+
+async-thread-pool:
+  core-pool-size: 3
+  max-pool-size: 20
+  queue_capacity: 15
+  thread_name_prefix: ASYNC_THREAD-
