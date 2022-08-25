@@ -25,6 +25,6 @@ public class CompleteDeliveryService implements CompleteDeliveryUseCase {
 
         delivery.complete();
 
-        eventPublisher.publish(delivery.domainEvents());
+        eventPublisher.publish(delivery.getOccurredEvents());
     }
 }

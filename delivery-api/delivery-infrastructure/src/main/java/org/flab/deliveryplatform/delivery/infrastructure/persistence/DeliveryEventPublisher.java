@@ -13,10 +13,13 @@ public class DeliveryEventPublisher implements EventPublisher {
     private final ApplicationEventPublisher applicationEventPublisher;
 
     @Override
-    public void publish(Collection<Object> domainEvents) {
-        domainEvents.stream()
-            .forEach(e -> applicationEventPublisher.publishEvent(e));
+    public void publish(Object domainEvent) {
+        applicationEventPublisher.publishEvent(domainEvent);
+    }
 
-        domainEvents.clear();
+    @Override
+    public void publishAll(Collection<Object> domainEvents) {
+        domainEvents.stream()
+            .forEach(this::publish);
     }
 }

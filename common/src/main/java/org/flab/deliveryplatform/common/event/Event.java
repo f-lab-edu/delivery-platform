@@ -1,13 +1,14 @@
 package org.flab.deliveryplatform.common.event;
 
+import java.time.Instant;
 import lombok.Getter;
 
 @Getter
 public abstract class Event {
 
-    private long timestamp;
+    private Instant occurredOn;
 
     public Event() {
-        this.timestamp = System.currentTimeMillis();
+        this.occurredOn = Instant.now();
     }
 }
