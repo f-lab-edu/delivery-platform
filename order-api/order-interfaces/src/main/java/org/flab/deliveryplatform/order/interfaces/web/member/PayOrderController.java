@@ -1,16 +1,13 @@
-package org.flab.deliveryplatform.order.interfaces.web;
+package org.flab.deliveryplatform.order.interfaces.web.member;
 
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.common.web.dto.DeliveryPlatformResponse;
 import org.flab.deliveryplatform.order.application.port.PayOrderUseCase;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@RequestMapping("/orders")
-@RestController
+@MemberOrderRestController
 public class PayOrderController {
 
     private final PayOrderUseCase payOrderUseCase;

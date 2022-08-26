@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.shop.interfaces.web.common;
+package org.flab.deliveryplatform.delivery.interfaces.web;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/shops")
+@RequestMapping("/deliveries")
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ShopRestController {
+public @interface OwnerDeliveryRestController {
 
 }
