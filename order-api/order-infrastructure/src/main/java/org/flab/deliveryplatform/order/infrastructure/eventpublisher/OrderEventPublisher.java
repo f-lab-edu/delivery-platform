@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.delivery.infrastructure.persistence;
+package org.flab.deliveryplatform.order.infrastructure.eventpublisher;
 
 import java.util.Collection;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class DeliveryEventPublisher implements EventPublisher {
+public class OrderEventPublisher implements EventPublisher {
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
