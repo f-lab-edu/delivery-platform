@@ -1,0 +1,136 @@
+version: "3.8"
+
+services:
+  redis-cluster:
+    container_name: redis-cluster
+    image: amd64/redis:6.2-alpine
+    platform: linux/amd64
+    command: >
+      redis-cli --cluster create
+      192.168.244.11:6379 192.168.244.12:6380 192.168.244.13:6381
+      192.168.244.21:6389 192.168.244.22:6390 192.168.244.23:6391
+      --cluster-replicas 1
+      --cluster-yes
+    depends_on:
+      - redis-master-01
+      - redis-master-02
+      - redis-master-03
+      - redis-slave-01
+      - redis-slave-02
+      - redis-slave-03
+    networks:
+      deliveryplatform-redis-bridge:
+        ipv4_address: 192.168.244.2
+
+  redis-master-01:
+    container_name: redis-master-01
+    image: amd64/redis:6.2-alpine
+    platform: linux/amd64
+    ports:
+      - target: 6379
+        published: 6379
+      - target: 16379
+        published: 16379
+    volumes:
+      - ./server/redis/redis-master-01.conf:/usr/local/etc/redis/redis.conf
+    command:
+      - /usr/local/etc/redis/redis.conf
+    networks:
+      deliveryplatform-redis-bridge:
+        ipv4_address: 192.168.244.11
+
+  redis-master-02:
+    container_name: redis-master-02
+    image: amd64/redis:6.2-alpine
+    platform: linux/amd64
+    ports:
+      - target: 6380
+        published: 6380
+      - target: 16380
+        published: 16380
+    volumes:
+      - ./server/redis/redis-master-02.conf:/usr/local/etc/redis/redis.conf
+    command:
+      - /usr/local/etc/redis/redis.conf
+    networks:
+      deliveryplatform-redis-bridge:
+        ipv4_address: 192.168.244.12
+
+  redis-master-03:
+    container_name: redis-master-03
+    image: amd64/redis:6.2-alpine
+    platform: linux/amd64
+    ports:
+      - target: 6381
+        published: 6381
+      - target: 16381
+        published: 16381
+    volumes:
+      - ./server/redis/redis-master-03.conf:/usr/local/etc/redis/redis.conf
+    command:
+      - /usr/local/etc/redis/redis.conf
+    networks:
+      deliveryplatform-redis-bridge:
+        ipv4_address: 192.168.244.13
+
+  redis-slave-01:
+    container_name: redis-slave-01
+    image: amd64/redis:6.2-alpine
+    platform: linux/amd64
+    ports:
+      - target: 6389
+        published: 6389
+      - target: 16389
+        published: 16389
+    volumes:
+      - ./server/redis/redis-slave-01.conf:/usr/local/etc/redis/redis.conf
+    command:
+      - /usr/local/etc/redis/redis.conf
+    networks:
+      deliveryplatform-redis-bridge:
+        ipv4_address: 192.168.244.21
+
+  redis-slave-02:
+    container_name: redis-slave-02
+    image: amd64/redis:6.2-alpine
+    platform: linux/amd64
+    ports:
+      - target: 6390
+        published: 6390
+      - target: 16390
+        published: 16390
+    volumes:
+      - ./server/redis/redis-slave-02.conf:/usr/local/etc/redis/redis.conf
+    command:
+      - /usr/local/etc/redis/redis.conf
+    networks:
+      deliveryplatform-redis-bridge:
+        ipv4_address: 192.168.244.22
+
+  redis-slave-03:
+    container_name: redis-slave-03
+    image: amd64/redis:6.2-alpine
+    platform: linux/amd64
+    ports:
+      - target: 6391
+        published: 6391
+      - target: 16391
+        published: 16391
+    volumes:
+      - ./server/redis/redis-slave-03.conf:/usr/local/etc/redis/redis.conf
+    command:
+      - /usr/local/etc/redis/redis.conf
+    networks:
+      deliveryplatform-redis-bridge:
+        ipv4_address: 192.168.244.23
+
+networks:
+  deliveryplatform-redis-bridge:
+    name: deliveryplatform-redis-bridge
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.244.0/26
+          gateway: 192.168.244.1
+
