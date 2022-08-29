@@ -11,12 +11,12 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.domain.AbstractAggregateRoot;
+import org.flab.deliveryplatform.common.domain.AggregateRoot;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Delivery extends AbstractAggregateRoot<Delivery> {
+public class Delivery extends AggregateRoot {
 
     @Column(name = "delivery_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
