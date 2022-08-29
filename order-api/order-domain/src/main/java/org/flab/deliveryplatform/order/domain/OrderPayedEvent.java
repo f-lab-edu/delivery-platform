@@ -1,13 +1,9 @@
 package org.flab.deliveryplatform.order.domain;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.flab.deliveryplatform.common.event.Event;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public class OrderPayedEvent extends Event {
+public class OrderPayedEvent {
 
     private Long orderId;
 
