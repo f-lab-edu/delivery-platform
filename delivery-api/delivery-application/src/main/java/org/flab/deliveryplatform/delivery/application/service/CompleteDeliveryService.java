@@ -1,6 +1,7 @@
 package org.flab.deliveryplatform.delivery.application.service;
 
 import lombok.RequiredArgsConstructor;
+import org.flab.deliveryplatform.common.event.EventPublisher;
 import org.flab.deliveryplatform.delivery.application.port.CompleteDeliveryUseCase;
 import org.flab.deliveryplatform.delivery.application.port.DeliveryRepository;
 import org.flab.deliveryplatform.delivery.application.port.exception.DeliveryNotFoundException;
@@ -14,6 +15,8 @@ public class CompleteDeliveryService implements CompleteDeliveryUseCase {
 
     private final DeliveryRepository deliveryRepository;
 
+    private final EventPublisher deliveryEventPublisher;
+
     @Transactional
     @Override
     public void completeDelivery(Long deliveryId) {
@@ -22,6 +25,6 @@ public class CompleteDeliveryService implements CompleteDeliveryUseCase {
 
         delivery.complete();
 
-        deliveryRepository.save(delivery);
+        deliveryEventPublisher.publishAll(delivery.getOccurredEvents());
     }
 }
