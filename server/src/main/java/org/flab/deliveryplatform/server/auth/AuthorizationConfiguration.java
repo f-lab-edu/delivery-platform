@@ -15,7 +15,7 @@ public class AuthorizationConfiguration {
     @Bean
     public Map<UserType, AuthorizationUseCase> authServiceMap(List<AuthorizationUseCase> serviceList) {
         return serviceList.stream()
-            .filter(authUseCase -> authUseCase.getUserType() == null)
+            .filter(authUseCase -> authUseCase.getUserType() != null)
             .collect(Collectors.toMap(AuthorizationUseCase::getUserType, Function.identity()));
     }
 

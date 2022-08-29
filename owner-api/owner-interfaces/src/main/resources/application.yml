@@ -1,0 +1,3 @@
+auth:
+  token:
+    access-token-expired-time-millis: 1800000

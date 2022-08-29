@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.order.interfaces.handler;
+package org.flab.deliveryplatform.order.interfaces.eventhandler;
 
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.delivery.domain.DeliveryCompletedEvent;

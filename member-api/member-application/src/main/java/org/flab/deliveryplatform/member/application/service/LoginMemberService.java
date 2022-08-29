@@ -3,6 +3,7 @@ package org.flab.deliveryplatform.member.application.service;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.common.auth.AuthorizationData;
+import org.flab.deliveryplatform.common.auth.Token;
 import org.flab.deliveryplatform.member.application.port.AuthorizationRepository;
 import org.flab.deliveryplatform.member.application.port.EncryptManager;
 import org.flab.deliveryplatform.member.application.port.LoginMemberUseCase;
@@ -14,7 +15,6 @@ import org.flab.deliveryplatform.member.application.port.exception.InvalidMember
 import org.flab.deliveryplatform.member.domain.Member;
 import org.flab.deliveryplatform.member.domain.authorization.Authorization;
 import org.springframework.stereotype.Service;
-
 
 @RequiredArgsConstructor
 @Service
@@ -28,6 +28,8 @@ public class LoginMemberService implements LoginMemberUseCase {
 
     private final EncryptManager encryptManager;
 
+    private final MemberAuthProperties authProperties;
+
     @Override
     public AuthorizationData login(LoginMemberCommand command) {
         Member member = memberRepository.findByEmail(command.getEmail())
@@ -37,20 +39,24 @@ public class LoginMemberService implements LoginMemberUseCase {
             throw new InvalidMemberInfoException();
         }
 
-        String token = tokenProvider.generateToken(new CreateTokenCommand(member.getId()));
+        Token accessToken = tokenProvider.generateToken(new CreateTokenCommand(member.getId()));
 
         Authorization authorization = authorizationRepository.save(
             Authorization.builder()
-                .accessToken(token)
+                .accessToken(accessToken.getToken())
+                .tokenType(accessToken.getTokenType())
                 .memberId(member.getId())
                 .issueDate(LocalDateTime.now())
+                .accessTokenExpiredTimeMillis(authProperties.getToken().getAccessTokenExpiredTimeMillis())
                 .build()
         );
 
         return new AuthorizationData(
             authorization.getAccessToken(),
+            authorization.getTokenType(),
             authorization.getMemberId(),
-            authorization.getIssueDate()
+            authorization.getIssueDate(),
+            authorization.getAccessTokenExpiredTimeMillis()
         );
     }
 }
