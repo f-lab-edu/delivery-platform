@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.delivery.interfaces.handler;
+package org.flab.deliveryplatform.delivery.interfaces.eventhandler;
 
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.delivery.application.port.CreateDeliveryUseCase;

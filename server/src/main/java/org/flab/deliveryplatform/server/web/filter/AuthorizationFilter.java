@@ -3,27 +3,26 @@ package org.flab.deliveryplatform.server.web.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.awt.geom.IllegalPathStateException;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.Arrays;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.flab.deliveryplatform.common.auth.AuthConst;
 import org.flab.deliveryplatform.common.auth.AuthorizationData;
 import org.flab.deliveryplatform.common.auth.AuthorizationUseCase;
+import org.flab.deliveryplatform.common.auth.Token;
+import org.flab.deliveryplatform.common.auth.TokenType;
+import org.flab.deliveryplatform.common.auth.User;
 import org.flab.deliveryplatform.common.auth.UserType;
 import org.flab.deliveryplatform.common.auth.exception.ExpiredAuthorizationException;
 import org.flab.deliveryplatform.common.auth.exception.InvalidAuthorizationException;
 import org.flab.deliveryplatform.common.web.dto.DeliveryPlatformErrorResponse;
 import org.flab.deliveryplatform.server.auth.AuthorizationServiceFactory;
-import org.springframework.core.annotation.Order;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-@Order(2)
-@WebFilter
 @RequiredArgsConstructor
 public class AuthorizationFilter extends OncePerRequestFilter {
 
@@ -31,13 +30,13 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
+    private final String memberPathPrefix = "/members/";
+
+    private final String ownerPathPrefix = "/owners/";
+
     private final String[] excludedPathPatterns = {"/**/login", "/**/signUp"};
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
-
-    private static final String TOKEN_TYPE = "Bearer ";
-
-    private static final long expiredTimeMillis = 1_800_000L;
 
     private final AuthorizationServiceFactory authorizationServiceFactory;
 
@@ -49,16 +48,16 @@ public class AuthorizationFilter extends OncePerRequestFilter {
             try {
                 UserType userType = parseUserType(request);
 
-                String token = parseToken(request);
+                Token token = parseToken(request);
 
                 AuthorizationUseCase authorizationUseCase =
                     authorizationServiceFactory.getAuthorizationUseCase(userType);
 
-                AuthorizationData authorizationData = authorizationUseCase.getAuthorizationData(token);
+                AuthorizationData authorizationData = authorizationUseCase.getAuthorizationData(token.getToken());
 
                 checkIsExpired(authorizationData);
 
-                request.setAttribute(getFitUserIdName(userType), authorizationData.getUserId());
+                request.setAttribute(AuthConst.USER_INFO_KEY, new User(userType, authorizationData.getUserId()));
             } catch (ExpiredAuthorizationException tee) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 DeliveryPlatformErrorResponse<Object> errorResponse = DeliveryPlatformErrorResponse.error(null,
@@ -78,8 +77,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
     }
 
     private void checkIsExpired(AuthorizationData authorizationData) {
-        if (System.currentTimeMillis() - Timestamp.valueOf(authorizationData.getIssueDate()).getTime()
-            > expiredTimeMillis) {
+        if (authorizationData.getExpiresIn() <= 0) {
             throw new ExpiredAuthorizationException();
         }
     }
@@ -89,33 +87,24 @@ public class AuthorizationFilter extends OncePerRequestFilter {
             .anyMatch(pattern -> antPathMatcher.match(pattern, request.getRequestURI()));
     }
 
-    private String parseToken(HttpServletRequest request) {
+    private Token parseToken(HttpServletRequest request) {
         String authorizationHeader = request.getHeader(AUTHORIZATION_HEADER);
-        if (authorizationHeader.startsWith(TOKEN_TYPE)) {
-            return authorizationHeader.substring(TOKEN_TYPE.length());
+        String[] token = authorizationHeader.split(" ");
+        try {
+            return new Token(TokenType.valueOf(token[0].toUpperCase()), token[1]);
+        } catch (Exception e) {
+            throw new InvalidAuthorizationException();
         }
-        throw new InvalidAuthorizationException();
     }
 
     private UserType parseUserType(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
-        if (requestURI.startsWith("/members/")) {
+        if (requestURI.startsWith(memberPathPrefix)) {
             return UserType.MEMBER;
-        } else if (requestURI.startsWith("/owners/")) {
+        } else if (requestURI.startsWith(ownerPathPrefix)) {
             return UserType.OWNER;
         }
         throw new IllegalPathStateException();
-    }
-
-    private String getFitUserIdName(UserType userType) {
-        switch (userType) {
-            case MEMBER:
-                return "memberId";
-            case OWNER:
-                return "ownerId";
-            default:
-                throw new IllegalArgumentException();
-        }
     }
 
 }

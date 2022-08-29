@@ -4,32 +4,45 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 import org.flab.deliveryplatform.common.auth.AuthorizationData;
+import org.flab.deliveryplatform.common.auth.Token;
+import org.flab.deliveryplatform.common.auth.TokenType;
 import org.flab.deliveryplatform.member.application.port.AuthorizationRepository;
 import org.flab.deliveryplatform.member.application.port.EncryptManager;
 import org.flab.deliveryplatform.member.application.port.MemberRepository;
 import org.flab.deliveryplatform.member.application.port.TokenProvider;
+import org.flab.deliveryplatform.member.application.port.dto.CreateTokenCommand;
 import org.flab.deliveryplatform.member.application.port.dto.LoginMemberCommand;
 import org.flab.deliveryplatform.member.application.port.exception.InvalidMemberInfoException;
 import org.flab.deliveryplatform.member.domain.Member;
 import org.flab.deliveryplatform.member.domain.authorization.Authorization;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 class LoginMemberServiceTest {
 
-    private MemberRepository memberRepository = mock(MemberRepository.class);
+    @Mock
+    private MemberRepository memberRepository;
 
-    private AuthorizationRepository authorizationRepository = mock(AuthorizationRepository.class);
+    @Mock
+    private AuthorizationRepository authorizationRepository;
 
-    private TokenProvider tokenProvider = mock(TokenProvider.class);
+    @Mock
+    private TokenProvider tokenProvider;
 
-    private EncryptManager encryptManager = mock(EncryptManager.class);
+    @Mock
+    private EncryptManager encryptManager;
 
+    @InjectMocks
     private LoginMemberService loginMemberService;
 
     private String existingEmail = "test@test.com";
@@ -38,7 +51,12 @@ class LoginMemberServiceTest {
     private String validPassword = "12345678";
     private String invalidPassword = validPassword + "invalid";
 
-    private String accessToken = UUID.randomUUID().toString();
+    private Token token;
+
+    @Mock
+    private MemberAuthProperties authProperties;
+
+    private MemberAuthProperties.Token tokenProperty;
 
     private Member member;
 
@@ -50,19 +68,25 @@ class LoginMemberServiceTest {
 
     @BeforeEach
     void setUp() {
-        loginMemberService = new LoginMemberService(
-            memberRepository, authorizationRepository, tokenProvider, encryptManager
-        );
-
         member = new Member(1L, "nickname", existingEmail, validPassword, "010-1111-2222");
 
         validCommand = new LoginMemberCommand(existingEmail, validPassword);
         commandWithNotExistingEmail = new LoginMemberCommand(notExistingEmail, validPassword);
         commandWithInvalidPassword = new LoginMemberCommand(existingEmail, invalidPassword);
 
+        token = new Token(
+            TokenType.BEARER,
+            UUID.randomUUID().toString()
+        );
+
+        tokenProperty = new MemberAuthProperties.Token(1_800_000L);
+
         authorization = Authorization.builder()
-            .accessToken(accessToken)
+            .accessToken(token.getToken())
+            .tokenType(token.getTokenType())
             .memberId(member.getId())
+            .issueDate(LocalDateTime.now())
+            .accessTokenExpiredTimeMillis(tokenProperty.getAccessTokenExpiredTimeMillis())
             .build();
     }
 
@@ -74,11 +98,17 @@ class LoginMemberServiceTest {
         given(encryptManager.isMatch(validCommand.getPassword(), member.getPassword()))
             .willReturn(true);
 
+        given(authProperties.getToken())
+            .willReturn(tokenProperty);
+
+        given(tokenProvider.generateToken(any(CreateTokenCommand.class)))
+            .willReturn(token);
+
         given(authorizationRepository.save(any(Authorization.class)))
             .willReturn(authorization);
 
         AuthorizationData authorizationData = loginMemberService.login(validCommand);
-        assertThat(authorizationData.getAccessToken()).isEqualTo(accessToken);
+        assertThat(authorizationData.getAccessToken()).isEqualTo(token.getToken());
     }
 
     @Test

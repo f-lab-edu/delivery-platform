@@ -15,7 +15,7 @@ public class AuthorizationService implements AuthorizationUseCase {
 
     @Override
     public UserType getUserType() {
-        return UserType.MEMBER;
+        return UserType.OWNER;
     }
 
     @Override
@@ -26,8 +26,10 @@ public class AuthorizationService implements AuthorizationUseCase {
 
         return new AuthorizationData(
             authorization.getAccessToken(),
+            authorization.getTokenType(),
             authorization.getOwnerId(),
-            authorization.getIssueDate()
+            authorization.getIssueDate(),
+            authorization.getAccessTokenExpiredTimeMillis()
         );
     }
 

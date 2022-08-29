@@ -22,6 +22,10 @@ spring:
 server:
   port: 18081
 
+auth:
+  token:
+    access-token-expired-time-millis: 1800000
+
 async-thread-pool:
   core-pool-size: 3
   max-pool-size: 20

@@ -1,16 +1,15 @@
-package org.flab.deliveryplatform.shop.interfaces.web;
+package org.flab.deliveryplatform.shop.interfaces.web.owner;
 
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.common.web.dto.DeliveryPlatformResponse;
 import org.flab.deliveryplatform.shop.application.port.CreateOptionUseCase;
 import org.flab.deliveryplatform.shop.application.port.dto.OptionCommand;
-import org.flab.deliveryplatform.shop.interfaces.web.common.ShopRestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RequiredArgsConstructor
-@ShopRestController
+@OwnerShopRestController
 public class CreateOptionController {
 
     private final CreateOptionUseCase createOptionUseCase;

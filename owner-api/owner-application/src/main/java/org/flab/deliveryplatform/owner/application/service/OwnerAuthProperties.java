@@ -1,0 +1,22 @@
+package org.flab.deliveryplatform.owner.application.service;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConstructorBinding;
+
+@Getter
+@ConstructorBinding
+@RequiredArgsConstructor
+@ConfigurationProperties(prefix = "auth")
+public class OwnerAuthProperties {
+
+    private final Token token;
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class Token {
+
+        private final long accessTokenExpiredTimeMillis;
+    }
+}

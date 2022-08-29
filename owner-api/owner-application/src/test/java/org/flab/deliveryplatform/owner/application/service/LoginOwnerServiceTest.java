@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 import org.flab.deliveryplatform.common.auth.AuthorizationData;
+import org.flab.deliveryplatform.common.auth.Token;
+import org.flab.deliveryplatform.common.auth.TokenType;
 import org.flab.deliveryplatform.owner.application.port.AuthorizationRepository;
 import org.flab.deliveryplatform.owner.application.port.EncryptionManager;
 import org.flab.deliveryplatform.owner.application.port.OwnerRepository;
@@ -42,7 +44,14 @@ class LoginOwnerServiceTest {
     @Mock
     TokenProvider tokenProvider;
 
+    @Mock
+    OwnerAuthProperties authProperties;
+
+    OwnerAuthProperties.Token tokenProperty;
+
     Owner owner;
+
+    Token token;
 
     Authorization authorization;
 
@@ -60,10 +69,16 @@ class LoginOwnerServiceTest {
             .phoneNumber("010-1234-5678")
             .build();
 
+        token = new Token(TokenType.BEARER, UUID.randomUUID().toString());
+
+        tokenProperty = new OwnerAuthProperties.Token(1_800_000L);
+
         authorization = Authorization.builder()
-            .accessToken(UUID.randomUUID().toString())
+            .accessToken(token.getToken())
+            .tokenType(token.getTokenType())
             .ownerId(owner.getId())
             .issueDate(LocalDateTime.now())
+            .accessTokenExpiredTimeMillis(tokenProperty.getAccessTokenExpiredTimeMillis())
             .build();
 
         loginOwnerCommand = new LoginOwnerCommand(owner.getEmail(), owner.getPassword());
@@ -78,6 +93,12 @@ class LoginOwnerServiceTest {
 
         given(encryptionManager.isMatch(loginOwnerCommand.getPassword(), owner.getPassword()))
             .willReturn(true);
+
+        given(authProperties.getToken())
+            .willReturn(tokenProperty);
+
+        given(tokenProvider.generateToken())
+            .willReturn(token);
 
         given(authorizationRepository.save(any(Authorization.class)))
             .willReturn(authorization);

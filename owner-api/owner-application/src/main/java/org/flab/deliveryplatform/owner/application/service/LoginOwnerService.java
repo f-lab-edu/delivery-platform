@@ -3,6 +3,7 @@ package org.flab.deliveryplatform.owner.application.service;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.common.auth.AuthorizationData;
+import org.flab.deliveryplatform.common.auth.Token;
 import org.flab.deliveryplatform.owner.application.port.AuthorizationRepository;
 import org.flab.deliveryplatform.owner.application.port.EncryptionManager;
 import org.flab.deliveryplatform.owner.application.port.LoginOwnerUseCase;
@@ -25,7 +26,9 @@ public class LoginOwnerService implements LoginOwnerUseCase {
     private final EncryptionManager encryptionManager;
 
     private final TokenProvider tokenProvider;
-    
+
+    private final OwnerAuthProperties authProperties;
+
     @Override
     public AuthorizationData login(LoginOwnerCommand loginOwnerCommand) {
         Owner owner = ownerRepository.findByEmail(loginOwnerCommand.getEmail())
@@ -33,20 +36,24 @@ public class LoginOwnerService implements LoginOwnerUseCase {
 
         checkPassword(loginOwnerCommand, owner);
 
-        String accessToken = tokenProvider.generateToken();
+        Token accessToken = tokenProvider.generateToken();
 
         Authorization savedAuthorization = authorizationRepository.save(
             Authorization.builder()
-                .accessToken(accessToken)
+                .accessToken(accessToken.getToken())
+                .tokenType(accessToken.getTokenType())
                 .ownerId(owner.getId())
                 .issueDate(LocalDateTime.now())
+                .accessTokenExpiredTimeMillis(authProperties.getToken().getAccessTokenExpiredTimeMillis())
                 .build()
         );
 
         return new AuthorizationData(
             savedAuthorization.getAccessToken(),
+            savedAuthorization.getTokenType(),
             savedAuthorization.getOwnerId(),
-            savedAuthorization.getIssueDate()
+            savedAuthorization.getIssueDate(),
+            savedAuthorization.getAccessTokenExpiredTimeMillis()
         );
     }
 
