@@ -17,14 +17,14 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.flab.deliveryplatform.common.domain.AggregateRoot;
 import org.flab.deliveryplatform.order.domain.exception.InvalidOrderStatusException;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "orders")
 @Entity
-public class Order extends AggregateRoot {
+public class Order extends AbstractAggregateRoot<Order> {
 
     @Column(name = "order_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

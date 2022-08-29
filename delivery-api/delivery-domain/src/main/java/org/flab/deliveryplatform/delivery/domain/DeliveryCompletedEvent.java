@@ -1,8 +1,6 @@
 package org.flab.deliveryplatform.delivery.domain;
 
-import org.flab.deliveryplatform.common.event.Event;
-
-public class DeliveryCompletedEvent extends Event {
+public class DeliveryCompletedEvent {
 
     private Long orderId;
 
