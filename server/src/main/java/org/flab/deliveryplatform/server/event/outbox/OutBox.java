@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.server.outbox;
+package org.flab.deliveryplatform.server.event.outbox;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +11,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.flab.deliveryplatform.common.event.OutBoxEvent;
 
 
 @Getter
@@ -41,14 +40,5 @@ public class OutBox {
         this.aggregateId = aggregateId;
         this.eventType = eventType;
         this.payload = payload;
-    }
-
-    public static OutBox from(OutBoxEvent event) {
-        return OutBox.builder()
-            .aggregateType(event.getAggregateType())
-            .aggregateId(event.getAggregateId())
-            .eventType(event.getEventType())
-            .payload(event.getPayload())
-            .build();
     }
 }

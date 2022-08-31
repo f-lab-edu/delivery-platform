@@ -15,7 +15,7 @@ public class CompleteDeliveryService implements CompleteDeliveryUseCase {
 
     private final DeliveryRepository deliveryRepository;
 
-    private final EventPublisher deliveryEventPublisher;
+    private final EventPublisher eventPublisher;
 
     @Transactional
     @Override
@@ -25,6 +25,6 @@ public class CompleteDeliveryService implements CompleteDeliveryUseCase {
 
         delivery.complete();
 
-        deliveryEventPublisher.publishAll(delivery.getOccurredEvents());
+        eventPublisher.publishAll(delivery.getOccurredEvents());
     }
 }

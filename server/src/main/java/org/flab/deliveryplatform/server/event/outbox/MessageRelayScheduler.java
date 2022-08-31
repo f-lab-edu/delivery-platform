@@ -1,10 +1,11 @@
-package org.flab.deliveryplatform.server.outbox;
+package org.flab.deliveryplatform.server.event.outbox;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.util.ArrayList;
 import java.util.List;
+import org.flab.deliveryplatform.delivery.interfaces.eventhandler.OrderPayedEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -36,14 +37,19 @@ public class MessageRelayScheduler {
 
         List<Long> completedOutBoxes = new ArrayList<>();
         outBoxes.forEach(outBox -> {
-            Object event = null;
-            try {
-                event = objectMapper.readValue(outBox.getPayload(), Class.forName(outBox.getEventType()));
-            } catch (JsonProcessingException e) {
-                throw new IllegalStateException("OutBox 변환 에러입니다.", e);
-            } catch (ClassNotFoundException e) {
-                throw new IllegalStateException("OutBox 이벤트 타입이 존재하지 않습니다.", e);
+            Object event;
+            switch (outBox.getEventType()) {
+                case "OrderPayedApplicationEvent":
+                    try {
+                        event = objectMapper.readValue(outBox.getPayload(), OrderPayedEvent.class);
+                    } catch (JsonProcessingException e) {
+                        throw new IllegalStateException("OutBox 변환 에러입니다.", e);
+                    }
+                    break;
+                default:
+                    throw new IllegalStateException();
             }
+
             applicationEventPublisher.publishEvent(event);
             completedOutBoxes.add(outBox.getId());
         });
@@ -52,5 +58,4 @@ public class MessageRelayScheduler {
             jpaOutBoxRepository.deleteAllByIdIn(completedOutBoxes);
         }
     }
-
 }

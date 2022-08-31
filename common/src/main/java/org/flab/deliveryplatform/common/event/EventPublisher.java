@@ -4,7 +4,7 @@ import java.util.Collection;
 
 public interface EventPublisher {
 
-    void publish(Object event);
+    void publish(Event domainEvent);
 
-    void publishAll(Collection<?> events);
+    void publishAll(Collection<Event> domainEvents);
 }
