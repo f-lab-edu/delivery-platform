@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.common.event.Event;
+import org.flab.deliveryplatform.delivery.domain.Delivery;
+import org.flab.deliveryplatform.delivery.domain.DeliveryNotMatchedApplicationEvent;
 import org.flab.deliveryplatform.order.domain.Order;
 import org.flab.deliveryplatform.order.domain.OrderPayedApplicationEvent;
 import org.springframework.context.event.EventListener;
@@ -22,6 +24,18 @@ public class OutBoxEventHandler {
         OutBox outBox = OutBox.builder()
             .aggregateType(Order.class.getSimpleName())
             .aggregateId(String.valueOf(event.getOrderId()))
+            .eventType(event.getClass().getSimpleName())
+            .payload(getPayload(event))
+            .build();
+
+        jpaOutBoxRepository.save(outBox);
+    }
+
+    @EventListener
+    public void handleDeliveryNotMatchedApplicationEvent(DeliveryNotMatchedApplicationEvent event) {
+        OutBox outBox = OutBox.builder()
+            .aggregateType(Delivery.class.getSimpleName())
+            .aggregateId(String.valueOf(event.getDeliveryId()))
             .eventType(event.getClass().getSimpleName())
             .payload(getPayload(event))
             .build();

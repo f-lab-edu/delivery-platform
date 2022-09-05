@@ -83,4 +83,12 @@ public class Order extends AggregateRoot {
 
         return totalPrice;
     }
+
+    public void cancel() {
+        if (this.status == OrderStatus.DELIVERED) {
+            throw new InvalidOrderStatusException("이미 배송이 완료된 주문은 취소할 수 없습니다.");
+        }
+
+        this.status = OrderStatus.CANCELED;
+    }
 }

@@ -39,4 +39,14 @@ public class Delivery extends AggregateRoot {
         this.status = DeliveryStatus.DELIVERED;
         registerEvent(new DeliveryCompletedEvent(orderId));
     }
+
+    public void start() {
+        this.status = DeliveryStatus.DELIVERING;
+    }
+
+    public void notMatched() {
+        this.status = DeliveryStatus.NOT_MATCHED;
+
+        registerEvent(new DeliveryNotMatchedApplicationEvent(id, orderId));
+    }
 }
