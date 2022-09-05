@@ -1,16 +1,15 @@
 version: "3.8"
 
 services:
-  member-session-redis-cluster:
-    container_name: member-session-redis-cluster
-    image: amd64/redis:6.2-alpine
+  member-session-redis-clustering:
+    container_name: member-session-redis-clustering
+    build:
+      context: ./server/redis
+      dockerfile: Dockerfile
     platform: linux/amd64
     command: >
-      redis-cli --cluster create
       127.0.0.1:6379 127.0.0.1:6380 127.0.0.1:6381
       127.0.0.1:6389 127.0.0.1:6390 127.0.0.1:6391
-      --cluster-replicas 1
-      --cluster-yes
     depends_on:
       - member-session-redis-master-01
       - member-session-redis-master-02
