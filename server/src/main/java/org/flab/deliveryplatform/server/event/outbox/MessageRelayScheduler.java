@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.util.List;
+import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.flab.deliveryplatform.common.event.Event;
 import org.flab.deliveryplatform.delivery.interfaces.eventhandler.OrderPayedEvent;
 import org.springframework.context.ApplicationEventPublisher;
@@ -34,6 +35,7 @@ public class MessageRelayScheduler {
         this.objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
     }
 
+    @SchedulerLock(name = "handleOutBox")
     @Scheduled(fixedDelay = 5000)
     public void handle() {
         List<OutBox> outBoxes = jpaOutBoxRepository.findAll();
