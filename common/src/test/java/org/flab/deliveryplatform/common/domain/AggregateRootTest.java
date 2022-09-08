@@ -23,13 +23,13 @@ class AggregateRootTest {
         aggregateRoot.registerEvent(new FakeEvent(1L));
         aggregateRoot.registerEvent(new FakeEvent(2L));
 
-        Collection<Object> occurredEvents = aggregateRoot.getOccurredEvents();
+        Collection<Event> occurredEvents = aggregateRoot.getOccurredEvents();
 
         assertThat(occurredEvents).hasSize(2);
         assertThatThrownBy(() -> occurredEvents.add(new FakeEvent(3L)))
             .isInstanceOf(UnsupportedOperationException.class);
 
-        Collection<Object> emptyEvents = aggregateRoot.getOccurredEvents();
+        Collection<Event> emptyEvents = aggregateRoot.getOccurredEvents();
         assertThat(emptyEvents).hasSize(0);
     }
 
