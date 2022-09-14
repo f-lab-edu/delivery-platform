@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MemberRepositoryAdaptor implements MemberRepository {
 
-    private final MemoryMemberRepository memberRepository;
+    private final JpaMemberRepository memberRepository;
 
     @Override
     public Member save(Member member) {
@@ -34,7 +34,7 @@ public class MemberRepositoryAdaptor implements MemberRepository {
 
     @Override
     public boolean exists(String email) {
-        return memberRepository.exists(email);
+        return memberRepository.existsByEmail(email);
     }
 
     @Override

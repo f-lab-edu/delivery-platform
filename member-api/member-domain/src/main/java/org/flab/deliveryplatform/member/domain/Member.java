@@ -1,11 +1,23 @@
 package org.flab.deliveryplatform.member.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 public class Member {
 
+    @Column(name = "member_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
 
     private String nickname;
@@ -23,9 +35,5 @@ public class Member {
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
-    }
-
-    public boolean authenticate(String password) {
-        return this.password.equals(password);
     }
 }
