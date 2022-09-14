@@ -1,16 +1,17 @@
-package org.flab.deliveryplatform.order.infrastructure.persistence;
+package org.flab.deliveryplatform.order.query.infrastructure.persistence;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.delivery.infrastructure.persistence.JpaDeliveryRepository;
 import org.flab.deliveryplatform.member.infrastructure.persistence.MemoryMemberRepository;
-import org.flab.deliveryplatform.order.application.port.OrderQueryRepository;
-import org.flab.deliveryplatform.order.application.port.dto.OrderData;
-import org.flab.deliveryplatform.order.application.port.dto.OrderData.DeliveryData;
-import org.flab.deliveryplatform.order.application.port.dto.OrderData.MemberData;
-import org.flab.deliveryplatform.order.application.port.dto.OrderData.OrderLineItemData;
-import org.flab.deliveryplatform.order.application.port.dto.OrderData.ShopData;
+import org.flab.deliveryplatform.order.infrastructure.persistence.JpaOrderRepository;
+import org.flab.deliveryplatform.order.query.application.OrderQueryRepository;
+import org.flab.deliveryplatform.order.query.application.dto.OrderData;
+import org.flab.deliveryplatform.order.query.application.dto.OrderData.DeliveryData;
+import org.flab.deliveryplatform.order.query.application.dto.OrderData.MemberData;
+import org.flab.deliveryplatform.order.query.application.dto.OrderData.OrderLineItemData;
+import org.flab.deliveryplatform.order.query.application.dto.OrderData.ShopData;
 import org.flab.deliveryplatform.shop.infrastructure.persistence.JpaShopRepository;
 import org.springframework.stereotype.Repository;
 

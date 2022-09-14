@@ -4,12 +4,6 @@ dependencies {
     implementation project(':common')
     implementation project(':order-api:order-domain')
     implementation project(':order-api:order-application')
-    implementation project(':member-api:member-infrastructure')
-    implementation project(':member-api:member-domain')
-    implementation project(':delivery-api:delivery-infrastructure')
-    implementation project(':delivery-api:delivery-domain')
-    implementation project(':shop-api:shop-infrastructure')
-    implementation project(':shop-api:shop-domain')
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
 }
