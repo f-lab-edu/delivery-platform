@@ -19,6 +19,17 @@ spring:
     show-sql: true
     open-in-view: false
 
+  boot:
+    admin:
+      client:
+        url: http://localhost:18090
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
 server:
   port: 18080
 

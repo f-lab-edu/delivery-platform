@@ -47,4 +47,5 @@ include 'delivery-api:delivery-domain'
 findProject(':delivery-api:delivery-domain')?.name = 'delivery-domain'
 include 'delivery-api:delivery-infrastructure'
 findProject(':delivery-api:delivery-infrastructure')?.name = 'delivery-infrastructure'
+include 'spring-boot-admin-server'
 
