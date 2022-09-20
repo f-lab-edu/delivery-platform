@@ -11,6 +11,8 @@ spring:
   jpa:
     database: mysql
     open-in-view: false
+    properties:
+      hibernate.default_batch_fetch_size: 1000
 
 server:
   port: 8080

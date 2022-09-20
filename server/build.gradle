@@ -21,6 +21,9 @@ dependencies {
     implementation project(':delivery-api:delivery-infrastructure')
     implementation project(':delivery-api:delivery-application')
     implementation project(':delivery-api:delivery-domain')
+    implementation project(':order-query-api:order-query-interfaces')
+    implementation project(':order-query-api:order-query-infrastructure')
+    implementation project(':order-query-api:order-query-application')
     implementation project(':common')
 
     implementation 'org.flywaydb:flyway-mysql:8.5.12'

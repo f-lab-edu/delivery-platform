@@ -13,9 +13,21 @@ public class MemoryMemberRepository {
     private final AtomicLong sequence = new AtomicLong();
     private final Map<Long, Member> store = new ConcurrentHashMap<>();
 
+    {
+        // TODO: DB에 저장 후 삭제.
+        Member saveMember = Member.builder()
+            .id(sequence.incrementAndGet())
+            .nickname("test")
+            .email("test@test.com")
+            .password("test1234")
+            .phoneNumber("010-1234-1234")
+            .build();
+        store.put(saveMember.getId(), saveMember);
+    }
+
     public Member save(Member member) {
         Member saveMember = Member.builder()
-            .id(sequence.getAndIncrement())
+            .id(sequence.incrementAndGet())
             .nickname(member.getNickname())
             .email(member.getEmail())
             .password(member.getPassword())
