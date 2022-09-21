@@ -16,46 +16,19 @@ public class OrderData {
 
     private int totalPrice;
 
-    private ShopData shop;
+    private String shopName;
 
-    private DeliveryData delivery;
-
-    private MemberData member;
+    private String deliveryStatus;
 
     @Builder
-    public OrderData(Long id, List<OrderLineItemData> orderLineItems, String status,
-        int totalPrice, ShopData shop, DeliveryData delivery, MemberData member) {
+    private OrderData(Long id, List<OrderLineItemData> orderLineItems, String status,
+        int totalPrice, String shopName, String deliveryStatus) {
         this.id = id;
         this.orderLineItems = orderLineItems;
         this.status = status;
         this.totalPrice = totalPrice;
-        this.shop = shop;
-        this.delivery = delivery;
-        this.member = member;
-    }
-
-    @Getter
-    @AllArgsConstructor
-    public static class ShopData {
-
-        private String name;
-        private String phoneNumber;
-        private String address;
-    }
-
-    @Getter
-    @AllArgsConstructor
-    public static class DeliveryData {
-
-        private String status;
-    }
-
-    @Getter
-    @AllArgsConstructor
-    public static class MemberData {
-
-        private String nickName;
-        private String phoneNumber;
+        this.shopName = shopName;
+        this.deliveryStatus = deliveryStatus;
     }
 
     @Getter
