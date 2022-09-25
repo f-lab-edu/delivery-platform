@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.order.query.interfaces.eventlistener;
+package org.flab.deliveryplatform.order.query.interfaces.eventlistener.event;
 
 import lombok.AccessLevel;
 import lombok.Getter;

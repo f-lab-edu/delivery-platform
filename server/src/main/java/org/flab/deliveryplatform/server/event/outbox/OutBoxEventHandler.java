@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.common.event.Event;
 import org.flab.deliveryplatform.order.domain.Order;
+import org.flab.deliveryplatform.order.domain.event.OrderCreatedEvent;
 import org.flab.deliveryplatform.order.domain.event.OrderPayedEvent;
 import org.flab.deliveryplatform.order.domain.event.OrderStatusChangedEvent;
 import org.springframework.context.event.EventListener;
@@ -32,6 +33,18 @@ public class OutBoxEventHandler {
 
     @EventListener
     public void handleOrderStatusChangedEvent(OrderStatusChangedEvent event) {
+        OutBox outBox = OutBox.builder()
+            .aggregateType(Order.class.getSimpleName())
+            .aggregateId(String.valueOf(event.getOrderId()))
+            .eventType(event.getClass().getSimpleName())
+            .payload(getPayload(event))
+            .build();
+
+        jpaOutBoxRepository.save(outBox);
+    }
+
+    @EventListener
+    public void handleOrderCreatedEvent(OrderCreatedEvent event) {
         OutBox outBox = OutBox.builder()
             .aggregateType(Order.class.getSimpleName())
             .aggregateId(String.valueOf(event.getOrderId()))

@@ -1,22 +1,21 @@
 package org.flab.deliveryplatform.order.query.application.service;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.flab.deliveryplatform.order.query.application.port.GetMyOrdersQuery;
+import org.flab.deliveryplatform.order.query.application.port.CreateMyOrderUseCase;
 import org.flab.deliveryplatform.order.query.application.port.MyOrderRepository;
-import org.flab.deliveryplatform.order.query.application.port.dto.OrderData;
+import org.flab.deliveryplatform.order.query.application.port.dto.CreateMyOrderCommand;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class GetMyOrdersService implements GetMyOrdersQuery {
+public class CreateMyOrderService implements CreateMyOrderUseCase {
 
     private final MyOrderRepository myOrderRepository;
 
-    @Transactional(readOnly = true)
+    @Transactional
     @Override
-    public List<OrderData> getMyOrders(Long memberId) {
-        return myOrderRepository.findAllByMemberId(memberId);
+    public void createMyOrder(CreateMyOrderCommand command) {
+        myOrderRepository.save(command);
     }
 }

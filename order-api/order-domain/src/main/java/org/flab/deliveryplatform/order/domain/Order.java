@@ -59,7 +59,6 @@ public class Order extends AggregateRoot {
 
     public void place() {
         this.status = OrderStatus.ORDERED;
-        registerEvent(new OrderStatusChangedEvent(id, status));
     }
 
     public void payed() {

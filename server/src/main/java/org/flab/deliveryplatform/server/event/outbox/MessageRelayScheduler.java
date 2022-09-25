@@ -1,6 +1,7 @@
 package org.flab.deliveryplatform.server.event.outbox;
 
 
+import static org.flab.deliveryplatform.server.event.EventTypeConstant.ORDER_CREATED_EVENT;
 import static org.flab.deliveryplatform.server.event.EventTypeConstant.ORDER_PAYED_APPLICATION_EVENT;
 import static org.flab.deliveryplatform.server.event.EventTypeConstant.ORDER_STATUS_CHANGED_EVENT;
 
@@ -11,7 +12,8 @@ import java.util.List;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.flab.deliveryplatform.common.event.Event;
 import org.flab.deliveryplatform.delivery.interfaces.eventhandler.OrderPayedApplicationEvent;
-import org.flab.deliveryplatform.order.query.interfaces.eventlistener.OrderStatusChangedApplicationEvent;
+import org.flab.deliveryplatform.order.query.interfaces.eventlistener.event.OrderCreatedApplicationEvent;
+import org.flab.deliveryplatform.order.query.interfaces.eventlistener.event.OrderStatusChangedApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -53,6 +55,9 @@ public class MessageRelayScheduler {
                     break;
                 case ORDER_STATUS_CHANGED_EVENT:
                     event = convertEvent(outBox.getPayload(), OrderStatusChangedApplicationEvent.class);
+                    break;
+                case ORDER_CREATED_EVENT:
+                    event = convertEvent(outBox.getPayload(), OrderCreatedApplicationEvent.class);
                     break;
                 default:
                     throw new IllegalStateException();

@@ -2,7 +2,7 @@ package org.flab.deliveryplatform.order.query.application.service;
 
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.order.query.application.port.ChangeMyOrderUseCase;
-import org.flab.deliveryplatform.order.query.application.port.OrderQueryRepository;
+import org.flab.deliveryplatform.order.query.application.port.MyOrderRepository;
 import org.flab.deliveryplatform.order.query.application.port.exception.MyOrderNotFoundException;
 import org.flab.deliveryplatform.order.query.domain.MyOrder;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ChangeMyOrderService implements ChangeMyOrderUseCase {
 
-    private final OrderQueryRepository orderQueryRepository;
+    private final MyOrderRepository myOrderRepository;
 
     @Transactional
     @Override
@@ -30,7 +30,7 @@ public class ChangeMyOrderService implements ChangeMyOrderUseCase {
     }
 
     private MyOrder findMyOrder(Long orderId) {
-        return orderQueryRepository.findByOrderId(orderId)
+        return myOrderRepository.findByOrderId(orderId)
             .orElseThrow(() -> new MyOrderNotFoundException(orderId));
     }
 }

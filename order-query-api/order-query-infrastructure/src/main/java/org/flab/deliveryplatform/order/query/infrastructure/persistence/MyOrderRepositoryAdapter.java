@@ -7,7 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.delivery.infrastructure.persistence.JpaDeliveryRepository;
 import org.flab.deliveryplatform.member.infrastructure.persistence.MemoryMemberRepository;
 import org.flab.deliveryplatform.order.infrastructure.persistence.JpaOrderRepository;
-import org.flab.deliveryplatform.order.query.application.port.OrderQueryRepository;
+import org.flab.deliveryplatform.order.query.application.port.MyOrderRepository;
+import org.flab.deliveryplatform.order.query.application.port.dto.CreateMyOrderCommand;
 import org.flab.deliveryplatform.order.query.application.port.dto.OrderData;
 import org.flab.deliveryplatform.order.query.application.port.dto.OrderData.OrderLineItemData;
 import org.flab.deliveryplatform.order.query.domain.MyOrder;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
-public class OrderQueryRepositoryAdapter implements OrderQueryRepository {
+public class MyOrderRepositoryAdapter implements MyOrderRepository {
 
     private final JpaOrderRepository jpaOrderRepository;
 
@@ -56,6 +57,11 @@ public class OrderQueryRepositoryAdapter implements OrderQueryRepository {
 
     @Override
     public Optional<MyOrder> findByOrderId(Long orderId) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public MyOrder save(CreateMyOrderCommand command) {
         throw new UnsupportedOperationException();
     }
 }
