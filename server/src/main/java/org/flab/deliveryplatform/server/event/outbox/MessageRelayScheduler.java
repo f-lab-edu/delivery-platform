@@ -10,7 +10,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.util.List;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.flab.deliveryplatform.common.event.Event;
-import org.flab.deliveryplatform.delivery.interfaces.eventhandler.OrderPayedEvent;
+import org.flab.deliveryplatform.delivery.interfaces.eventhandler.OrderPayedApplicationEvent;
 import org.flab.deliveryplatform.order.query.interfaces.eventlistener.OrderStatusChangedApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -49,7 +49,7 @@ public class MessageRelayScheduler {
             Object event;
             switch (outBox.getEventType()) {
                 case ORDER_PAYED_APPLICATION_EVENT:
-                    event = convertEvent(outBox.getPayload(), OrderPayedEvent.class);
+                    event = convertEvent(outBox.getPayload(), OrderPayedApplicationEvent.class);
                     break;
                 case ORDER_STATUS_CHANGED_EVENT:
                     event = convertEvent(outBox.getPayload(), OrderStatusChangedApplicationEvent.class);

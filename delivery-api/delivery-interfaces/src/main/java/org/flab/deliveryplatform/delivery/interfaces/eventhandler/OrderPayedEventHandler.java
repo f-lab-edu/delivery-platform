@@ -14,7 +14,7 @@ public class OrderPayedEventHandler {
     private final CreateDeliveryUseCase createDeliveryUseCase;
 
     @EventListener
-    public void handle(OrderPayedEvent event) {
+    public void handle(OrderPayedApplicationEvent event) {
         CreateDeliveryCommand command = new CreateDeliveryCommand(event.getOrderId(), DeliveryStatus.DELIVERING);
         createDeliveryUseCase.createDelivery(command);
     }

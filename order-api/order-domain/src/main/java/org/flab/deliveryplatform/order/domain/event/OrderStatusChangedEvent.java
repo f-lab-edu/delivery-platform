@@ -1,9 +1,10 @@
-package org.flab.deliveryplatform.order.domain;
+package org.flab.deliveryplatform.order.domain.event;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.flab.deliveryplatform.common.event.Event;
+import org.flab.deliveryplatform.order.domain.OrderStatus;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)

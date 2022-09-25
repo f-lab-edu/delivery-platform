@@ -7,11 +7,11 @@ import org.flab.deliveryplatform.common.event.Event;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public class OrderPayedEvent extends Event {
+public class OrderPayedApplicationEvent extends Event {
 
     private Long orderId;
 
-    public OrderPayedEvent(Long orderId) {
+    public OrderPayedApplicationEvent(Long orderId) {
         this.orderId = orderId;
     }
 }
