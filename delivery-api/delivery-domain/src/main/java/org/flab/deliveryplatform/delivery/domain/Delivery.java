@@ -37,6 +37,6 @@ public class Delivery extends AggregateRoot {
 
     public void complete() {
         this.status = DeliveryStatus.DELIVERED;
-        registerEvent(new DeliveryCompletedEvent(orderId));
+        registerEvent(new DeliveryCompletedEvent(id, orderId, status));
     }
 }

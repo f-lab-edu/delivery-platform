@@ -1,8 +1,9 @@
 package org.flab.deliveryplatform.server.event.outbox;
 
 
+import static org.flab.deliveryplatform.server.event.EventTypeConstant.DELIVERY_COMPLETED_EVENT;
 import static org.flab.deliveryplatform.server.event.EventTypeConstant.ORDER_CREATED_EVENT;
-import static org.flab.deliveryplatform.server.event.EventTypeConstant.ORDER_PAYED_APPLICATION_EVENT;
+import static org.flab.deliveryplatform.server.event.EventTypeConstant.ORDER_PAYED_EVENT;
 import static org.flab.deliveryplatform.server.event.EventTypeConstant.ORDER_STATUS_CHANGED_EVENT;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,6 +13,7 @@ import java.util.List;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.flab.deliveryplatform.common.event.Event;
 import org.flab.deliveryplatform.delivery.interfaces.eventhandler.OrderPayedApplicationEvent;
+import org.flab.deliveryplatform.order.query.interfaces.eventlistener.event.DeliveryCompletedApplicationEvent;
 import org.flab.deliveryplatform.order.query.interfaces.eventlistener.event.OrderCreatedApplicationEvent;
 import org.flab.deliveryplatform.order.query.interfaces.eventlistener.event.OrderStatusChangedApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
@@ -50,7 +52,7 @@ public class MessageRelayScheduler {
         outBoxes.forEach(outBox -> {
             Object event;
             switch (outBox.getEventType()) {
-                case ORDER_PAYED_APPLICATION_EVENT:
+                case ORDER_PAYED_EVENT:
                     event = convertEvent(outBox.getPayload(), OrderPayedApplicationEvent.class);
                     break;
                 case ORDER_STATUS_CHANGED_EVENT:
@@ -58,6 +60,9 @@ public class MessageRelayScheduler {
                     break;
                 case ORDER_CREATED_EVENT:
                     event = convertEvent(outBox.getPayload(), OrderCreatedApplicationEvent.class);
+                    break;
+                case DELIVERY_COMPLETED_EVENT:
+                    event = convertEvent(outBox.getPayload(), DeliveryCompletedApplicationEvent.class);
                     break;
                 default:
                     throw new IllegalStateException();
