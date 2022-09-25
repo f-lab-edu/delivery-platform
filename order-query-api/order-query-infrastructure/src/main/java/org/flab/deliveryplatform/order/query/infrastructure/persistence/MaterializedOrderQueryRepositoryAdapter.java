@@ -1,11 +1,13 @@
 package org.flab.deliveryplatform.order.query.infrastructure.persistence;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.flab.deliveryplatform.order.query.application.OrderQueryRepository;
-import org.flab.deliveryplatform.order.query.application.dto.OrderData;
-import org.flab.deliveryplatform.order.query.application.dto.OrderData.OrderLineItemData;
+import org.flab.deliveryplatform.order.query.application.port.OrderQueryRepository;
+import org.flab.deliveryplatform.order.query.application.port.dto.OrderData;
+import org.flab.deliveryplatform.order.query.application.port.dto.OrderData.OrderLineItemData;
+import org.flab.deliveryplatform.order.query.domain.MyOrder;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
@@ -34,5 +36,10 @@ public class MaterializedOrderQueryRepositoryAdapter implements OrderQueryReposi
                     .build();
             })
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<MyOrder> findByOrderId(Long orderId) {
+        return jpaMyOrderRepository.findByOrderId(orderId);
     }
 }

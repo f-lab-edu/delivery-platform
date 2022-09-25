@@ -1,6 +1,7 @@
 package org.flab.deliveryplatform.order.application.service;
 
 import lombok.RequiredArgsConstructor;
+import org.flab.deliveryplatform.common.event.EventPublisher;
 import org.flab.deliveryplatform.order.application.port.OrderRepository;
 import org.flab.deliveryplatform.order.application.port.OrderValidator;
 import org.flab.deliveryplatform.order.application.port.PlaceOrderUseCase;
@@ -17,6 +18,8 @@ public class PlaceOrderService implements PlaceOrderUseCase {
 
     private final OrderValidator orderValidator;
 
+    private final EventPublisher eventPublisher;
+
     @Transactional
     @Override
     public void placeOrder(PlaceOrderCommand command) {
@@ -26,5 +29,7 @@ public class PlaceOrderService implements PlaceOrderUseCase {
         order.place();
 
         orderRepository.save(order);
+
+        eventPublisher.publishAll(order.getOccurredEvents());
     }
 }

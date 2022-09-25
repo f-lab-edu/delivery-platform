@@ -57,6 +57,7 @@ public class Order extends AggregateRoot {
 
     public void place() {
         this.status = OrderStatus.ORDERED;
+        registerEvent(new OrderStatusChangedEvent(id, status));
     }
 
     public void payed() {
@@ -66,6 +67,7 @@ public class Order extends AggregateRoot {
 
         this.status = OrderStatus.PAYED;
         registerEvent(new OrderPayedApplicationEvent(id));
+        registerEvent(new OrderStatusChangedEvent(id, status));
     }
 
     public void delivered() {
@@ -74,6 +76,7 @@ public class Order extends AggregateRoot {
         }
 
         this.status = OrderStatus.DELIVERED;
+        registerEvent(new OrderStatusChangedEvent(id, status));
     }
 
     public int calculateTotalPrice() {

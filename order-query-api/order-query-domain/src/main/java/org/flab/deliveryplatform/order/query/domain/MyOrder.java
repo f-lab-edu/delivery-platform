@@ -46,4 +46,12 @@ public class MyOrder {
 
         private int totalPrice;
     }
+
+    public void changeStatus(String status) {
+        this.status = status;
+    }
+
+    public void changeDeliveryStatus(String deliveryStatus) {
+        this.deliveryStatus = deliveryStatus;
+    }
 }

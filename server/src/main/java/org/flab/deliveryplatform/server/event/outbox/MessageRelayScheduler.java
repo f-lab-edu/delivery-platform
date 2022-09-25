@@ -2,6 +2,7 @@ package org.flab.deliveryplatform.server.event.outbox;
 
 
 import static org.flab.deliveryplatform.server.event.EventTypeConstant.ORDER_PAYED_APPLICATION_EVENT;
+import static org.flab.deliveryplatform.server.event.EventTypeConstant.ORDER_STATUS_CHANGED_EVENT;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,6 +11,7 @@ import java.util.List;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.flab.deliveryplatform.common.event.Event;
 import org.flab.deliveryplatform.delivery.interfaces.eventhandler.OrderPayedEvent;
+import org.flab.deliveryplatform.order.query.interfaces.eventlistener.OrderStatusChangedApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -49,6 +51,9 @@ public class MessageRelayScheduler {
                 case ORDER_PAYED_APPLICATION_EVENT:
                     event = convertEvent(outBox.getPayload(), OrderPayedEvent.class);
                     break;
+                case ORDER_STATUS_CHANGED_EVENT:
+                    event = convertEvent(outBox.getPayload(), OrderStatusChangedApplicationEvent.class);
+                    break;
                 default:
                     throw new IllegalStateException();
             }
@@ -63,7 +68,7 @@ public class MessageRelayScheduler {
         });
     }
 
-    private Event convertEvent(String payload, Class<OrderPayedEvent> clazz) {
+    private Event convertEvent(String payload, Class<? extends Event> clazz) {
         Event event;
         try {
             event = objectMapper.readValue(payload, clazz);

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.common.event.Event;
 import org.flab.deliveryplatform.order.domain.Order;
 import org.flab.deliveryplatform.order.domain.OrderPayedApplicationEvent;
+import org.flab.deliveryplatform.order.domain.OrderStatusChangedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,18 @@ public class OutBoxEventHandler {
 
     @EventListener
     public void handleOrderPayedEvent(OrderPayedApplicationEvent event) {
+        OutBox outBox = OutBox.builder()
+            .aggregateType(Order.class.getSimpleName())
+            .aggregateId(String.valueOf(event.getOrderId()))
+            .eventType(event.getClass().getSimpleName())
+            .payload(getPayload(event))
+            .build();
+
+        jpaOutBoxRepository.save(outBox);
+    }
+
+    @EventListener
+    public void handleOrderStatusChangedEvent(OrderStatusChangedEvent event) {
         OutBox outBox = OutBox.builder()
             .aggregateType(Order.class.getSimpleName())
             .aggregateId(String.valueOf(event.getOrderId()))

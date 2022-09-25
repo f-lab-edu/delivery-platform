@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.order.query.application.dto;
+package org.flab.deliveryplatform.order.query.application.port.dto;
 
 import java.util.List;
 import lombok.AllArgsConstructor;
