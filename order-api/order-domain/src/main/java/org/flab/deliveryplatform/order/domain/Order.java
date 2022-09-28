@@ -18,6 +18,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.flab.deliveryplatform.common.domain.AggregateRoot;
+import org.flab.deliveryplatform.order.domain.event.OrderStatusChangedEvent;
 import org.flab.deliveryplatform.order.domain.exception.InvalidOrderStatusException;
 
 @Getter
@@ -82,5 +83,14 @@ public class Order extends AggregateRoot {
             .sum();
 
         return totalPrice;
+    }
+
+    public void cancel() {
+        if (this.status == OrderStatus.DELIVERED) {
+            throw new InvalidOrderStatusException("주문 상태가 올바르지 않아 주문 취소 할 수 앖습니다.");
+        }
+
+        this.status = OrderStatus.CANCELED;
+        registerEvent(new OrderStatusChangedEvent(id, status));
     }
 }
