@@ -30,11 +30,9 @@ jobs:
           distribution: 'temurin'
       - name: Setup Gradle
         uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
-      - name: Run Test
-        run: |
-          docker compose -f docker-compose-test.yaml up -d
-          ./gradlew test
+      - name: Run UnitTest
+        run: ./gradlew unitTest
       - name: Run Build
-        run: ./gradlew :server:build
+        run: ./gradlew :server:build -x test
       - name: Check Style
-        run: ./gradlew check
+        run: ./gradlew check -x test

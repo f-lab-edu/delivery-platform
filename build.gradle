@@ -37,6 +37,11 @@ subprojects {
     test {
         useJUnitPlatform()
     }
+
+    task unitTest(type: Test) {
+        exclude('org/flab/deliveryplatform/server/**')
+        useJUnitPlatform()
+    }
 }
 
 task installGitHook(type: Copy) {
