@@ -5,13 +5,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.order.query.application.port.MyOrderRepository;
-import org.flab.deliveryplatform.order.query.application.port.dto.CreateMyOrderCommand;
 import org.flab.deliveryplatform.order.query.application.port.dto.OrderData;
 import org.flab.deliveryplatform.order.query.application.port.dto.OrderData.OrderLineItemData;
 import org.flab.deliveryplatform.order.query.domain.MyOrder;
-import org.flab.deliveryplatform.order.query.domain.MyOrder.MyOrderLineItem;
-import org.flab.deliveryplatform.shop.domain.Shop;
-import org.flab.deliveryplatform.shop.infrastructure.persistence.JpaShopRepository;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
@@ -21,8 +17,6 @@ import org.springframework.stereotype.Repository;
 public class MaterializedMyOrderRepositoryAdapter implements MyOrderRepository {
 
     private final JpaMyOrderRepository jpaMyOrderRepository;
-
-    private final JpaShopRepository jpaShopRepository;
 
     @Override
     public List<OrderData> findAllByMemberId(Long memberId) {
@@ -50,23 +44,7 @@ public class MaterializedMyOrderRepositoryAdapter implements MyOrderRepository {
     }
 
     @Override
-    public MyOrder save(CreateMyOrderCommand command) {
-        Shop shop = jpaShopRepository.findById(command.getShopId())
-            .orElseThrow(() -> new IllegalArgumentException("가게가 존재하지 않습니다."));
-
-        MyOrder myOrder = MyOrder.builder()
-            .memberId(command.getMemberId())
-            .orderId(command.getOrderId())
-            .shopName(shop.getName())
-            .status(command.getOrderStatus())
-            .totalPrice(command.getOrderTotalPrice())
-            .myOrderLineItems(
-                command.getOrderLineItems().stream()
-                    .map(ol -> new MyOrderLineItem(ol.getName(), ol.getCount(), ol.getTotalPrice()))
-                    .collect(Collectors.toList()))
-            .deliveryStatus(null)
-            .build();
-
+    public MyOrder save(MyOrder myOrder) {
         return jpaMyOrderRepository.save(myOrder);
     }
 }

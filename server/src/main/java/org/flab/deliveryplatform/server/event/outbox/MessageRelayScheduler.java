@@ -3,8 +3,8 @@ package org.flab.deliveryplatform.server.event.outbox;
 
 import static org.flab.deliveryplatform.server.event.EventTypeConstant.DELIVERY_COMPLETED_EVENT;
 import static org.flab.deliveryplatform.server.event.EventTypeConstant.ORDER_CREATED_EVENT;
+import static org.flab.deliveryplatform.server.event.EventTypeConstant.ORDER_DELIVERED_EVENT;
 import static org.flab.deliveryplatform.server.event.EventTypeConstant.ORDER_PAYED_EVENT;
-import static org.flab.deliveryplatform.server.event.EventTypeConstant.ORDER_STATUS_CHANGED_EVENT;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,11 +12,12 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.util.List;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.flab.deliveryplatform.common.event.Event;
+import org.flab.deliveryplatform.common.event.EventPublisher;
 import org.flab.deliveryplatform.delivery.interfaces.eventhandler.OrderPayedApplicationEvent;
 import org.flab.deliveryplatform.order.query.interfaces.eventlistener.event.DeliveryCompletedApplicationEvent;
+import org.flab.deliveryplatform.order.query.interfaces.eventlistener.event.MyOrderPayedApplicationEvent;
 import org.flab.deliveryplatform.order.query.interfaces.eventlistener.event.OrderCreatedApplicationEvent;
-import org.flab.deliveryplatform.order.query.interfaces.eventlistener.event.OrderStatusChangedApplicationEvent;
-import org.springframework.context.ApplicationEventPublisher;
+import org.flab.deliveryplatform.order.query.interfaces.eventlistener.event.OrderDeliveredApplicationEvent;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionCallback;
@@ -27,16 +28,16 @@ public class MessageRelayScheduler {
 
     private final JpaOutBoxRepository jpaOutBoxRepository;
 
-    private final ApplicationEventPublisher applicationEventPublisher;
+    private final EventPublisher eventPublisher;
 
     private final TransactionTemplate transactionTemplate;
 
     private final ObjectMapper objectMapper;
 
     public MessageRelayScheduler(JpaOutBoxRepository jpaOutBoxRepository,
-        ApplicationEventPublisher applicationEventPublisher, TransactionTemplate transactionTemplate) {
+        EventPublisher eventPublisher, TransactionTemplate transactionTemplate) {
         this.jpaOutBoxRepository = jpaOutBoxRepository;
-        this.applicationEventPublisher = applicationEventPublisher;
+        this.eventPublisher = eventPublisher;
         this.transactionTemplate = transactionTemplate;
         this.objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
     }
@@ -50,26 +51,32 @@ public class MessageRelayScheduler {
         }
 
         outBoxes.forEach(outBox -> {
-            Object event;
+            List<Event> events;
             switch (outBox.getEventType()) {
                 case ORDER_PAYED_EVENT:
-                    event = convertEvent(outBox.getPayload(), OrderPayedApplicationEvent.class);
+                    Event orderPayed = convertEvent(outBox.getPayload(), OrderPayedApplicationEvent.class);
+                    Event myOrderPayed = convertEvent(outBox.getPayload(), MyOrderPayedApplicationEvent.class);
+                    events = List.of(orderPayed, myOrderPayed);
                     break;
-                case ORDER_STATUS_CHANGED_EVENT:
-                    event = convertEvent(outBox.getPayload(), OrderStatusChangedApplicationEvent.class);
+                case ORDER_DELIVERED_EVENT:
+                    Event orderDelivered = convertEvent(outBox.getPayload(), OrderDeliveredApplicationEvent.class);
+                    events = List.of(orderDelivered);
                     break;
                 case ORDER_CREATED_EVENT:
-                    event = convertEvent(outBox.getPayload(), OrderCreatedApplicationEvent.class);
+                    Event orderCreated = convertEvent(outBox.getPayload(), OrderCreatedApplicationEvent.class);
+                    events = List.of(orderCreated);
                     break;
                 case DELIVERY_COMPLETED_EVENT:
-                    event = convertEvent(outBox.getPayload(), DeliveryCompletedApplicationEvent.class);
+                    Event deliveryCompleted =
+                        convertEvent(outBox.getPayload(), DeliveryCompletedApplicationEvent.class);
+                    events = List.of(deliveryCompleted);
                     break;
                 default:
                     throw new IllegalStateException();
             }
 
             transactionTemplate.execute((TransactionCallback<Void>) status -> {
-                applicationEventPublisher.publishEvent(event);
+                eventPublisher.publishAll(events);
                 jpaOutBoxRepository.deleteById(outBox.getId());
                 return null;
             });

@@ -18,8 +18,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.flab.deliveryplatform.common.domain.AggregateRoot;
+import org.flab.deliveryplatform.order.domain.event.OrderDeliveredEvent;
 import org.flab.deliveryplatform.order.domain.event.OrderPayedEvent;
-import org.flab.deliveryplatform.order.domain.event.OrderStatusChangedEvent;
 import org.flab.deliveryplatform.order.domain.exception.InvalidOrderStatusException;
 
 @Getter
@@ -67,8 +67,7 @@ public class Order extends AggregateRoot {
         }
 
         this.status = OrderStatus.PAYED;
-        registerEvent(new OrderPayedEvent(id));
-        registerEvent(new OrderStatusChangedEvent(id, status));
+        registerEvent(new OrderPayedEvent(id, status));
     }
 
     public void delivered() {
@@ -77,7 +76,7 @@ public class Order extends AggregateRoot {
         }
 
         this.status = OrderStatus.DELIVERED;
-        registerEvent(new OrderStatusChangedEvent(id, status));
+        registerEvent(new OrderDeliveredEvent(id, status));
     }
 
     public int calculateTotalPrice() {

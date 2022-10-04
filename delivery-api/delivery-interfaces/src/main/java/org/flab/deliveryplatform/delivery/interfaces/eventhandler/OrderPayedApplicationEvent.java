@@ -11,7 +11,10 @@ public class OrderPayedApplicationEvent extends Event {
 
     private Long orderId;
 
-    public OrderPayedApplicationEvent(Long orderId) {
+    private String status;
+
+    public OrderPayedApplicationEvent(Long orderId, String status) {
         this.orderId = orderId;
+        this.status = status;
     }
 }

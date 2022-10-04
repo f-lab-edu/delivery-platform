@@ -8,7 +8,6 @@ import org.flab.deliveryplatform.delivery.infrastructure.persistence.JpaDelivery
 import org.flab.deliveryplatform.member.infrastructure.persistence.MemoryMemberRepository;
 import org.flab.deliveryplatform.order.infrastructure.persistence.JpaOrderRepository;
 import org.flab.deliveryplatform.order.query.application.port.MyOrderRepository;
-import org.flab.deliveryplatform.order.query.application.port.dto.CreateMyOrderCommand;
 import org.flab.deliveryplatform.order.query.application.port.dto.OrderData;
 import org.flab.deliveryplatform.order.query.application.port.dto.OrderData.OrderLineItemData;
 import org.flab.deliveryplatform.order.query.domain.MyOrder;
@@ -61,7 +60,7 @@ public class MyOrderRepositoryAdapter implements MyOrderRepository {
     }
 
     @Override
-    public MyOrder save(CreateMyOrderCommand command) {
+    public MyOrder save(MyOrder myOrder) {
         throw new UnsupportedOperationException();
     }
 }

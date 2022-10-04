@@ -1,12 +1,14 @@
 package org.flab.deliveryplatform.order.domain.event;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.flab.deliveryplatform.common.event.Event;
+import org.flab.deliveryplatform.order.domain.Order;
 import org.flab.deliveryplatform.order.domain.OrderStatus;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -45,5 +47,20 @@ public class OrderCreatedEvent extends Event {
         private int count;
 
         private int totalPrice;
+    }
+
+    public static OrderCreatedEvent from(Order order) {
+        return OrderCreatedEvent.builder()
+            .orderId(order.getId())
+            .shopId(order.getShopId())
+            .memberId(order.getMemberId())
+            .orderStatus(order.getStatus())
+            .orderTotalPrice(order.getTotalPrice())
+            .orderLineItems(
+                order.getOrderLineItems().stream()
+                    .map((ol) -> new OrderCreatedEvent.OrderLineItem(ol.getName(), ol.getCount(), ol.getTotalPrice()))
+                    .collect(Collectors.toList())
+            )
+            .build();
     }
 }

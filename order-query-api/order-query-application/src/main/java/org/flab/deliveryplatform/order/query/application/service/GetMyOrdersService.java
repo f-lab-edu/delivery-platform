@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class GetMyOrdersService implements GetMyOrdersQuery {
 
     private final MyOrderRepository myOrderRepository;
-
+    
     @Transactional(readOnly = true)
     @Override
     public List<OrderData> getMyOrders(Long memberId) {

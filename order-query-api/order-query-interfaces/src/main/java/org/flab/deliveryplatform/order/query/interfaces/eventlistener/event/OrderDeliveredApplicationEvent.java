@@ -5,15 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.flab.deliveryplatform.common.event.Event;
 
-@Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class OrderStatusChangedApplicationEvent extends Event {
+@Getter
+public class OrderDeliveredApplicationEvent extends Event {
 
     private Long orderId;
 
     private String status;
 
-    public OrderStatusChangedApplicationEvent(Long orderId, String status) {
+    public OrderDeliveredApplicationEvent(Long orderId, String status) {
         this.orderId = orderId;
         this.status = status;
     }

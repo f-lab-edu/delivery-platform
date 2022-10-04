@@ -8,13 +8,13 @@ import org.flab.deliveryplatform.order.domain.OrderStatus;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public class OrderPayedEvent extends Event {
+public class OrderDeliveredEvent extends Event {
 
     private Long orderId;
 
     private OrderStatus status;
 
-    public OrderPayedEvent(Long orderId, OrderStatus status) {
+    public OrderDeliveredEvent(Long orderId, OrderStatus status) {
         this.orderId = orderId;
         this.status = status;
     }
