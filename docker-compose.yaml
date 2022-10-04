@@ -17,6 +17,93 @@ services:
     networks:
       - deliveryplatform-server-bridge
 
+  member-session-redis-clustering:
+    container_name: member-session-redis-clustering
+    build:
+      context: ./server/redis
+      dockerfile: Dockerfile
+    image: redis-clustering
+    platform: linux/amd64
+    command: >
+      127.0.0.1:6379 127.0.0.1:6380 127.0.0.1:6381
+      127.0.0.1:6389 127.0.0.1:6390 127.0.0.1:6391
+    depends_on:
+      - member-session-redis-master-01
+      - member-session-redis-master-02
+      - member-session-redis-master-03
+      - member-session-redis-slave-01
+      - member-session-redis-slave-02
+      - member-session-redis-slave-03
+    network_mode: service:member-session-redis-master-01
+
+  member-session-redis-master-01:
+    container_name: member-session-redis-master-01
+    image: amd64/redis:6.2-alpine
+    platform: linux/amd64
+    ports:
+      - "6379:6379"
+      - "6380:6380"
+      - "6381:6381"
+      - "6389:6389"
+      - "6390:6390"
+      - "6391:6391"
+    volumes:
+      - ./server/redis/redis-master-01.conf:/usr/local/etc/redis/redis.conf
+    command:
+      - /usr/local/etc/redis/redis.conf
+    networks:
+      - deliveryplatform-server-bridge
+
+  member-session-redis-master-02:
+    container_name: member-session-redis-master-02
+    image: amd64/redis:6.2-alpine
+    platform: linux/amd64
+    volumes:
+      - ./server/redis/redis-master-02.conf:/usr/local/etc/redis/redis.conf
+    command:
+      - /usr/local/etc/redis/redis.conf
+    network_mode: service:member-session-redis-master-01
+
+  member-session-redis-master-03:
+    container_name: member-session-redis-master-03
+    image: amd64/redis:6.2-alpine
+    platform: linux/amd64
+    volumes:
+      - ./server/redis/redis-master-03.conf:/usr/local/etc/redis/redis.conf
+    command:
+      - /usr/local/etc/redis/redis.conf
+    network_mode: service:member-session-redis-master-01
+
+  member-session-redis-slave-01:
+    container_name: member-session-redis-slave-01
+    image: amd64/redis:6.2-alpine
+    platform: linux/amd64
+    volumes:
+      - ./server/redis/redis-slave-01.conf:/usr/local/etc/redis/redis.conf
+    command:
+      - /usr/local/etc/redis/redis.conf
+    network_mode: service:member-session-redis-master-01
+
+  member-session-redis-slave-02:
+    container_name: member-session-redis-slave-02
+    image: amd64/redis:6.2-alpine
+    platform: linux/amd64
+    volumes:
+      - ./server/redis/redis-slave-02.conf:/usr/local/etc/redis/redis.conf
+    command:
+      - /usr/local/etc/redis/redis.conf
+    network_mode: service:member-session-redis-master-01
+
+  member-session-redis-slave-03:
+    container_name: member-session-redis-slave-03
+    image: amd64/redis:6.2-alpine
+    platform: linux/amd64
+    volumes:
+      - ./server/redis/redis-slave-03.conf:/usr/local/etc/redis/redis.conf
+    command:
+      - /usr/local/etc/redis/redis.conf
+    network_mode: service:member-session-redis-master-01
+
 networks:
   deliveryplatform-server-bridge:
     name: deliveryplatform-server-bridge

@@ -17,6 +17,94 @@ services:
     networks:
       - deliveryplatform-test-server-bridge
 
+
+  member-session-test-redis-clustering:
+    container_name: member-session-test-redis-clustering
+    build:
+      context: ./server/redis
+      dockerfile: Dockerfile
+    image: redis-clustering
+    platform: linux/amd64
+    command: >
+      127.0.0.1:16379 127.0.0.1:16380 127.0.0.1:16381
+      127.0.0.1:16389 127.0.0.1:16390 127.0.0.1:16391
+    depends_on:
+      - member-session-test-redis-master-01
+      - member-session-test-redis-master-02
+      - member-session-test-redis-master-03
+      - member-session-test-redis-slave-01
+      - member-session-test-redis-slave-02
+      - member-session-test-redis-slave-03
+    network_mode: service:member-session-test-redis-master-01
+
+  member-session-test-redis-master-01:
+    container_name: member-session-test-redis-master-01
+    image: amd64/redis:6.2-alpine
+    platform: linux/amd64
+    ports:
+      - "16379:16379"
+      - "16380:16380"
+      - "16381:16381"
+      - "16389:16389"
+      - "16390:16390"
+      - "16391:16391"
+    volumes:
+      - ./server/redis/conf.test/redis-master-01.conf:/usr/local/etc/redis/redis.conf
+    command:
+      - /usr/local/etc/redis/redis.conf
+    networks:
+      - deliveryplatform-test-server-bridge
+
+  member-session-test-redis-master-02:
+    container_name: member-session-test-redis-master-02
+    image: amd64/redis:6.2-alpine
+    platform: linux/amd64
+    volumes:
+      - ./server/redis/conf.test/redis-master-02.conf:/usr/local/etc/redis/redis.conf
+    command:
+      - /usr/local/etc/redis/redis.conf
+    network_mode: service:member-session-test-redis-master-01
+
+  member-session-test-redis-master-03:
+    container_name: member-session-test-redis-master-03
+    image: amd64/redis:6.2-alpine
+    platform: linux/amd64
+    volumes:
+      - ./server/redis/conf.test/redis-master-03.conf:/usr/local/etc/redis/redis.conf
+    command:
+      - /usr/local/etc/redis/redis.conf
+    network_mode: service:member-session-test-redis-master-01
+
+  member-session-test-redis-slave-01:
+    container_name: member-session-test-redis-slave-01
+    image: amd64/redis:6.2-alpine
+    platform: linux/amd64
+    volumes:
+      - ./server/redis/conf.test/redis-slave-01.conf:/usr/local/etc/redis/redis.conf
+    command:
+      - /usr/local/etc/redis/redis.conf
+    network_mode: service:member-session-test-redis-master-01
+
+  member-session-redis-slave-02:
+    container_name: member-session-test-redis-slave-02
+    image: amd64/redis:6.2-alpine
+    platform: linux/amd64
+    volumes:
+      - ./server/redis/conf.test/redis-slave-02.conf:/usr/local/etc/redis/redis.conf
+    command:
+      - /usr/local/etc/redis/redis.conf
+    network_mode: service:member-session-test-redis-master-01
+
+  member-session-redis-slave-03:
+    container_name: member-session-test-redis-slave-03
+    image: amd64/redis:6.2-alpine
+    platform: linux/amd64
+    volumes:
+      - ./server/redis/conf.test/redis-slave-03.conf:/usr/local/etc/redis/redis.conf
+    command:
+      - /usr/local/etc/redis/redis.conf
+    network_mode: service:member-session-test-redis-master-01
+
 networks:
   deliveryplatform-test-server-bridge:
     name: deliveryplatform-test-server-bridge
