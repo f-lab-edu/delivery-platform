@@ -11,10 +11,9 @@ import lombok.Setter;
 import org.assertj.core.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 
-@SpringBootTest
+//@SpringBootTest
 public class ConnectionTest {
 
     @Autowired
