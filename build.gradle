@@ -35,11 +35,11 @@ subprojects {
     }
 
     test {
+        exclude('org/flab/deliveryplatform/integration')
         useJUnitPlatform()
     }
 
-    task unitTest(type: Test) {
-        exclude('org/flab/deliveryplatform/integration')
+    task integrationTest(type: Test) {
         useJUnitPlatform()
     }
 }
