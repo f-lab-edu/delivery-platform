@@ -1,0 +1,8 @@
+version '1.0-SNAPSHOT'
+
+dependencies {
+    implementation project(':server')
+
+    implementation 'org.flywaydb:flyway-mysql:8.5.12'
+    implementation 'mysql:mysql-connector-java:8.0.29'
+}
