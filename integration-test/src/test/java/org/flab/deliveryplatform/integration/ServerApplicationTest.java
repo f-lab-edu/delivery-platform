@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.server;
+package org.flab.deliveryplatform.integration;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
