@@ -29,6 +29,17 @@ spring:
         - localhost:6390
         - localhost:6391
 
+  boot:
+    admin:
+      client:
+        url: http://localhost:18090
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
 server:
   port: 18080
 
