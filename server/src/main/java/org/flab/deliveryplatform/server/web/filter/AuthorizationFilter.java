@@ -34,7 +34,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 
     private final String ownerPathPrefix = "/owners/";
 
-    private final String[] excludedPathPatterns = {"/**/login", "/**/signUp"};
+    private final String[] excludedPathPatterns = {"/**/login", "/**/signUp", "/actuator/**"};
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
 

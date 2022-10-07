@@ -17,14 +17,14 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.flab.deliveryplatform.common.domain.AggregateRoot;
 import org.flab.deliveryplatform.order.domain.exception.InvalidOrderStatusException;
-import org.springframework.data.domain.AbstractAggregateRoot;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "orders")
 @Entity
-public class Order extends AbstractAggregateRoot<Order> {
+public class Order extends AggregateRoot {
 
     @Column(name = "order_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,7 +65,7 @@ public class Order extends AbstractAggregateRoot<Order> {
         }
 
         this.status = OrderStatus.PAYED;
-        registerEvent(new OrderPayedEvent(id));
+        registerEvent(new OrderPayedApplicationEvent(id));
     }
 
     public void delivered() {

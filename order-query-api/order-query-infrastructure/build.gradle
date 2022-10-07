@@ -1,0 +1,15 @@
+version '1.0-SNAPSHOT'
+
+dependencies {
+    implementation project(':common')
+    implementation project(':order-query-api:order-query-application')
+    implementation project(':order-api:order-infrastructure')
+    implementation project(':order-api:order-domain')
+    implementation project(':member-api:member-infrastructure')
+    implementation project(':member-api:member-domain')
+    implementation project(':delivery-api:delivery-infrastructure')
+    implementation project(':delivery-api:delivery-domain')
+    implementation project(':shop-api:shop-infrastructure')
+    implementation project(':shop-api:shop-domain')
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+}
