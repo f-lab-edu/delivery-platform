@@ -17,6 +17,93 @@ services:
     networks:
       - deliveryplatform-server-bridge
 
+  redis-clustering:
+    container_name: redis-clustering
+    build:
+      context: ./server/redis
+      dockerfile: Dockerfile
+    image: redis-clustering
+    platform: linux/amd64
+    command: >
+      127.0.0.1:6379 127.0.0.1:6380 127.0.0.1:6381
+      127.0.0.1:6389 127.0.0.1:6390 127.0.0.1:6391
+    depends_on:
+      - redis-master-01
+      - redis-master-02
+      - redis-master-03
+      - redis-slave-01
+      - redis-slave-02
+      - redis-slave-03
+    network_mode: service:redis-master-01
+
+  redis-master-01:
+    container_name: redis-master-01
+    image: amd64/redis:6.2-alpine
+    platform: linux/amd64
+    ports:
+      - "6379:6379"
+      - "6380:6380"
+      - "6381:6381"
+      - "6389:6389"
+      - "6390:6390"
+      - "6391:6391"
+    volumes:
+      - ./server/redis/redis-master-01.conf:/usr/local/etc/redis/redis.conf
+    command:
+      - /usr/local/etc/redis/redis.conf
+    networks:
+      - deliveryplatform-server-bridge
+
+  redis-master-02:
+    container_name: redis-master-02
+    image: amd64/redis:6.2-alpine
+    platform: linux/amd64
+    volumes:
+      - ./server/redis/redis-master-02.conf:/usr/local/etc/redis/redis.conf
+    command:
+      - /usr/local/etc/redis/redis.conf
+    network_mode: service:redis-master-01
+
+  redis-master-03:
+    container_name: redis-master-03
+    image: amd64/redis:6.2-alpine
+    platform: linux/amd64
+    volumes:
+      - ./server/redis/redis-master-03.conf:/usr/local/etc/redis/redis.conf
+    command:
+      - /usr/local/etc/redis/redis.conf
+    network_mode: service:redis-master-01
+
+  redis-slave-01:
+    container_name: redis-slave-01
+    image: amd64/redis:6.2-alpine
+    platform: linux/amd64
+    volumes:
+      - ./server/redis/redis-slave-01.conf:/usr/local/etc/redis/redis.conf
+    command:
+      - /usr/local/etc/redis/redis.conf
+    network_mode: service:redis-master-01
+
+  redis-slave-02:
+    container_name: redis-slave-02
+    image: amd64/redis:6.2-alpine
+    platform: linux/amd64
+    volumes:
+      - ./server/redis/redis-slave-02.conf:/usr/local/etc/redis/redis.conf
+    command:
+      - /usr/local/etc/redis/redis.conf
+    network_mode: service:redis-master-01
+
+  redis-slave-03:
+    container_name: redis-slave-03
+    image: amd64/redis:6.2-alpine
+    platform: linux/amd64
+    volumes:
+      - ./server/redis/redis-slave-03.conf:/usr/local/etc/redis/redis.conf
+    command:
+      - /usr/local/etc/redis/redis.conf
+    network_mode: service:redis-master-01
+
 networks:
   deliveryplatform-server-bridge:
     name: deliveryplatform-server-bridge

@@ -19,6 +19,16 @@ spring:
     show-sql: true
     open-in-view: false
 
+  redis:
+    cluster:
+      nodes:
+        - localhost:16379
+        - localhost:16380
+        - localhost:16381
+        - localhost:16389
+        - localhost:16390
+        - localhost:16391
+
 server:
   port: 18081
 
