@@ -16,15 +16,15 @@ public class AuthorizationData {
     private int expiresIn;
 
     public AuthorizationData(String accessToken, TokenType tokenType, Long userId, LocalDateTime issueDate,
-        long expiredTimeMillis) {
+        long expiredTimeSecs) {
         this.accessToken = accessToken;
         this.tokenType = tokenType;
         this.userId = userId;
-        this.expiresIn = calculateExpiresIn(issueDate, expiredTimeMillis);
+        this.expiresIn = calculateExpiresIn(issueDate, expiredTimeSecs);
     }
 
-    private int calculateExpiresIn(LocalDateTime issueDataTime, long expiredTimeMillis) {
+    private int calculateExpiresIn(LocalDateTime issueDataTime, long expiredTimeSecs) {
         return (int) Math.max(0,
-            expiredTimeMillis - (System.currentTimeMillis() - Timestamp.valueOf(issueDataTime).getTime())) / 1000;
+            expiredTimeSecs - (System.currentTimeMillis() - Timestamp.valueOf(issueDataTime).getTime()) / 1000);
     }
 }

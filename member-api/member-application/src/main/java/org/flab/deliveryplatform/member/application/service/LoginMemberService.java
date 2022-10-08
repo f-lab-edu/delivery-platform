@@ -47,7 +47,7 @@ public class LoginMemberService implements LoginMemberUseCase {
                 .tokenType(accessToken.getTokenType())
                 .memberId(member.getId())
                 .issueDate(LocalDateTime.now())
-                .accessTokenExpiredTimeMillis(authProperties.getToken().getAccessTokenExpiredTimeMillis())
+                .accessTokenExpiredTimeSecs(authProperties.getToken().getAccessTokenExpiredTimeSecs())
                 .build()
         );
 
@@ -56,7 +56,7 @@ public class LoginMemberService implements LoginMemberUseCase {
             authorization.getTokenType(),
             authorization.getMemberId(),
             authorization.getIssueDate(),
-            authorization.getAccessTokenExpiredTimeMillis()
+            authorization.getAccessTokenExpiredTimeSecs()
         );
     }
 }

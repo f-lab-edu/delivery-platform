@@ -1,13 +1,18 @@
-package org.flab.deliveryplatform.member.domain.authorization;
+package org.flab.deliveryplatform.member.infrastructure.persistence;
 
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
 import org.flab.deliveryplatform.common.auth.TokenType;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.TimeToLive;
 
 @Getter
-public class Authorization {
+@RedisHash("member")
+public class RedisAuthorization {
 
+    @Id
     private String accessToken;
 
     private TokenType tokenType;
@@ -16,16 +21,16 @@ public class Authorization {
 
     private LocalDateTime issueDate;
 
+    @TimeToLive
     private long accessTokenExpiredTimeSecs;
 
     @Builder
-    public Authorization(String accessToken, TokenType tokenType, Long memberId,
-        LocalDateTime issueDate, long accessTokenExpiredTimeSecs) {
+    public RedisAuthorization(String accessToken, TokenType tokenType, Long memberId, LocalDateTime issueDate,
+        long accessTokenExpiredTimeSecs) {
         this.accessToken = accessToken;
         this.tokenType = tokenType;
         this.memberId = memberId;
         this.issueDate = issueDate;
         this.accessTokenExpiredTimeSecs = accessTokenExpiredTimeSecs;
     }
-
 }

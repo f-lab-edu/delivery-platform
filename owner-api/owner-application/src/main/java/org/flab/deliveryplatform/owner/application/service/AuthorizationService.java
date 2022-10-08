@@ -29,7 +29,7 @@ public class AuthorizationService implements AuthorizationUseCase {
             authorization.getTokenType(),
             authorization.getOwnerId(),
             authorization.getIssueDate(),
-            authorization.getAccessTokenExpiredTimeMillis()
+            authorization.getAccessTokenExpiredTimeSecs()
         );
     }
 
