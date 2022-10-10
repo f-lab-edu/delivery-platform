@@ -2,9 +2,9 @@ package org.flab.deliveryplatform.order.query.interfaces.eventlistener;
 
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.flab.deliveryplatform.order.query.application.port.CreateMyOrderUseCase;
-import org.flab.deliveryplatform.order.query.application.port.dto.CreateMyOrderCommand;
-import org.flab.deliveryplatform.order.query.application.port.dto.CreateMyOrderCommand.OrderLineItem;
+import org.flab.deliveryplatform.order.query.application.port.SyncMyOrderUseCase;
+import org.flab.deliveryplatform.order.query.application.port.dto.SyncMyOrderCommand;
+import org.flab.deliveryplatform.order.query.application.port.dto.SyncMyOrderCommand.OrderLineItem;
 import org.flab.deliveryplatform.order.query.interfaces.eventlistener.event.OrderCreatedApplicationEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -13,11 +13,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderCreatedApplicationEventListener {
 
-    private final CreateMyOrderUseCase createMyOrderUseCase;
+    private final SyncMyOrderUseCase syncMyOrderUseCase;
 
     @EventListener
     public void handle(OrderCreatedApplicationEvent event) {
-        CreateMyOrderCommand command = CreateMyOrderCommand.builder()
+        SyncMyOrderCommand command = SyncMyOrderCommand.builder()
             .orderId(event.getOrderId())
             .shopId(event.getShopId())
             .memberId(event.getMemberId())
@@ -29,6 +29,6 @@ public class OrderCreatedApplicationEventListener {
                     .collect(Collectors.toList()))
             .build();
 
-        createMyOrderUseCase.createMyOrder(command);
+        syncMyOrderUseCase.syncMyOrder(command);
     }
 }

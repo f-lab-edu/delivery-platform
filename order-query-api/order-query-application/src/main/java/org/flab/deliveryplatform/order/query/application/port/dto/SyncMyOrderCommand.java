@@ -4,10 +4,9 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import org.flab.deliveryplatform.order.query.domain.MyOrder;
 
 @Getter
-public class CreateMyOrderCommand {
+public class SyncMyOrderCommand {
 
     private Long orderId;
 
@@ -22,7 +21,7 @@ public class CreateMyOrderCommand {
     private List<OrderLineItem> orderLineItems;
 
     @Builder
-    private CreateMyOrderCommand(Long orderId, Long shopId, Long memberId, String orderStatus,
+    private SyncMyOrderCommand(Long orderId, Long shopId, Long memberId, String orderStatus,
         int orderTotalPrice, List<OrderLineItem> orderLineItems) {
         this.orderId = orderId;
         this.shopId = shopId;
