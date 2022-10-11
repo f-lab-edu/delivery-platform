@@ -71,14 +71,14 @@ class LoginOwnerServiceTest {
 
         token = new Token(TokenType.BEARER, UUID.randomUUID().toString());
 
-        tokenProperty = new OwnerAuthProperties.Token(1_800_000L);
+        tokenProperty = new OwnerAuthProperties.Token(1_800L);
 
         authorization = Authorization.builder()
             .accessToken(token.getToken())
             .tokenType(token.getTokenType())
             .ownerId(owner.getId())
             .issueDate(LocalDateTime.now())
-            .accessTokenExpiredTimeMillis(tokenProperty.getAccessTokenExpiredTimeMillis())
+            .accessTokenExpiredTimeSecs(tokenProperty.getAccessTokenExpiredTimeSecs())
             .build();
 
         loginOwnerCommand = new LoginOwnerCommand(owner.getEmail(), owner.getPassword());

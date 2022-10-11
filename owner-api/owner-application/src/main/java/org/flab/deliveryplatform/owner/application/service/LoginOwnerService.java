@@ -44,7 +44,7 @@ public class LoginOwnerService implements LoginOwnerUseCase {
                 .tokenType(accessToken.getTokenType())
                 .ownerId(owner.getId())
                 .issueDate(LocalDateTime.now())
-                .accessTokenExpiredTimeMillis(authProperties.getToken().getAccessTokenExpiredTimeMillis())
+                .accessTokenExpiredTimeSecs(authProperties.getToken().getAccessTokenExpiredTimeSecs())
                 .build()
         );
 
@@ -53,7 +53,7 @@ public class LoginOwnerService implements LoginOwnerUseCase {
             savedAuthorization.getTokenType(),
             savedAuthorization.getOwnerId(),
             savedAuthorization.getIssueDate(),
-            savedAuthorization.getAccessTokenExpiredTimeMillis()
+            savedAuthorization.getAccessTokenExpiredTimeSecs()
         );
     }
 
