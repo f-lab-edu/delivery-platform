@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class SyncMyOrderCommand {
+public class AddMyOrderCommand {
 
     private Long orderId;
 
@@ -21,7 +21,7 @@ public class SyncMyOrderCommand {
     private List<OrderLineItem> orderLineItems;
 
     @Builder
-    private SyncMyOrderCommand(Long orderId, Long shopId, Long memberId, String orderStatus,
+    private AddMyOrderCommand(Long orderId, Long shopId, Long memberId, String orderStatus,
         int orderTotalPrice, List<OrderLineItem> orderLineItems) {
         this.orderId = orderId;
         this.shopId = shopId;

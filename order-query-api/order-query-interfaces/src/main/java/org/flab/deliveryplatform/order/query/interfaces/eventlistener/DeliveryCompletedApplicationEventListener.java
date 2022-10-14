@@ -1,7 +1,7 @@
 package org.flab.deliveryplatform.order.query.interfaces.eventlistener;
 
 import lombok.RequiredArgsConstructor;
-import org.flab.deliveryplatform.order.query.application.port.SyncMyOrderUseCase;
+import org.flab.deliveryplatform.order.query.application.port.UpdateMyOrderUseCase;
 import org.flab.deliveryplatform.order.query.interfaces.eventlistener.event.DeliveryCompletedApplicationEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class DeliveryCompletedApplicationEventListener {
 
-    private final SyncMyOrderUseCase syncMyOrderUseCase;
+    private final UpdateMyOrderUseCase updateMyOrderUseCase;
 
     @EventListener
     public void handle(DeliveryCompletedApplicationEvent event) {
-        syncMyOrderUseCase.syncMyOrderDeliveryStatus(event.getOrderId(), event.getStatus());
+        updateMyOrderUseCase.updateMyOrderDeliveryStatus(event.getOrderId(), event.getStatus());
     }
 }
