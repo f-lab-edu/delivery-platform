@@ -35,6 +35,11 @@ subprojects {
     }
 
     test {
+        exclude('org/flab/deliveryplatform/integration')
+        useJUnitPlatform()
+    }
+
+    task integrationTest(type: Test) {
         useJUnitPlatform()
     }
 }

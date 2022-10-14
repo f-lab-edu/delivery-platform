@@ -17,6 +17,6 @@ public class OwnerAuthProperties {
     @RequiredArgsConstructor
     public static class Token {
 
-        private final long accessTokenExpiredTimeMillis;
+        private final long accessTokenExpiredTimeSecs;
     }
 }

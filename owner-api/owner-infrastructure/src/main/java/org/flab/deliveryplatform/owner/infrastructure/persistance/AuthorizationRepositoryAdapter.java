@@ -8,15 +8,18 @@ import org.flab.deliveryplatform.owner.domain.auth.Authorization;
 @RequiredArgsConstructor
 public class AuthorizationRepositoryAdapter implements AuthorizationRepository {
 
-    private final MemoryOwnerAuthorizationRepository authorizationRepository;
+    private final RedisOwnerAuthorizationRepository authorizationRepository;
 
     @Override
     public Authorization save(Authorization authorization) {
-        return authorizationRepository.save(authorization);
+        RedisAuthorization redisAuthorization = OwnerAuthorizationMapper.from(authorization);
+        authorizationRepository.save(redisAuthorization);
+        return authorization;
     }
 
     @Override
     public Optional<Authorization> findById(String id) {
-        return authorizationRepository.findById(id);
+        return authorizationRepository.findById(id)
+            .map(OwnerAuthorizationMapper::from);
     }
 }

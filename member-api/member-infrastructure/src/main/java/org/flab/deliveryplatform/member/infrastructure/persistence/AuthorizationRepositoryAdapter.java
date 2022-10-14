@@ -8,13 +8,16 @@ import org.flab.deliveryplatform.member.domain.authorization.Authorization;
 @RequiredArgsConstructor
 public class AuthorizationRepositoryAdapter implements AuthorizationRepository {
 
-    private final MemoryMemberAuthorizationRepository authorizationRepository;
+    private final RedisMemberAuthorizationRepository redisRepository;
 
     public Authorization save(Authorization authorization) {
-        return authorizationRepository.save(authorization);
+        RedisAuthorization redisAuthorization = MemberAuthorizationMapper.from(authorization);
+        redisRepository.save(redisAuthorization);
+        return authorization;
     }
 
     public Optional<Authorization> findById(String id) {
-        return authorizationRepository.findById(id);
+        Optional<RedisAuthorization> redisAuthorization = redisRepository.findById(id);
+        return redisAuthorization.map(MemberAuthorizationMapper::from);
     }
 }

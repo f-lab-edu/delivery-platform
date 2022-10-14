@@ -79,14 +79,14 @@ class LoginMemberServiceTest {
             UUID.randomUUID().toString()
         );
 
-        tokenProperty = new MemberAuthProperties.Token(1_800_000L);
+        tokenProperty = new MemberAuthProperties.Token(1_800L);
 
         authorization = Authorization.builder()
             .accessToken(token.getToken())
             .tokenType(token.getTokenType())
             .memberId(member.getId())
             .issueDate(LocalDateTime.now())
-            .accessTokenExpiredTimeMillis(tokenProperty.getAccessTokenExpiredTimeMillis())
+            .accessTokenExpiredTimeSecs(tokenProperty.getAccessTokenExpiredTimeSecs())
             .build();
     }
 

@@ -4,7 +4,7 @@ import org.flab.deliveryplatform.common.auth.AuthorizationUseCase;
 import org.flab.deliveryplatform.owner.application.port.AuthorizationRepository;
 import org.flab.deliveryplatform.owner.application.service.AuthorizationService;
 import org.flab.deliveryplatform.owner.infrastructure.persistance.AuthorizationRepositoryAdapter;
-import org.flab.deliveryplatform.owner.infrastructure.persistance.MemoryOwnerAuthorizationRepository;
+import org.flab.deliveryplatform.owner.infrastructure.persistance.RedisOwnerAuthorizationRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,7 +18,7 @@ public class OwnerAuthorizationConfiguration {
 
     @Bean
     public AuthorizationRepository ownerAuthorizationRepositoryAdapter(
-        MemoryOwnerAuthorizationRepository authorizationRepository) {
+        RedisOwnerAuthorizationRepository authorizationRepository) {
         return new AuthorizationRepositoryAdapter(authorizationRepository);
     }
 
