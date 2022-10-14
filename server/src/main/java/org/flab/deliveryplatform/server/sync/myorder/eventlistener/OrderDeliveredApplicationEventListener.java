@@ -1,8 +1,8 @@
-package org.flab.deliveryplatform.order.query.interfaces.eventlistener;
+package org.flab.deliveryplatform.server.sync.myorder.eventlistener;
 
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.order.query.application.port.UpdateMyOrderUseCase;
-import org.flab.deliveryplatform.order.query.interfaces.eventlistener.event.OrderDeliveredApplicationEvent;
+import org.flab.deliveryplatform.server.sync.myorder.eventlistener.event.OrderDeliveredApplicationEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 

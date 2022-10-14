@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.order.query.interfaces.eventlistener.event;
+package org.flab.deliveryplatform.server.sync.myorder.eventlistener.event;
 
 import lombok.AccessLevel;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package org.flab.deliveryplatform.order.query.interfaces.eventlistener.event;
+package org.flab.deliveryplatform.server.sync.myorder.eventlistener.event;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -7,13 +7,13 @@ import org.flab.deliveryplatform.common.event.Event;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public class OrderDeliveredApplicationEvent extends Event {
+public class MyOrderPayedApplicationEvent extends Event {
 
     private Long orderId;
 
     private String status;
 
-    public OrderDeliveredApplicationEvent(Long orderId, String status) {
+    public MyOrderPayedApplicationEvent(Long orderId, String status) {
         this.orderId = orderId;
         this.status = status;
     }
