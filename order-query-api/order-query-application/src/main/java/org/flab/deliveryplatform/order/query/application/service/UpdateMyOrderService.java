@@ -9,12 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 @Service
 public class UpdateMyOrderService implements UpdateMyOrderUseCase {
 
     private final MyOrderRepository myOrderRepository;
-    
+
     @Transactional
     @Override
     public void updateMyOrderStatus(Long orderId, String status) {
