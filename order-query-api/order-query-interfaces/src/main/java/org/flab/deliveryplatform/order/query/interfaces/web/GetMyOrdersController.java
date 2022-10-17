@@ -3,8 +3,8 @@ package org.flab.deliveryplatform.order.query.interfaces.web;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.common.web.dto.DeliveryPlatformResponse;
-import org.flab.deliveryplatform.order.query.application.GetMyOrdersQuery;
-import org.flab.deliveryplatform.order.query.application.dto.OrderData;
+import org.flab.deliveryplatform.order.query.application.port.GetMyOrdersQuery;
+import org.flab.deliveryplatform.order.query.application.port.dto.OrderData;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

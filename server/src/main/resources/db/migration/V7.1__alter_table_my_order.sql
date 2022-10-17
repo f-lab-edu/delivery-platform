@@ -1,0 +1,8 @@
+ALTER TABLE my_order
+    MODIFY delivery_status VARCHAR(50);
+
+ALTER TABLE my_order
+    DROP PRIMARY KEY;
+
+ALTER TABLE my_order
+    ADD my_order_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT;

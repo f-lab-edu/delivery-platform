@@ -4,8 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.common.event.Event;
+import org.flab.deliveryplatform.delivery.domain.Delivery;
+import org.flab.deliveryplatform.delivery.domain.DeliveryCompletedEvent;
 import org.flab.deliveryplatform.order.domain.Order;
-import org.flab.deliveryplatform.order.domain.OrderPayedApplicationEvent;
+import org.flab.deliveryplatform.order.domain.event.OrderCreatedEvent;
+import org.flab.deliveryplatform.order.domain.event.OrderPayedEvent;
+import org.flab.deliveryplatform.order.domain.event.OrderStatusChangedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -18,10 +22,46 @@ public class OutBoxEventHandler {
     private final ObjectMapper objectMapper;
 
     @EventListener
-    public void handleOrderPayedEvent(OrderPayedApplicationEvent event) {
+    public void handleOrderPayedEvent(OrderPayedEvent event) {
         OutBox outBox = OutBox.builder()
             .aggregateType(Order.class.getSimpleName())
             .aggregateId(String.valueOf(event.getOrderId()))
+            .eventType(event.getClass().getSimpleName())
+            .payload(getPayload(event))
+            .build();
+
+        jpaOutBoxRepository.save(outBox);
+    }
+
+    @EventListener
+    public void handleOrderStatusChangedEvent(OrderStatusChangedEvent event) {
+        OutBox outBox = OutBox.builder()
+            .aggregateType(Order.class.getSimpleName())
+            .aggregateId(String.valueOf(event.getOrderId()))
+            .eventType(event.getClass().getSimpleName())
+            .payload(getPayload(event))
+            .build();
+
+        jpaOutBoxRepository.save(outBox);
+    }
+
+    @EventListener
+    public void handleOrderCreatedEvent(OrderCreatedEvent event) {
+        OutBox outBox = OutBox.builder()
+            .aggregateType(Order.class.getSimpleName())
+            .aggregateId(String.valueOf(event.getOrderId()))
+            .eventType(event.getClass().getSimpleName())
+            .payload(getPayload(event))
+            .build();
+
+        jpaOutBoxRepository.save(outBox);
+    }
+
+    @EventListener
+    public void handleOrderCreatedEvent(DeliveryCompletedEvent event) {
+        OutBox outBox = OutBox.builder()
+            .aggregateType(Delivery.class.getSimpleName())
+            .aggregateId(String.valueOf(event.getDeliveryId()))
             .eventType(event.getClass().getSimpleName())
             .payload(getPayload(event))
             .build();

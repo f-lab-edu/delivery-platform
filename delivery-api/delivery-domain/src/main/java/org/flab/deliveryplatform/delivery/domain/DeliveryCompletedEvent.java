@@ -1,16 +1,20 @@
 package org.flab.deliveryplatform.delivery.domain;
 
+import lombok.Getter;
 import org.flab.deliveryplatform.common.event.Event;
 
+@Getter
 public class DeliveryCompletedEvent extends Event {
+
+    private Long deliveryId;
 
     private Long orderId;
 
-    public DeliveryCompletedEvent(Long orderId) {
-        this.orderId = orderId;
-    }
+    private DeliveryStatus status;
 
-    public Long getOrderId() {
-        return orderId;
+    public DeliveryCompletedEvent(Long deliveryId, Long orderId, DeliveryStatus status) {
+        this.deliveryId = deliveryId;
+        this.orderId = orderId;
+        this.status = status;
     }
 }

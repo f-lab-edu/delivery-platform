@@ -1,6 +1,7 @@
 package org.flab.deliveryplatform.order.application.service;
 
 import lombok.RequiredArgsConstructor;
+import org.flab.deliveryplatform.common.event.EventPublisher;
 import org.flab.deliveryplatform.order.application.port.DeliverOrderUseCase;
 import org.flab.deliveryplatform.order.application.port.OrderRepository;
 import org.flab.deliveryplatform.order.application.port.exception.OrderNotFoundException;
@@ -14,6 +15,8 @@ public class DeliveryOrderService implements DeliverOrderUseCase {
 
     private final OrderRepository orderRepository;
 
+    private final EventPublisher eventPublisher;
+
     @Transactional
     @Override
     public void deliverOrder(Long orderId) {
@@ -23,5 +26,7 @@ public class DeliveryOrderService implements DeliverOrderUseCase {
         order.delivered();
 
         orderRepository.save(order);
+
+        eventPublisher.publishAll(order.getOccurredEvents());
     }
 }

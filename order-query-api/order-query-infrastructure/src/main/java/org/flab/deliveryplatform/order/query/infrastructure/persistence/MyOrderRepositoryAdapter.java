@@ -1,23 +1,22 @@
 package org.flab.deliveryplatform.order.query.infrastructure.persistence;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.flab.deliveryplatform.delivery.infrastructure.persistence.JpaDeliveryRepository;
 import org.flab.deliveryplatform.member.infrastructure.persistence.MemoryMemberRepository;
 import org.flab.deliveryplatform.order.infrastructure.persistence.JpaOrderRepository;
-import org.flab.deliveryplatform.order.query.application.OrderQueryRepository;
-import org.flab.deliveryplatform.order.query.application.dto.OrderData;
-import org.flab.deliveryplatform.order.query.application.dto.OrderData.DeliveryData;
-import org.flab.deliveryplatform.order.query.application.dto.OrderData.MemberData;
-import org.flab.deliveryplatform.order.query.application.dto.OrderData.OrderLineItemData;
-import org.flab.deliveryplatform.order.query.application.dto.OrderData.ShopData;
+import org.flab.deliveryplatform.order.query.application.port.MyOrderRepository;
+import org.flab.deliveryplatform.order.query.application.port.dto.OrderData;
+import org.flab.deliveryplatform.order.query.application.port.dto.OrderData.OrderLineItemData;
+import org.flab.deliveryplatform.order.query.domain.MyOrder;
 import org.flab.deliveryplatform.shop.infrastructure.persistence.JpaShopRepository;
 import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
-public class OrderQueryRepositoryAdapter implements OrderQueryRepository {
+public class MyOrderRepositoryAdapter implements MyOrderRepository {
 
     private final JpaOrderRepository jpaOrderRepository;
 
@@ -31,32 +30,37 @@ public class OrderQueryRepositoryAdapter implements OrderQueryRepository {
     public List<OrderData> findAllByMemberId(Long memberId) {
         return jpaOrderRepository.findAllByMemberId(memberId).stream()
             .map(o -> {
-                List<OrderLineItemData> orderLineItems = o.getOrderLineItems().stream()
+                List<OrderLineItemData> orderLineItemData = o.getOrderLineItems().stream()
                     .map(ol -> new OrderLineItemData(ol.getName(), ol.getCount(), ol.getTotalPrice()))
                     .collect(Collectors.toList());
 
-                ShopData shop = jpaShopRepository.findById(o.getShopId())
-                    .map(s -> new ShopData(s.getName(), s.getPhoneNumber().getPhoneNumber(), s.getAddress().toString()))
+                String shopName = jpaShopRepository.findById(o.getShopId())
+                    .map(s -> s.getName())
                     .orElseThrow(() -> new IllegalArgumentException("매장이 존재하지 않습니다."));
 
-                DeliveryData delivery = jpaDeliveryRepository.findByOrderId(o.getId())
-                    .map(d -> new DeliveryData(d.getStatus().name()))
+                String deliveryStatus = jpaDeliveryRepository.findByOrderId(o.getId())
+                    .map(d -> d.getStatus().name())
                     .orElse(null);
-
-                MemberData member = memoryMemberRepository.findById(o.getMemberId())
-                    .map(m -> new MemberData(m.getNickname(), m.getPhoneNumber()))
-                    .orElseThrow(() -> new IllegalArgumentException("회원이 존재하지 않습니다."));
 
                 return OrderData.builder()
                     .id(o.getId())
-                    .orderLineItems(orderLineItems)
+                    .orderLineItems(orderLineItemData)
                     .status(o.getStatus().name())
                     .totalPrice(o.getTotalPrice())
-                    .shop(shop)
-                    .delivery(delivery)
-                    .member(member)
+                    .shopName(shopName)
+                    .deliveryStatus(deliveryStatus)
                     .build();
             })
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<MyOrder> findByOrderId(Long orderId) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public MyOrder save(MyOrder myOrder) {
+        throw new UnsupportedOperationException();
     }
 }
