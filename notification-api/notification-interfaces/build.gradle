@@ -1,0 +1,10 @@
+version '1.0-SNAPSHOT'
+
+dependencies {
+    implementation project(':common')
+
+    implementation project(':notification-api:notification-application')
+    implementation project(':notification-api:notification-domain')
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+}

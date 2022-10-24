@@ -1,31 +1,42 @@
 version '1.0-SNAPSHOT'
 
 dependencies {
+    implementation project(':common')
+
     implementation project(':owner-api:owner-interfaces')
     implementation project(':owner-api:owner-infrastructure')
     implementation project(':owner-api:owner-application')
     implementation project(':owner-api:owner-domain')
+
     implementation project(':member-api:member-interfaces')
     implementation project(':member-api:member-infrastructure')
     implementation project(':member-api:member-application')
     implementation project(':member-api:member-domain')
+
     implementation project(':shop-api:shop-interfaces')
     implementation project(':shop-api:shop-infrastructure')
     implementation project(':shop-api:shop-application')
     implementation project(':shop-api:shop-domain')
+
     implementation project(':order-api:order-interfaces')
     implementation project(':order-api:order-infrastructure')
     implementation project(':order-api:order-application')
     implementation project(':order-api:order-domain')
+
     implementation project(':delivery-api:delivery-interfaces')
     implementation project(':delivery-api:delivery-infrastructure')
     implementation project(':delivery-api:delivery-application')
     implementation project(':delivery-api:delivery-domain')
+
     implementation project(':order-query-api:order-query-interfaces')
     implementation project(':order-query-api:order-query-infrastructure')
     implementation project(':order-query-api:order-query-application')
     implementation project(':order-query-api:order-query-domain')
-    implementation project(':common')
+
+    implementation project(':notification-api:notification-interfaces')
+    implementation project(':notification-api:notification-infrastructure')
+    implementation project(':notification-api:notification-application')
+    implementation project(':notification-api:notification-domain')
 
     implementation 'org.flywaydb:flyway-mysql:8.5.12'
     implementation 'mysql:mysql-connector-java:8.0.29'
@@ -33,6 +44,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
     implementation 'net.javacrumbs.shedlock:shedlock-spring:4.41.0'
     implementation 'net.javacrumbs.shedlock:shedlock-provider-jdbc-template:4.41.0'

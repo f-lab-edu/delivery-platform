@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.servlet.Filter;
 import org.flab.deliveryplatform.server.auth.AuthorizationServiceFactory;
 import org.flab.deliveryplatform.server.web.filter.AuthorizationFilter;
+import org.flab.deliveryplatform.server.web.filter.UserPrincipleFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,13 @@ public class FilterConfig {
         FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>(
             new AuthorizationFilter(objectMapper, authorizationServiceFactory));
         filterRegistrationBean.setOrder(0);
+        return filterRegistrationBean;
+    }
+
+    @Bean
+    public FilterRegistrationBean<Filter> userPrincipleFilter() {
+        FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>(new UserPrincipleFilter());
+        filterRegistrationBean.setOrder(1);
         return filterRegistrationBean;
     }
 

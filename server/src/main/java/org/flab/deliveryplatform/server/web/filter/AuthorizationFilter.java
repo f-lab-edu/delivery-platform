@@ -26,18 +26,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @RequiredArgsConstructor
 public class AuthorizationFilter extends OncePerRequestFilter {
 
-    private final ObjectMapper objectMapper;
-
-    private final AntPathMatcher antPathMatcher = new AntPathMatcher();
-
-    private final String memberPathPrefix = "/members/";
-
-    private final String ownerPathPrefix = "/owners/";
-
-    private final String[] excludedPathPatterns = {"/**/login", "/**/signUp", "/actuator/**"};
-
     private static final String AUTHORIZATION_HEADER = "Authorization";
-
+    private final ObjectMapper objectMapper;
+    private final AntPathMatcher antPathMatcher = new AntPathMatcher();
+    private final String memberPathPrefix = "/members/";
+    private final String ownerPathPrefix = "/owners/";
+    private final String[] excludedPathPatterns = {"/**/login", "/**/signUp", "/actuator/**",
+        "/admin/**" // temporal admin pattern for websocket send message test
+    };
     private final AuthorizationServiceFactory authorizationServiceFactory;
 
     @Override
@@ -99,12 +95,11 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 
     private UserType parseUserType(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
-        if (requestURI.startsWith(memberPathPrefix)) {
+        if (requestURI.startsWith(memberPathPrefix) || requestURI.startsWith("/ws" + memberPathPrefix)) {
             return UserType.MEMBER;
-        } else if (requestURI.startsWith(ownerPathPrefix)) {
+        } else if (requestURI.startsWith(ownerPathPrefix) || requestURI.startsWith("/ws" + ownerPathPrefix)) {
             return UserType.OWNER;
         }
         throw new IllegalPathStateException();
     }
-
 }

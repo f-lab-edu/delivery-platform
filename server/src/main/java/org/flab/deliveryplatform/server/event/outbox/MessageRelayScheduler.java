@@ -5,6 +5,7 @@ import static org.flab.deliveryplatform.server.event.EventTypeConstant.DELIVERY_
 import static org.flab.deliveryplatform.server.event.EventTypeConstant.ORDER_CREATED_EVENT;
 import static org.flab.deliveryplatform.server.event.EventTypeConstant.ORDER_DELIVERED_EVENT;
 import static org.flab.deliveryplatform.server.event.EventTypeConstant.ORDER_PAYED_EVENT;
+import static org.flab.deliveryplatform.server.event.EventTypeConstant.ORDER_PAYED_NOTIFICATION_EVENT;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +15,7 @@ import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.flab.deliveryplatform.common.event.Event;
 import org.flab.deliveryplatform.common.event.EventPublisher;
 import org.flab.deliveryplatform.delivery.interfaces.eventhandler.OrderPayedApplicationEvent;
+import org.flab.deliveryplatform.notification.interfaces.event.OrderPayedNotificationApplicationEvent;
 import org.flab.deliveryplatform.server.sync.myorder.eventlistener.event.DeliveryCompletedApplicationEvent;
 import org.flab.deliveryplatform.server.sync.myorder.eventlistener.event.MyOrderPayedApplicationEvent;
 import org.flab.deliveryplatform.server.sync.myorder.eventlistener.event.OrderCreatedApplicationEvent;
@@ -57,6 +59,11 @@ public class MessageRelayScheduler {
                     Event orderPayed = convertEvent(outBox.getPayload(), OrderPayedApplicationEvent.class);
                     Event myOrderPayed = convertEvent(outBox.getPayload(), MyOrderPayedApplicationEvent.class);
                     events = List.of(orderPayed, myOrderPayed);
+                    break;
+                case ORDER_PAYED_NOTIFICATION_EVENT:
+                    Event orderPayedNotification = convertEvent(outBox.getPayload(),
+                        OrderPayedNotificationApplicationEvent.class);
+                    events = List.of(orderPayedNotification);
                     break;
                 case ORDER_DELIVERED_EVENT:
                     Event orderDelivered = convertEvent(outBox.getPayload(), OrderDeliveredApplicationEvent.class);

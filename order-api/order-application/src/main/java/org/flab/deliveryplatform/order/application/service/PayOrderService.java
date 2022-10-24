@@ -22,9 +22,7 @@ public class PayOrderService implements PayOrderUseCase {
     public void payOrder(Long orderId) {
         Order order = orderRepository.findById(orderId)
             .orElseThrow(() -> new OrderNotFoundException(orderId));
-
         order.payed();
-
-        eventPublisher.publishAll(order.getOccurredEvents());
+        order.getOccurredEvents().forEach(eventPublisher::publish);
     }
 }

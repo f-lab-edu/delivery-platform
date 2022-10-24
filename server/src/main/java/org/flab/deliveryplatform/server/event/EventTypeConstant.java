@@ -1,12 +1,15 @@
 package org.flab.deliveryplatform.server.event;
 
-public final class EventTypeConstant {
+public interface EventTypeConstant {
 
-    public static final String ORDER_PAYED_EVENT = "OrderPayedEvent";
+    String ORDER_PAYED_EVENT = "OrderPayedEvent";
 
-    public static final String ORDER_DELIVERED_EVENT = "OrderDeliveredEvent";
+    String ORDER_PAYED_NOTIFICATION_EVENT = "OrderPayedNotificationEvent";
 
-    public static final String ORDER_CREATED_EVENT = "OrderCreatedEvent";
+    String ORDER_DELIVERED_EVENT = "OrderDeliveredEvent";
 
-    public static final String DELIVERY_COMPLETED_EVENT = "DeliveryCompletedEvent";
+    String ORDER_CREATED_EVENT = "OrderCreatedEvent";
+
+    String DELIVERY_COMPLETED_EVENT = "DeliveryCompletedEvent";
+
 }

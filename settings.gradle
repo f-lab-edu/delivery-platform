@@ -1,6 +1,13 @@
 rootProject.name = 'delivery-platform'
 include 'common'
+
 include 'server'
+
+include 'spring-boot-admin-server'
+
+include 'integration-test'
+
+
 include 'order-api'
 include 'order-api:order-domain'
 findProject(':order-api:order-domain')?.name = 'order-domain'
@@ -10,6 +17,8 @@ include ':order-api:order-interfaces'
 findProject(':order-api:order-interfaces')?.name = 'order-interfaces'
 include ':order-api:order-application'
 findProject(':order-api:order-application')?.name = 'order-application'
+
+
 include ':member-api:member-application'
 findProject(':member-api:member-application')?.name = 'member-application'
 include ':member-api:member-domain'
@@ -18,6 +27,8 @@ include ':member-api:member-infrastructure'
 findProject(':member-api:member-infrastructure')?.name = 'member-infrastructure'
 include ':member-api:member-interfaces'
 findProject(':member-api:member-interfaces')?.name = 'member-interfaces'
+
+
 include 'shop-api'
 include 'shop-api:shop-interfaces'
 findProject(':shop-api:shop-interfaces')?.name = 'shop-interfaces'
@@ -27,6 +38,8 @@ include 'shop-api:shop-application'
 findProject(':shop-api:shop-application')?.name = 'shop-application'
 include 'shop-api:shop-infrastructure'
 findProject(':shop-api:shop-infrastructure')?.name = 'shop-infrastructure'
+
+
 include 'owner-api'
 include 'owner-api:owner-domain'
 findProject(':owner-api:owner-domain')?.name = 'owner-domain'
@@ -38,6 +51,8 @@ include 'owner-api:owner-infrastructure'
 findProject(':owner-api:owner-infrastructure')?.name = 'owner-infrastructure'
 include 'owner-api:owner-interfaces'
 findProject(':owner-api:owner-interfaces')?.name = 'owner-interfaces'
+
+
 include 'delivery-api'
 include 'delivery-api:delivery-interfaces'
 findProject(':delivery-api:delivery-interfaces')?.name = 'delivery-interfaces'
@@ -47,6 +62,8 @@ include 'delivery-api:delivery-domain'
 findProject(':delivery-api:delivery-domain')?.name = 'delivery-domain'
 include 'delivery-api:delivery-infrastructure'
 findProject(':delivery-api:delivery-infrastructure')?.name = 'delivery-infrastructure'
+
+
 include 'order-query-api'
 include 'order-query-api:order-query-interfaces'
 findProject(':order-query-api:order-query-interfaces')?.name = 'order-query-interfaces'
@@ -56,6 +73,14 @@ include 'order-query-api:order-query-domain'
 findProject(':order-query-api:order-query-domain')?.name = 'order-query-domain'
 include 'order-query-api:order-query-infrastructure'
 findProject(':order-query-api:order-query-infrastructure')?.name = 'order-query-infrastructure'
-include 'spring-boot-admin-server'
-include 'integration-test'
 
+
+include 'notification-api'
+include 'notification-api:notification-interfaces'
+findProject(':notification-api:notification-interfaces')?.name = 'notification-interfaces'
+include 'notification-api:notification-infrastructure'
+findProject(':notification-api:notification-infrastructure')?.name = 'notification-infrastructure'
+include 'notification-api:notification-application'
+findProject(':notification-api:notification-application')?.name = 'notification-application'
+include 'notification-api:notification-domain'
+findProject(':notification-api:notification-domain')?.name = 'notification-domain'

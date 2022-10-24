@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 import org.flab.deliveryplatform.common.domain.AggregateRoot;
 import org.flab.deliveryplatform.order.domain.event.OrderDeliveredEvent;
 import org.flab.deliveryplatform.order.domain.event.OrderPayedEvent;
+import org.flab.deliveryplatform.order.domain.event.OrderPayedNotificationEvent;
 import org.flab.deliveryplatform.order.domain.exception.InvalidOrderStatusException;
 
 @Getter
@@ -65,9 +66,9 @@ public class Order extends AggregateRoot {
         if (this.status != OrderStatus.ORDERED) {
             throw new InvalidOrderStatusException("주문 상태가 올바르지 않아 결제 할 수 앖습니다.");
         }
-
         this.status = OrderStatus.PAYED;
         registerEvent(new OrderPayedEvent(id, status));
+        registerEvent(OrderPayedNotificationEvent.from(this));
     }
 
     public void delivered() {
