@@ -5,6 +5,7 @@ import static org.flab.deliveryplatform.notification.application.service.ShopWeb
 import java.io.IOException;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.flab.deliveryplatform.notification.application.port.ShopNotificationRepository;
 import org.flab.deliveryplatform.notification.application.port.WebsocketSessionRepository;
 import org.flab.deliveryplatform.notification.application.port.dto.ShopNotificationMessage;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ShopSendMessageService {
@@ -40,7 +42,7 @@ public class ShopSendMessageService {
                     try {
                         session.sendMessage(new TextMessage(message.getPayload()));
                     } catch (IOException e) {
-
+                        log.error("websocket fail to send message", e);
                     }
                 });
             }
