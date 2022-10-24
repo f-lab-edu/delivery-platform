@@ -19,6 +19,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.flab.deliveryplatform.shop.domain.exception.DuplicatedOptionGroupNameException;
 import org.flab.deliveryplatform.shop.domain.exception.MenuNotFoundException;
+import org.flab.deliveryplatform.shop.domain.exception.NoShopChangePermissionException;
 import org.flab.deliveryplatform.shop.domain.exception.OptionGroupNotFoundException;
 import org.hibernate.annotations.SortNatural;
 
@@ -32,6 +33,8 @@ public class Shop {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
+
+    private Long ownerId;
 
     private String name;
 
@@ -51,15 +54,22 @@ public class Shop {
     private SortedSet<Menu> menus = new TreeSet<>();
 
     @Builder
-    private Shop(Long id, String name, PhoneNumber phoneNumber, Address address,
+    private Shop(Long id, Long ownerId, String name, PhoneNumber phoneNumber, Address address,
         ShopStatus status, int minOrderPrice, SortedSet<Menu> menus) {
         this.id = id;
+        this.ownerId = ownerId;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.status = status;
         this.minOrderPrice = minOrderPrice;
         this.menus = menus;
+    }
+
+    public void validateOwner(Long ownerId) {
+        if (!this.ownerId.equals(ownerId)) {
+            throw new NoShopChangePermissionException(this.id, ownerId);
+        }
     }
 
     public void changeWith(Shop source) {

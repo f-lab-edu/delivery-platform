@@ -12,6 +12,8 @@ public class ShopDetailData {
 
     private Long id;
 
+    private Long ownerId;
+
     private String name;
 
     private String address;
@@ -25,9 +27,10 @@ public class ShopDetailData {
     private List<MenuData> menus;
 
     @Builder
-    private ShopDetailData(Long id, String name, String address, String phoneNumber,
+    private ShopDetailData(Long id, Long ownerId, String name, String address, String phoneNumber,
         ShopStatus status, int minOrderPrice, List<MenuData> menus) {
         this.id = id;
+        this.ownerId = ownerId;
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
@@ -43,6 +46,7 @@ public class ShopDetailData {
 
         return ShopDetailData.builder()
             .id(shop.getId())
+            .ownerId(shop.getOwnerId())
             .name(shop.getName())
             .address(shop.getAddress().toString())
             .phoneNumber(shop.getPhoneNumber().getPhoneNumber())

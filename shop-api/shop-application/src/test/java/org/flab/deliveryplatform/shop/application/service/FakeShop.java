@@ -8,9 +8,10 @@ import org.flab.deliveryplatform.shop.domain.ShopStatus;
 
 public class FakeShop {
 
-    public static Shop createShop(Long id) {
+    public static Shop createShop(Long id, Long ownerId) {
         return Shop.builder()
             .id(id)
+            .ownerId(ownerId)
             .name("shop")
             .address(new Address("zipCode", "country", "state", "city", "street"))
             .phoneNumber(new PhoneNumber("01011112222"))

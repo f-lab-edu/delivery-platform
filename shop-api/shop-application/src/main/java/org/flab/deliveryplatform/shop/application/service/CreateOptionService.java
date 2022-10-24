@@ -17,10 +17,10 @@ public class CreateOptionService implements CreateOptionUseCase {
 
     @Transactional
     @Override
-    public void createOption(Long shopId, Long menuId, Long optionGroupId, OptionCommand command) {
+    public void createOption(Long shopId, Long ownerId, Long menuId, Long optionGroupId, OptionCommand command) {
         Shop shop = shopRepository.findById(shopId)
             .orElseThrow(() -> new ShopNotFoundException(shopId));
-
+        shop.validateOwner(ownerId);
         shop.addOption(menuId, optionGroupId, command.toOption());
     }
 }

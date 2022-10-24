@@ -8,18 +8,19 @@ import org.flab.deliveryplatform.shop.domain.Shop;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class DeleteMenuService implements DeleteMenuUseCase {
 
     private final ShopRepository shopRepository;
 
     @Transactional
     @Override
-    public void deleteMenu(Long shopId, Long menuId) {
+    public void deleteMenu(Long shopId, Long ownerId, Long menuId) {
         Shop shop = shopRepository.findById(shopId)
             .orElseThrow(() -> new ShopNotFoundException(shopId));
-
+        shop.validateOwner(ownerId);
         shop.deleteMenu(menuId);
     }
 }
+

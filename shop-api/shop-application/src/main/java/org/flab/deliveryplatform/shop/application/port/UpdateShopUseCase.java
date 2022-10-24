@@ -5,5 +5,5 @@ import org.flab.deliveryplatform.shop.application.port.exception.ShopNotFoundExc
 
 public interface UpdateShopUseCase {
 
-    void updateShop(Long shopId, UpdateShopCommand command) throws ShopNotFoundException;
+    void updateShop(Long shopId, Long ownerId, UpdateShopCommand command) throws ShopNotFoundException;
 }

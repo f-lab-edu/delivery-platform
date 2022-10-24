@@ -15,20 +15,18 @@ import org.junit.jupiter.api.Test;
 
 class CloseShopServiceTest {
 
-    private CloseShopService closeShopService;
-
-    private ShopRepository shopRepository = mock(ShopRepository.class);
-
-    private Shop shop;
-
     private final Long existingShopId = 1L;
+    private final Long ownerId = 1L;
     private final Long notExistingShopId = -9999L;
+    private CloseShopService closeShopService;
+    private ShopRepository shopRepository = mock(ShopRepository.class);
+    private Shop shop;
 
     @BeforeEach
     void setUp() {
         closeShopService = new CloseShopService(shopRepository);
 
-        shop = FakeShop.createShop(existingShopId);
+        shop = FakeShop.createShop(existingShopId, ownerId);
     }
 
     @Test
@@ -39,7 +37,7 @@ class CloseShopServiceTest {
         given(shopRepository.save(any(Shop.class)))
             .willReturn(shop);
 
-        closeShopService.closeShop(existingShopId);
+        closeShopService.closeShop(existingShopId, ownerId);
 
         verify(shopRepository).save(any(Shop.class));
     }
@@ -49,7 +47,7 @@ class CloseShopServiceTest {
         given(shopRepository.findById(notExistingShopId))
             .willReturn(Optional.empty());
 
-        assertThatThrownBy(() -> closeShopService.closeShop(notExistingShopId))
+        assertThatThrownBy(() -> closeShopService.closeShop(notExistingShopId, ownerId))
             .isInstanceOf(ShopNotFoundException.class);
     }
 }

@@ -17,10 +17,10 @@ public class CreateOptionGroupService implements CreateOptionGroupUseCase {
 
     @Transactional
     @Override
-    public void createOptionGroup(Long shopId, Long menuId, CreateOptionGroupCommand command) {
+    public void createOptionGroup(Long shopId, Long ownerId, Long menuId, CreateOptionGroupCommand command) {
         Shop shop = shopRepository.findById(shopId)
             .orElseThrow(() -> new ShopNotFoundException(shopId));
-
+        shop.validateOwner(ownerId);
         shop.addOptionGroup(menuId, command.toOptionGroup());
     }
 }

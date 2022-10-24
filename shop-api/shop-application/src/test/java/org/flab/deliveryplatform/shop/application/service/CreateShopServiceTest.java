@@ -18,6 +18,8 @@ class CreateShopServiceTest {
 
     private ShopRepository shopRepository = mock(ShopRepository.class);
 
+
+    private Long ownerId;
     private Shop shop;
 
     private CreateShopCommand createShopCommand;
@@ -25,7 +27,8 @@ class CreateShopServiceTest {
     @BeforeEach
     void setUp() {
         createShopService = new CreateShopService(shopRepository);
-        shop = FakeShop.createShop(1L);
+        ownerId = 1L;
+        shop = FakeShop.createShop(1L, ownerId);
 
         createShopCommand = new CreateShopCommand(
             "name",
@@ -40,7 +43,7 @@ class CreateShopServiceTest {
         given(shopRepository.save(any(Shop.class)))
             .willReturn(shop);
 
-        createShopService.createShop(createShopCommand);
+        createShopService.createShop(ownerId, createShopCommand);
 
         verify(shopRepository).save(any(Shop.class));
     }

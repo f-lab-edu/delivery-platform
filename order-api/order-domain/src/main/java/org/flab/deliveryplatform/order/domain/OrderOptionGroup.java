@@ -1,5 +1,6 @@
 package org.flab.deliveryplatform.order.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,7 +29,7 @@ public class OrderOptionGroup {
 
     @JoinColumn(name = "order_option_group_id")
     @OneToMany(cascade = CascadeType.ALL)
-    private List<OrderOption> orderOptions;
+    private List<OrderOption> orderOptions = new ArrayList<>();
 
     @Builder
     private OrderOptionGroup(Long id, String name, List<OrderOption> orderOptions) {

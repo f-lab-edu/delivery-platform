@@ -1,5 +1,6 @@
 package org.flab.deliveryplatform.order.application.port.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,7 @@ public class PlaceOrderCommand {
 
     private Long memberId;
 
-    private List<CartLineItem> cartLineItems;
+    private List<CartLineItem> cartLineItems = new ArrayList<>();
 
     public Order toOrder() {
         List<OrderLineItem> orderLineItems = cartLineItems.stream()
@@ -43,7 +44,7 @@ public class PlaceOrderCommand {
 
         private int count;
 
-        private List<CartOptionGroup> cartOptionGroups;
+        private List<CartOptionGroup> cartOptionGroups = new ArrayList<>();
 
         public OrderLineItem toOrderLineItem() {
             List<OrderOptionGroup> orderOptionGroups = cartOptionGroups.stream()
@@ -65,7 +66,7 @@ public class PlaceOrderCommand {
 
         private String name;
 
-        private List<CartOption> cartOptions;
+        private List<CartOption> cartOptions = new ArrayList<>();
 
         public OrderOptionGroup toOrderOptionGroup() {
             List<OrderOption> orderOptions = cartOptions.stream()

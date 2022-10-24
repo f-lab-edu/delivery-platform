@@ -1,5 +1,6 @@
 package org.flab.deliveryplatform.shop.application.port.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.Builder;
@@ -13,7 +14,7 @@ public class MenuData {
 
     private String name;
 
-    private List<OptionGroupData> optionGroups;
+    private List<OptionGroupData> optionGroups = new ArrayList<>();
 
     @Builder
     private MenuData(Long id, String name, List<OptionGroupData> optionGroups) {

@@ -1,6 +1,8 @@
 package org.flab.deliveryplatform.shop.interfaces.web.owner;
 
 import lombok.RequiredArgsConstructor;
+import org.flab.deliveryplatform.common.auth.User;
+import org.flab.deliveryplatform.common.auth.UserInfo;
 import org.flab.deliveryplatform.common.web.dto.DeliveryPlatformResponse;
 import org.flab.deliveryplatform.shop.application.port.CreateShopUseCase;
 import org.flab.deliveryplatform.shop.application.port.dto.CreateShopCommand;
@@ -14,8 +16,8 @@ public class CreateShopController {
     private final CreateShopUseCase createShopUseCase;
 
     @PostMapping
-    public DeliveryPlatformResponse<Void> createShop(@RequestBody CreateShopCommand command) {
-        createShopUseCase.createShop(command);
+    public DeliveryPlatformResponse<Void> createShop(@UserInfo User owner, @RequestBody CreateShopCommand command) {
+        createShopUseCase.createShop(owner.getUserId(), command);
         return DeliveryPlatformResponse.ok(null);
     }
 }

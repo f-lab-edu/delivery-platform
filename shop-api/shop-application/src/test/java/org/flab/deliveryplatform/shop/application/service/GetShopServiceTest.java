@@ -15,20 +15,18 @@ import org.junit.jupiter.api.Test;
 
 class GetShopServiceTest {
 
-    private GetShopService getShopService;
-
-    private ShopRepository shopRepository = mock(ShopRepository.class);
-
-    private Shop shop;
-
     private final Long existingShopId = 1L;
+    private final Long ownerId = 1L;
     private final Long notExistingShopId = -9999L;
+    private GetShopService getShopService;
+    private ShopRepository shopRepository = mock(ShopRepository.class);
+    private Shop shop;
 
     @BeforeEach
     void setUp() {
         getShopService = new GetShopService(shopRepository);
 
-        shop = FakeShop.createShop(existingShopId);
+        shop = FakeShop.createShop(existingShopId, ownerId);
     }
 
     @Test
@@ -39,6 +37,7 @@ class GetShopServiceTest {
         ShopDetailData shopData = getShopService.getShop(existingShopId);
         assertThat(shopData).isNotNull();
         assertThat(shopData.getId()).isEqualTo(shop.getId());
+        assertThat(shopData.getOwnerId()).isEqualTo(shop.getId());
         assertThat(shopData.getName()).isEqualTo(shop.getName());
         assertThat(shopData.getAddress()).isEqualTo(shop.getAddress().toString());
         assertThat(shopData.getPhoneNumber()).isEqualTo(shop.getPhoneNumber().getPhoneNumber());

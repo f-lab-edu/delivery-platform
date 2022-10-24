@@ -16,10 +16,10 @@ public class DeleteOptionGroupService implements DeleteOptionGroupUseCase {
 
     @Transactional
     @Override
-    public void deleteOptionGroup(Long shopId, Long menuId, Long optionGroupId) {
+    public void deleteOptionGroup(Long shopId, Long ownerId, Long menuId, Long optionGroupId) {
         Shop shop = shopRepository.findById(shopId)
             .orElseThrow(() -> new ShopNotFoundException(shopId));
-
+        shop.validateOwner(ownerId);
         shop.deleteOptionGroup(menuId, optionGroupId);
     }
 }

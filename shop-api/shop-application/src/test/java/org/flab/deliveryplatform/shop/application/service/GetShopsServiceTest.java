@@ -23,8 +23,8 @@ class GetShopsServiceTest {
     void setUp() {
         getShopsService = new GetShopsService(shopRepository);
 
-        shop1 = FakeShop.createShop(1L);
-        shop2 = FakeShop.createShop(2L);
+        shop1 = FakeShop.createShop(1L, 1L);
+        shop2 = FakeShop.createShop(2L, 1L);
     }
 
     @Test

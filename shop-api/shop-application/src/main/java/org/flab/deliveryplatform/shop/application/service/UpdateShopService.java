@@ -15,10 +15,11 @@ public class UpdateShopService implements UpdateShopUseCase {
     private final ShopRepository shopRepository;
 
     @Override
-    public void updateShop(Long shopId, UpdateShopCommand command) throws ShopNotFoundException {
+    public void updateShop(Long shopId, Long ownerId, UpdateShopCommand command) throws ShopNotFoundException {
         Shop shop = shopRepository.findById(shopId)
             .orElseThrow(() -> new ShopNotFoundException(shopId));
 
+        shop.validateOwner(ownerId);
         shop.changeWith(command.toShop());
         shopRepository.save(shop);
     }

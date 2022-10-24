@@ -10,15 +10,19 @@ public class CreateMenuCommand {
 
     private int displayOrder;
 
-    public CreateMenuCommand(String name, int displayOrder) {
+    private String description;
+
+    public CreateMenuCommand(String name, int displayOrder, String description) {
         this.name = name;
         this.displayOrder = displayOrder;
+        this.description = description;
     }
 
     public Menu toMenu() {
         return Menu.builder()
             .name(name)
             .displayOrder(displayOrder)
+            .description(description)
             .build();
     }
 }

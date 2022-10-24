@@ -19,7 +19,7 @@ server:
 
 auth:
   token:
-    access-token-expired-time-millis: 1800000
+    access-token-expired-time-secs: 1800
 
 async-thread-pool:
   core-pool-size: 3

@@ -4,5 +4,5 @@ import org.flab.deliveryplatform.shop.application.port.dto.CreateOptionGroupComm
 
 public interface CreateOptionGroupUseCase {
 
-    void createOptionGroup(Long shopId, Long menuId, CreateOptionGroupCommand command);
+    void createOptionGroup(Long shopId, Long ownerId, Long menuId, CreateOptionGroupCommand command);
 }

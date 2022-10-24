@@ -4,5 +4,5 @@ import org.flab.deliveryplatform.shop.application.port.dto.CreateMenuCommand;
 
 public interface CreateMenuUseCase {
 
-    void createMenu(Long shopId, CreateMenuCommand command);
+    void createMenu(Long shopId, Long ownerId, CreateMenuCommand command);
 }

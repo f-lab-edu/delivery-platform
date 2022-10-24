@@ -17,22 +17,19 @@ import org.junit.jupiter.api.Test;
 
 class UpdateShopServiceTest {
 
-    private UpdateShopService updateShopService;
-
-    private ShopRepository shopRepository = mock(ShopRepository.class);
-
-    private Shop shop;
-
-    private UpdateShopCommand updateShopCommand;
-
     private final Long existingShopId = 1L;
+    private final Long ownerId = 1L;
     private final Long notExistingShopId = -9999L;
+    private UpdateShopService updateShopService;
+    private ShopRepository shopRepository = mock(ShopRepository.class);
+    private Shop shop;
+    private UpdateShopCommand updateShopCommand;
 
     @BeforeEach
     void setUp() {
         updateShopService = new UpdateShopService(shopRepository);
 
-        shop = FakeShop.createShop(existingShopId);
+        shop = FakeShop.createShop(existingShopId, ownerId);
 
         updateShopCommand = new UpdateShopCommand(
             "name",
@@ -50,7 +47,7 @@ class UpdateShopServiceTest {
         given(shopRepository.save(any(Shop.class)))
             .willReturn(shop);
 
-        updateShopService.updateShop(existingShopId, updateShopCommand);
+        updateShopService.updateShop(existingShopId, ownerId, updateShopCommand);
 
         verify(shopRepository).save(any(Shop.class));
     }
@@ -60,7 +57,7 @@ class UpdateShopServiceTest {
         given(shopRepository.findById(notExistingShopId))
             .willReturn(Optional.empty());
 
-        assertThatThrownBy(() -> updateShopService.updateShop(notExistingShopId, updateShopCommand))
+        assertThatThrownBy(() -> updateShopService.updateShop(notExistingShopId, ownerId, updateShopCommand))
             .isInstanceOf(ShopNotFoundException.class);
     }
 }

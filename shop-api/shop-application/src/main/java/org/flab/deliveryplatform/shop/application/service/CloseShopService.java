@@ -14,10 +14,10 @@ public class CloseShopService implements CloseShopUseCase {
     private final ShopRepository shopRepository;
 
     @Override
-    public void closeShop(Long shopId) {
+    public void closeShop(Long shopId, Long ownerId) {
         Shop shop = shopRepository.findById(shopId)
             .orElseThrow(() -> new ShopNotFoundException(shopId));
-
+        shop.validateOwner(ownerId);
         shop.close();
         shopRepository.save(shop);
     }

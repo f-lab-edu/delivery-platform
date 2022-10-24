@@ -17,10 +17,10 @@ public class CreateMenuService implements CreateMenuUseCase {
 
     @Transactional
     @Override
-    public void createMenu(Long shopId, CreateMenuCommand command) {
+    public void createMenu(Long shopId, Long ownerId, CreateMenuCommand command) {
         Shop shop = shopRepository.findById(shopId)
             .orElseThrow(() -> new ShopNotFoundException(shopId));
-
+        shop.validateOwner(ownerId);
         shop.addMenu(command.toMenu());
     }
 }
