@@ -1,8 +1,8 @@
 version: "3.8"
 
 services:
-  deliveryplatform-server-db:
-    container_name: deliveryplatform-server-db
+  deliveryplatform-server-master-db:
+    container_name: deliveryplatform-server-master-db
     build:
       context: ./server/db
       dockerfile: Dockerfile
@@ -13,7 +13,23 @@ services:
     env_file:
       - ./server/db/.env.local
     volumes:
-      - ./server/db/my.local.cnf:/etc/conf.d/my.cnf
+      - ./server/db/master/conf.d:/etc/mysql/conf.d
+    networks:
+      - deliveryplatform-server-bridge
+
+  deliveryplatform-server-slave-db:
+    container_name: deliveryplatform-server-slave-db
+    build:
+      context: ./server/db
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    ports:
+      - target: 3306
+        published: 13307
+    env_file:
+      - ./server/db/.env.local
+    volumes:
+      - ./server/db/slave/conf.d:/etc/mysql/conf.d
     networks:
       - deliveryplatform-server-bridge
 
