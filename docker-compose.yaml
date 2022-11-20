@@ -4,7 +4,7 @@ services:
   deliveryplatform-server-master-db:
     container_name: deliveryplatform-server-master-db
     build:
-      context: ./server/db
+      context: ./server/db/master
       dockerfile: Dockerfile
     platform: linux/amd64
     ports:
@@ -15,12 +15,15 @@ services:
     volumes:
       - ./server/db/master/conf.d:/etc/mysql/conf.d
     networks:
-      - deliveryplatform-server-bridge
+      deliveryplatform-server-bridge:
+        ipv4_address: 172.16.0.10
 
   deliveryplatform-server-slave-db:
     container_name: deliveryplatform-server-slave-db
+    depends_on:
+      - deliveryplatform-server-master-db
     build:
-      context: ./server/db
+      context: ./server/db/slave
       dockerfile: Dockerfile
     platform: linux/amd64
     ports:
@@ -31,7 +34,8 @@ services:
     volumes:
       - ./server/db/slave/conf.d:/etc/mysql/conf.d
     networks:
-      - deliveryplatform-server-bridge
+      deliveryplatform-server-bridge:
+        ipv4_address: 172.16.0.11
 
   redis-clustering:
     container_name: redis-clustering
@@ -123,3 +127,6 @@ services:
 networks:
   deliveryplatform-server-bridge:
     name: deliveryplatform-server-bridge
+    ipam:
+      config:
+        - subnet: 172.16.0.0/16
