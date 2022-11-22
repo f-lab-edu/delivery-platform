@@ -1,9 +1,15 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:13306/deliveryplatform
-    username: root
-    password: root
+    master:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://localhost:13306/deliveryplatform
+      username: root
+      password: root
+    slave:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://localhost:13307/deliveryplatform
+      username: root
+      password: root
 
   flyway:
     url: jdbc:mysql://localhost:13306/deliveryplatform
@@ -15,10 +21,15 @@ spring:
     locations: db/migration
 
   jpa:
-    database: mysql
-    show-sql: true
-    open-in-view: false
-
+    properties:
+      hibernate:
+        show_sql: true
+        generate-ddl: false
+        format_sql: true
+        physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        jdbc:
+          lob:
+            non_contextual_creation: true
   redis:
     cluster:
       nodes:
