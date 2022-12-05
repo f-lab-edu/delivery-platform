@@ -23,17 +23,33 @@ public class Delivery extends AggregateRoot {
     @Id
     private Long id;
 
+    private Long riderId;
+
     private Long orderId;
+
+    private double longitude;
+
+    private double latitude;
 
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
 
     @Builder
-    private Delivery(Long id, Long orderId, DeliveryStatus status) {
+    private Delivery(Long id, Long riderId, Long orderId, double longitude, double latitude) {
         this.id = id;
+        this.riderId = riderId;
         this.orderId = orderId;
-        this.status = status;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.status = DeliveryStatus.BEFORE_DISPATCHED;
     }
+
+    public static Delivery of(Long orderId) {
+        return Delivery.builder()
+            .orderId(orderId)
+            .build();
+    }
+
 
     public void complete() {
         this.status = DeliveryStatus.DELIVERED;
