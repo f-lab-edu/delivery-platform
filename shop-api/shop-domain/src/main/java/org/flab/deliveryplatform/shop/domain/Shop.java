@@ -41,6 +41,9 @@ public class Shop {
     @Embedded
     private Address address;
 
+    @Embedded
+    private Location location;
+
     @Enumerated(value = EnumType.STRING)
     private ShopStatus status;
 
@@ -52,11 +55,12 @@ public class Shop {
 
     @Builder
     private Shop(Long id, String name, PhoneNumber phoneNumber, Address address,
-        ShopStatus status, int minOrderPrice, SortedSet<Menu> menus) {
+        Location location, ShopStatus status, int minOrderPrice, SortedSet<Menu> menus) {
         this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.location = location;
         this.status = status;
         this.minOrderPrice = minOrderPrice;
         this.menus = menus;
@@ -66,6 +70,7 @@ public class Shop {
         this.name = source.name;
         this.phoneNumber = source.phoneNumber;
         this.address = source.address;
+        this.location = source.location;
         this.minOrderPrice = source.minOrderPrice;
     }
 
