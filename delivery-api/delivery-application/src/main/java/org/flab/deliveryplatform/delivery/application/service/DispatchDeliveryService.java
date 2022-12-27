@@ -7,6 +7,7 @@ import org.flab.deliveryplatform.delivery.application.port.DispatchDeliveryUseCa
 import org.flab.deliveryplatform.delivery.application.port.dto.DispatchDeliveryCommand;
 import org.flab.deliveryplatform.delivery.application.port.exception.DeliveryNotFoundException;
 import org.flab.deliveryplatform.delivery.domain.Delivery;
+import org.flab.deliveryplatform.delivery.domain.Location;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,9 +23,14 @@ public class DispatchDeliveryService implements DispatchDeliveryUseCase {
     @Override
     public void dispatchDelivery(Long deliveryId, DispatchDeliveryCommand command) {
         Delivery delivery = deliveryRepository.findById(deliveryId)
-            .orElseThrow(() -> new DeliveryNotFoundException(deliveryId));
+                .orElseThrow(() -> new DeliveryNotFoundException(deliveryId));
 
-        delivery.dispatch();
+        Location riderLocation = Location.builder()
+                .longitude(command.getLongitude())
+                .latitude(command.getLatitude())
+                .build();
+
+        delivery.dispatch(command.getRiderId(), riderLocation);
 
         eventPublisher.publishAll(delivery.getOccurredEvents());
     }

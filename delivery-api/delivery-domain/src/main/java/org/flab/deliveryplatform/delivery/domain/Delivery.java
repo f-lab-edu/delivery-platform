@@ -1,12 +1,14 @@
 package org.flab.deliveryplatform.delivery.domain;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Version;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,24 +25,28 @@ public class Delivery extends AggregateRoot {
     @Id
     private Long id;
 
+    @Version
+    private Long version;
+
     private Long riderId;
 
     private Long orderId;
 
-    private double longitude;
+    private Long shopId;
 
-    private double latitude;
+    @Embedded
+    private Location riderLocation;
 
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
 
     @Builder
-    private Delivery(Long id, Long riderId, Long orderId, double longitude, double latitude) {
+    private Delivery(Long id, Long riderId, Long orderId, Long shopId, Location riderLocation) {
         this.id = id;
         this.riderId = riderId;
         this.orderId = orderId;
-        this.longitude = longitude;
-        this.latitude = latitude;
+        this.shopId = shopId;
+        this.riderLocation = riderLocation;
         this.status = DeliveryStatus.BEFORE_DISPATCHED;
     }
 
@@ -50,13 +56,14 @@ public class Delivery extends AggregateRoot {
             .build();
     }
 
-
     public void complete() {
         this.status = DeliveryStatus.DELIVERED;
         registerEvent(new DeliveryCompletedEvent(id, orderId, status));
     }
 
-    public void dispatch() {
+    public void dispatch(Long riderId, Location riderLocation) {
+        this.riderId = riderId;
+        this.riderLocation = riderLocation;
         this.status = DeliveryStatus.DISPATCHED;
         registerEvent(new DeliveryDispatchedEvent(id, status));
     }
