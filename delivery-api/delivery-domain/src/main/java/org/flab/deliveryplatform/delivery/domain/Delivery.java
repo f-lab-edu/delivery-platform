@@ -1,12 +1,19 @@
 package org.flab.deliveryplatform.delivery.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Version;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.flab.deliveryplatform.common.domain.AggregateRoot;
-
-import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -25,6 +32,8 @@ public class Delivery extends AggregateRoot {
 
     private Long orderId;
 
+    private Long shopId;
+
     @Embedded
     private Location riderLocation;
 
@@ -32,18 +41,19 @@ public class Delivery extends AggregateRoot {
     private DeliveryStatus status;
 
     @Builder
-    private Delivery(Long id, Long riderId, Long orderId, Location riderLocation) {
+    private Delivery(Long id, Long riderId, Long orderId, Long shopId, Location riderLocation) {
         this.id = id;
         this.riderId = riderId;
         this.orderId = orderId;
+        this.shopId = shopId;
         this.riderLocation = riderLocation;
         this.status = DeliveryStatus.BEFORE_DISPATCHED;
     }
 
     public static Delivery of(Long orderId) {
         return Delivery.builder()
-                .orderId(orderId)
-                .build();
+            .orderId(orderId)
+            .build();
     }
 
     public void complete() {

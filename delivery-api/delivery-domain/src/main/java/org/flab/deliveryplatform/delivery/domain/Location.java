@@ -1,8 +1,11 @@
 package org.flab.deliveryplatform.delivery.domain;
 
-import lombok.*;
-
 import javax.persistence.Embeddable;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @EqualsAndHashCode
@@ -11,7 +14,7 @@ import javax.persistence.Embeddable;
 public class Location {
 
     private double longitude;
-
+    
     private double latitude;
 
     @Builder
